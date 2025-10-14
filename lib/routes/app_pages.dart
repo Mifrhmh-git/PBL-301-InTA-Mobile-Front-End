@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 import 'package:inta301/pages/pages.dart';
-import 'package:inta301/pages/welcome_page.dart'; // 🔹 Tambahkan baris ini
+import 'package:inta301/pages/welcome_page.dart';
 import 'package:inta301/pages/jadwal_pages.dart';
 import 'package:inta301/pages/kanban_page.dart';
 import 'package:inta301/pages/dokumen_page.dart';
 import 'package:inta301/pages/profile_page.dart';
 
 part 'app_routes.dart';
-
 
 class AppPages {
   AppPages._();
@@ -39,7 +38,10 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfilePage(),
     ),
-
-   
+    GetPage(
+      name: _Paths.NOTIFIKASI,
+      page: () => const NotifikasiPage(),
+    ),
   ];
 }
+

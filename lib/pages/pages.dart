@@ -5,3 +5,4 @@ import '../routes/app_pages.dart';
 
 
 part 'home_page.dart';
+part 'notifikasi_page.dart';

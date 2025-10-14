@@ -9,6 +9,8 @@ class HomePage extends StatelessWidget {
       backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
+        elevation: 6, // 🔹 bayangan appbar
+        shadowColor: Colors.black.withOpacity(0.3),
         title: const Text(
           'Beranda',
           style: TextStyle(
@@ -18,7 +20,15 @@ class HomePage extends StatelessWidget {
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_none, color: Colors.white),
+            onPressed: () => Get.toNamed(Routes.NOTIFIKASI),
+          ),
+        ],
       ),
+
+      // === BODY ===
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(defaultMargin),
@@ -66,9 +76,6 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Spacer(),
-                    const Icon(Icons.notifications_none,
-                        color: Colors.white, size: 28),
                   ],
                 ),
               ),
@@ -99,7 +106,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
 
               // === Progress TA ===
               Text(
@@ -137,7 +144,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 25),
 
-              // === Pengumuman ===
+              // === Pengumuman (Horizontal Scroll) ===
               Text(
                 "Pengumuman",
                 style: whiteTextStyle.copyWith(
@@ -148,22 +155,36 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: _InfoCard(
+              // 🔹 Horizontal Scroll Cards
+              SizedBox(
+                height: 160,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    _InfoCard(
+                      title: "Template Laporan",
+                      onPressed: () {
+                        // Arahkan ke halaman template nanti
+                        Get.snackbar(
+                          "Template Laporan",
+                          "Fitur ini sedang dikembangkan!",
+                          backgroundColor: Colors.white,
+                          colorText: blackColor,
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 12),
+                    _InfoCard(
                       title: "Jadwal Sidang",
                       onPressed: () => Get.toNamed(Routes.JADWAL),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _InfoCard(
+                    const SizedBox(width: 12),
+                    _InfoCard(
                       title: "Panduan Sidang",
                       onPressed: () {},
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               const SizedBox(height: 25),
@@ -212,9 +233,7 @@ class HomePage extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           "10:30",
-                          style: whiteTextStyle.copyWith(
-                            color: blackColor,
-                          ),
+                          style: whiteTextStyle.copyWith(color: blackColor),
                         ),
                       ],
                     ),
@@ -234,7 +253,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-      // ✅ Bottom Navigation Bar Seragam (disamakan dengan JadwalPage)
+      // === Bottom Navigation Bar ===
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
@@ -243,6 +262,13 @@ class HomePage extends StatelessWidget {
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 12,
+              offset: const Offset(0, -3),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -289,14 +315,16 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 160, // 🔹 Lebar pas untuk horizontal scroll
+      margin: const EdgeInsets.only(right: 6),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: whiteColor,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 10,
+            color: Colors.grey.withOpacity(0.4),
+            blurRadius: 8,
             spreadRadius: 2,
             offset: const Offset(0, 4),
           ),
@@ -308,19 +336,19 @@ class _InfoCard extends StatelessWidget {
           Text(
             title,
             style: whiteTextStyle.copyWith(
-              color: blackColor, // semua teks di card jadi hitam
+              color: blackColor,
               fontWeight: FontWeight.bold,
+              fontSize: 14,
             ),
           ),
-          const SizedBox(height: 35),
+          const Spacer(),
           Align(
             alignment: Alignment.bottomRight,
             child: ElevatedButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -330,7 +358,7 @@ class _InfoCard extends StatelessWidget {
                 "Lihat",
                 style: whiteTextStyle.copyWith(
                   color: blackColor,
-                  fontSize: 13,
+                  fontSize: 12,
                 ),
               ),
             ),
@@ -341,7 +369,7 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-// === Bottom Nav Item Konsisten ===
+// === Bottom Nav Item ===
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
