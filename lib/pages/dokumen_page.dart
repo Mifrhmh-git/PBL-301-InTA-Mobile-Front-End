@@ -27,18 +27,18 @@ class DokumenController extends GetxController {
     super.onInit();
     dokumenList.addAll([
       DokumenTask(
-        title: "BAB III: Analisis dan Perancangan",
+        title: "BAB III : Analisis dan Perancangan",
         date: "20 September 2025, 13.00",
         status: "Menunggu",
       ),
       DokumenTask(
-        title: "BAB II: Landasan Teori",
+        title: "BAB II : Landasan Teori",
         date: "18 September 2025, 13.00",
         status: "Revisi",
         description: "Struktur penulisan kurang sistematis.",
       ),
       DokumenTask(
-        title: "BAB I: Pendahuluan",
+        title: "BAB I : Pendahuluan",
         date: "15 September 2025, 12.00",
         status: "Disetujui",
         description: "Pendahuluan sudah sesuai dengan topik penelitian",
