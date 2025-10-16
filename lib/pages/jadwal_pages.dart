@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart'; // ✅ untuk lokal tanggal
 import '../shared/shared.dart';
 import '../routes/app_pages.dart';
 
@@ -22,160 +21,177 @@ class _JadwalPageState extends State<JadwalPage> {
     });
   }
 
-  // === FORM CONTROLLER ===
   final TextEditingController _judulController = TextEditingController();
   final TextEditingController _dosenController = TextEditingController();
   final TextEditingController _tanggalController = TextEditingController();
   final TextEditingController _waktuController = TextEditingController();
   final TextEditingController _lokasiController = TextEditingController();
 
-  // === MODAL TAMBAH JADWAL ===
+  // === Modal Tambah Jadwal ===
   void _showTambahJadwalModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       ),
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  width: 60,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.75,
+          minChildSize: 0.4,
+          maxChildSize: 0.95,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+              ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 20,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  "Tambah Jadwal Bimbingan",
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // === FORM ===
-                _buildTextField("Judul Bimbingan", _judulController),
-                _buildTextField("Dosen Pembimbing", _dosenController),
-
-                // === FIELD TANGGAL (PAKAI KALENDER) ===
-                GestureDetector(
-                  onTap: () async {
-                    FocusScope.of(context).unfocus();
-
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime(2030),
-                      locale: const Locale('id', 'ID'),
-                      builder: (context, child) {
-                        return Theme(
-                          data: Theme.of(context).copyWith(
-                            colorScheme: ColorScheme.light(
-                              primary: primaryColor,
-                              onPrimary: Colors.white,
-                              onSurface: Colors.black,
-                            ),
-                          ),
-                          child: child!,
-                        );
-                      },
-                    );
-
-                    if (pickedDate != null) {
-                      setState(() {
-                        _tanggalController.text =
-                            DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
-                                .format(pickedDate);
-                      });
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: _buildTextField("Tanggal", _tanggalController),
-                  ),
-                ),
-
-                // === FIELD WAKTU (MANUAL INPUT) ===
-                _buildTextField("Waktu (contoh: 10:30)", _waktuController),
-
-                _buildTextField("Lokasi", _lokasiController),
-
-                const SizedBox(height: 25),
-
-                // === TOMBOL AJUKAN ===
-                Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Get.back();
-                      Get.snackbar(
-                        "Berhasil",
-                        "Jadwal bimbingan telah diajukan",
-                        backgroundColor: primaryColor,
-                        colorText: Colors.white,
-                        snackPosition: SnackPosition.BOTTOM,
-                        margin: const EdgeInsets.all(16),
-                        borderRadius: 12,
-                      );
-                    },
-                    child: const Text(
-                      "Ajukan",
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Tambah Jadwal Bimbingan",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black, // 🖤 judul hitam
                         fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+
+                    // === Form Input ===
+                    _buildTextField("Judul Bimbingan", Icons.edit_outlined, _judulController),
+                    const SizedBox(height: 15),
+                    _buildTextField("Dosen Pembimbing", Icons.person_outline, _dosenController),
+                    const SizedBox(height: 15),
+
+                    // === Field Tanggal ===
+                    GestureDetector(
+                      onTap: () async {
+                        FocusScope.of(context).unfocus();
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2030),
+                          locale: const Locale('id', 'ID'),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: ColorScheme.light(
+                                  primary: primaryColor,
+                                  onPrimary: Colors.white,
+                                  onSurface: Colors.black,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+
+                        if (pickedDate != null) {
+                          setState(() {
+                            _tanggalController.text =
+                                DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                    .format(pickedDate);
+                          });
+                        }
+                      },
+                      child: AbsorbPointer(
+                        child: _buildTextField(
+                          "Tanggal",
+                          Icons.calendar_today_outlined,
+                          _tanggalController,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    _buildTextField("Waktu (contoh: 10:30)", Icons.access_time, _waktuController),
+                    const SizedBox(height: 15),
+                    _buildTextField("Lokasi", Icons.location_on_outlined, _lokasiController),
+                    const SizedBox(height: 25),
+
+                    // === Tombol Ajukan ===
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 4,
+                        ),
+                        onPressed: () {
+                          Get.back();
+                          Get.snackbar(
+                            "Berhasil",
+                            "Jadwal bimbingan telah diajukan",
+                            backgroundColor: primaryColor,
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.BOTTOM,
+                            margin: const EdgeInsets.all(16),
+                            borderRadius: 12,
+                          );
+                        },
+                        child: const Text(
+                          "Ajukan",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
   }
 
-  // === BUILDER TEXTFIELD ===
-  Widget _buildTextField(String label, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: primaryColor),
-          filled: true,
-          fillColor: Colors.grey[100],
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: primaryColor),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: primaryColor, width: 2),
-          ),
+  Widget _buildTextField(String label, IconData icon, TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: primaryColor),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.3),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: primaryColor, width: 2),
         ),
       ),
     );
@@ -363,7 +379,7 @@ class _JadwalPageState extends State<JadwalPage> {
   }
 }
 
-// === Bottom Nav Item ===
+// === Bottom Navigation Item ===
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
