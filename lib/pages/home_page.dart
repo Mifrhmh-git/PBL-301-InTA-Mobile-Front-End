@@ -6,10 +6,22 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: whiteColor, 
       appBar: AppBar(
-        backgroundColor: primaryColor,
-        elevation: 6, // 🔹 bayangan appbar
+        automaticallyImplyLeading: false,
+        elevation: 6,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                primaryColor,
+                dangerColor,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         shadowColor: Colors.black.withOpacity(0.3),
         title: const Text(
           'Beranda',
@@ -19,7 +31,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.white),
@@ -35,72 +46,33 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // === Header Mahasiswa ===
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/images/avatar.png'),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Putri Balqis",
-                          style: whiteTextStyle.copyWith(
-                            color: blackColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "Mahasiswa",
-                          style: whiteTextStyle.copyWith(
-                            color: blackColor.withOpacity(0.7),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 25),
-
               // === Sapaan ===
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: whiteColor,
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white,
+                      primaryColor.withOpacity(0.3),
+                      primaryColor.withOpacity(0.1),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
+                      color: dangerColor.withOpacity(0.2),
                       blurRadius: 10,
-                      spreadRadius: 2,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Text(
-                  "Halo, Balqis!",
+                  "Halo, Balqis! 👋",
                   style: whiteTextStyle.copyWith(
-                    color: blackColor,
+                    color: dangerColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
@@ -112,50 +84,71 @@ class HomePage extends StatelessWidget {
               Text(
                 "Progress TA",
                 style: whiteTextStyle.copyWith(
-                  color: blackColor,
+                  color: dangerColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: 8),
-              Row(
+
+              // Progress dengan gradasi lembut
+              Stack(
+                alignment: Alignment.centerLeft,
                 children: [
-                  Expanded(
-                    flex: 6,
-                    child: ClipRRect(
+                  Container(
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: dangerColor.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(8),
-                      child: LinearProgressIndicator(
-                        value: 0.6,
-                        backgroundColor: secondaryColor.withOpacity(0.2),
-                        color: primaryColor,
-                        minHeight: 10,
-                      ),
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  Text(
-                    "60%",
-                    style: whiteTextStyle.copyWith(
-                      color: blackColor,
-                      fontSize: 14,
-                    ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      double progressWidth = constraints.maxWidth * 0.6;
+                      return Container(
+                        width: progressWidth,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              const Color(0xFFEAF4FF), // putih kebiruan
+                              primaryColor.withOpacity(0.8),
+                              const Color(0xFFB0D4F5), // biru muda lembut
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
+
+              const SizedBox(height: 8),
+              Text(
+                "60%",
+                style: whiteTextStyle.copyWith(
+                  color: dangerColor,
+                  fontSize: 14,
+                ),
+              ),
+
               const SizedBox(height: 25),
 
-              // === Pengumuman (Horizontal Scroll) ===
+              // === Pengumuman ===
               Text(
                 "Pengumuman",
                 style: whiteTextStyle.copyWith(
-                  color: blackColor,
+                  color: dangerColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
 
-              // 🔹 Horizontal Scroll Cards
+              // 🔹 Horizontal Cards
               SizedBox(
                 height: 160,
                 child: ListView(
@@ -164,12 +157,11 @@ class HomePage extends StatelessWidget {
                     _InfoCard(
                       title: "Template Laporan",
                       onPressed: () {
-                        // Arahkan ke halaman template nanti
                         Get.snackbar(
                           "Template Laporan",
                           "Fitur ini sedang dikembangkan!",
                           backgroundColor: Colors.white,
-                          colorText: blackColor,
+                          colorText: dangerColor,
                         );
                       },
                     ),
@@ -193,7 +185,7 @@ class HomePage extends StatelessWidget {
               Text(
                 "Upcoming",
                 style: whiteTextStyle.copyWith(
-                  color: blackColor,
+                  color: dangerColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -204,11 +196,18 @@ class HomePage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: whiteColor,
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFFEAF4FF), // putih kebiruan
+                      const Color(0xFFB0D4F5), // biru muda lembut
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
+                      color: dangerColor.withOpacity(0.2),
                       blurRadius: 10,
                       spreadRadius: 2,
                       offset: const Offset(0, 4),
@@ -221,7 +220,7 @@ class HomePage extends StatelessWidget {
                     Text(
                       "Selasa, 7 Oktober",
                       style: whiteTextStyle.copyWith(
-                        color: blackColor,
+                        color: dangerColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -233,7 +232,7 @@ class HomePage extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           "10:30",
-                          style: whiteTextStyle.copyWith(color: blackColor),
+                          style: whiteTextStyle.copyWith(color: dangerColor),
                         ),
                       ],
                     ),
@@ -241,7 +240,7 @@ class HomePage extends StatelessWidget {
                     Text(
                       "Diskusi Perancangan, TA 10.3",
                       style: whiteTextStyle.copyWith(
-                        color: blackColor,
+                        color: dangerColor,
                         fontSize: 14,
                       ),
                     ),
@@ -257,7 +256,14 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: primaryColor,
+          gradient: LinearGradient(
+            colors: [
+              primaryColor,
+              dangerColor,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
@@ -315,11 +321,11 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160, // 🔹 Lebar pas untuk horizontal scroll
+      width: 160,
       margin: const EdgeInsets.only(right: 6),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: whiteColor,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
@@ -336,7 +342,7 @@ class _InfoCard extends StatelessWidget {
           Text(
             title,
             style: whiteTextStyle.copyWith(
-              color: blackColor,
+              color: dangerColor,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -344,21 +350,36 @@ class _InfoCard extends StatelessWidget {
           const Spacer(),
           Align(
             alignment: Alignment.bottomRight,
-            child: ElevatedButton(
-              onPressed: onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+            child: GestureDetector(
+              onTap: onPressed,
+              child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                shape: RoundedRectangleBorder(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFFEAF4FF), // putih kebiruan
+                      const Color(0xFFB0D4F5), // biru muda
+                      primaryColor.withOpacity(0.8),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: dangerColor.withOpacity(0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                elevation: 3,
-              ),
-              child: Text(
-                "Lihat",
-                style: whiteTextStyle.copyWith(
-                  color: blackColor,
-                  fontSize: 12,
+                child: Text(
+                  "Lihat",
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: dangerColor,
+                  ),
                 ),
               ),
             ),
