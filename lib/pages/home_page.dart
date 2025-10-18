@@ -1,34 +1,33 @@
-part of 'pages.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../shared/shared.dart';
+import '../routes/app_pages.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const mainBlue = Color(0xFF88BDF2);
+
     return Scaffold(
-      backgroundColor: whiteColor, 
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 6,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                primaryColor,
-                dangerColor,
-              ],
+              colors: [primaryColor, dangerColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
-        shadowColor: Colors.black.withOpacity(0.3),
         title: const Text(
           'Beranda',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
@@ -46,59 +45,50 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // === Sapaan ===
+              // === Halo Balqis ===
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white,
-                      primaryColor.withOpacity(0.3),
-                      primaryColor.withOpacity(0.1),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
-                      color: dangerColor.withOpacity(0.2),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+                      color: Colors.grey.withOpacity(0.45),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
                     ),
                   ],
                 ),
-                child: Text(
+                child: const Text(
                   "Halo, Balqis! 👋",
-                  style: whiteTextStyle.copyWith(
-                    color: dangerColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
               const SizedBox(height: 25),
 
               // === Progress TA ===
-              Text(
+              const Text(
                 "Progress TA",
-                style: whiteTextStyle.copyWith(
-                  color: dangerColor,
+                style: TextStyle(
+                  color: Colors.black,
                   fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
 
-              // Progress dengan gradasi lembut
               Stack(
                 alignment: Alignment.centerLeft,
                 children: [
                   Container(
                     height: 10,
                     decoration: BoxDecoration(
-                      color: dangerColor.withOpacity(0.05),
+                      color: dangerColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -109,15 +99,7 @@ class HomePage extends StatelessWidget {
                         width: progressWidth,
                         height: 10,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color(0xFFEAF4FF), // putih kebiruan
-                              primaryColor.withOpacity(0.8),
-                              const Color(0xFFB0D4F5), // biru muda lembut
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
+                          color: dangerColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
                       );
@@ -125,69 +107,44 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 8),
-              Text(
-                "60%",
-                style: whiteTextStyle.copyWith(
-                  color: dangerColor,
-                  fontSize: 14,
-                ),
-              ),
+              const Text("60%", style: TextStyle(color: Colors.black)),
 
               const SizedBox(height: 25),
 
               // === Pengumuman ===
-              Text(
+              const Text(
                 "Pengumuman",
-                style: whiteTextStyle.copyWith(
-                  color: dangerColor,
+                style: TextStyle(
+                  color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
 
-              // 🔹 Horizontal Cards
               SizedBox(
                 height: 160,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    _InfoCard(
-                      title: "Template Laporan",
-                      onPressed: () {
-                        Get.snackbar(
-                          "Template Laporan",
-                          "Fitur ini sedang dikembangkan!",
-                          backgroundColor: Colors.white,
-                          colorText: dangerColor,
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 12),
-                    _InfoCard(
-                      title: "Jadwal Sidang",
-                      onPressed: () => Get.toNamed(Routes.JADWAL),
-                    ),
-                    const SizedBox(width: 12),
-                    _InfoCard(
-                      title: "Panduan Sidang",
-                      onPressed: () {},
-                    ),
+                  children: const [
+                    _InfoCard(title: "Template Laporan", mainBlue: mainBlue),
+                    SizedBox(width: 12),
+                    _InfoCard(title: "Jadwal Sidang", mainBlue: mainBlue),
+                    SizedBox(width: 12),
+                    _InfoCard(title: "Panduan Sidang", mainBlue: mainBlue),
                   ],
                 ),
               ),
-
               const SizedBox(height: 25),
 
               // === Upcoming ===
-              Text(
+              const Text(
                 "Upcoming",
-                style: whiteTextStyle.copyWith(
-                  color: dangerColor,
+                style: TextStyle(
+                  color: Colors.black,
                   fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
@@ -196,51 +153,40 @@ class HomePage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFFEAF4FF), // putih kebiruan
-                      const Color(0xFFB0D4F5), // biru muda lembut
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
-                      color: dangerColor.withOpacity(0.2),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 4),
+                      color: Colors.grey.withOpacity(0.45),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
                     ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Selasa, 7 Oktober",
-                      style: whiteTextStyle.copyWith(
-                        color: dangerColor,
+                      style: TextStyle(
+                        color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Row(
                       children: [
-                        Icon(Icons.access_time, color: primaryColor, size: 18),
-                        const SizedBox(width: 6),
-                        Text(
-                          "10:30",
-                          style: whiteTextStyle.copyWith(color: dangerColor),
-                        ),
+                        Icon(Icons.access_time, color: Colors.black, size: 18),
+                        SizedBox(width: 6),
+                        Text("10:30", style: TextStyle(color: Colors.black87)),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Text(
                       "Diskusi Perancangan, TA 10.3",
-                      style: whiteTextStyle.copyWith(
-                        color: dangerColor,
+                      style: TextStyle(
+                        color: Colors.black87,
                         fontSize: 14,
                       ),
                     ),
@@ -252,15 +198,12 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-      // === Bottom Navigation Bar ===
+      // === Bottom Navigation ===
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              primaryColor,
-              dangerColor,
-            ],
+          gradient: const LinearGradient(
+            colors: [primaryColor, dangerColor],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -268,13 +211,6 @@ class HomePage extends StatelessWidget {
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 12,
-              offset: const Offset(0, -3),
-            ),
-          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -282,27 +218,27 @@ class HomePage extends StatelessWidget {
             _BottomNavItem(
               icon: Icons.home,
               label: "Beranda",
-              onTap: () => Get.offAllNamed(Routes.HOME),
+              onTap: () {},
             ),
             _BottomNavItem(
               icon: Icons.calendar_month,
               label: "Jadwal",
-              onTap: () => Get.offAllNamed(Routes.JADWAL),
+              onTap: () => Get.toNamed(Routes.JADWAL),
             ),
             _BottomNavItem(
               icon: Icons.bar_chart_outlined,
               label: "Kanban",
-              onTap: () => Get.offAllNamed(Routes.KANBAN),
+              onTap: () => Get.toNamed(Routes.KANBAN),
             ),
             _BottomNavItem(
               icon: Icons.description_outlined,
               label: "Dokumen",
-              onTap: () => Get.offAllNamed(Routes.DOKUMEN),
+              onTap: () => Get.toNamed(Routes.DOKUMEN),
             ),
             _BottomNavItem(
               icon: Icons.person_outline,
-              label: "Profile",
-              onTap: () => Get.offAllNamed(Routes.PROFILE),
+              label: "Profil",
+              onTap: () => Get.toNamed(Routes.PROFILE),
             ),
           ],
         ),
@@ -311,76 +247,57 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// === Info Card ===
+// === INFO CARD ===
 class _InfoCard extends StatelessWidget {
   final String title;
-  final VoidCallback onPressed;
+  final Color mainBlue;
 
-  const _InfoCard({required this.title, required this.onPressed});
+  const _InfoCard({required this.title, required this.mainBlue});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 160,
-      margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            blurRadius: 8,
-            spreadRadius: 2,
-            offset: const Offset(0, 4),
+            color: Colors.grey.withOpacity(0.45),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: whiteTextStyle.copyWith(
-              color: dangerColor,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
           ),
-          const Spacer(),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: GestureDetector(
-              onTap: onPressed,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFFEAF4FF), // putih kebiruan
-                      const Color(0xFFB0D4F5), // biru muda
-                      primaryColor.withOpacity(0.8),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: dangerColor.withOpacity(0.2),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  "Lihat",
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: dangerColor,
-                  ),
-                ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: mainBlue,
+              minimumSize: const Size(100, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              elevation: 3,
+            ),
+            child: const Text(
+              "Lihat",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -390,7 +307,7 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-// === Bottom Nav Item ===
+// === BOTTOM NAV ITEM ===
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

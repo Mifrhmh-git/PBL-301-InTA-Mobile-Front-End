@@ -1,4 +1,4 @@
-part of 'shared.dart'; // 👈 ini HARUS cocok dengan yang di atas
+part of 'shared.dart'; 
 
 // 🎨 Warna utama
 const Color primaryColor = Color(0xFF88BDF2); 

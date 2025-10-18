@@ -70,20 +70,18 @@ class _JadwalPageState extends State<JadwalPage> {
                     const Text(
                       "Tambah Jadwal Bimbingan",
                       style: TextStyle(
-                        color: Colors.black, // 🖤 judul hitam
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                     const SizedBox(height: 20),
 
-                    // === Form Input ===
                     _buildTextField("Judul Bimbingan", Icons.edit_outlined, _judulController),
                     const SizedBox(height: 15),
                     _buildTextField("Dosen Pembimbing", Icons.person_outline, _dosenController),
                     const SizedBox(height: 15),
 
-                    // === Field Tanggal ===
                     GestureDetector(
                       onTap: () async {
                         FocusScope.of(context).unfocus();
@@ -129,7 +127,6 @@ class _JadwalPageState extends State<JadwalPage> {
                     _buildTextField("Lokasi", Icons.location_on_outlined, _lokasiController),
                     const SizedBox(height: 25),
 
-                    // === Tombol Ajukan ===
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -146,11 +143,18 @@ class _JadwalPageState extends State<JadwalPage> {
                           Get.snackbar(
                             "Berhasil",
                             "Jadwal bimbingan telah diajukan",
-                            backgroundColor: primaryColor,
-                            colorText: Colors.white,
-                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.white,
+                            colorText: Colors.black,
+                            snackPosition: SnackPosition.TOP,
                             margin: const EdgeInsets.all(16),
                             borderRadius: 12,
+                            boxShadows: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           );
                         },
                         child: const Text(
@@ -201,17 +205,30 @@ class _JadwalPageState extends State<JadwalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: const Text(
-          'Jadwal Bimbingan',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+
+      // === AppBar dengan Gradasi ===
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [primaryColor, dangerColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: const Align(
+            alignment: Alignment(0, 0.6),
+            child: Text(
+              'Jadwal Bimbingan',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
       ),
 
       body: Padding(
@@ -307,15 +324,20 @@ class _JadwalPageState extends State<JadwalPage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showTambahJadwalModal(context),
-        backgroundColor: primaryColor,
+        backgroundColor: dangerColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
 
+      // === Bottom Navigation Bar Gradasi ===
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [primaryColor, dangerColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
@@ -379,7 +401,6 @@ class _JadwalPageState extends State<JadwalPage> {
   }
 }
 
-// === Bottom Navigation Item ===
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

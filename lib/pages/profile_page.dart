@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.logout,
                   label: "Keluar",
                   onTap: () {
-                    Get.offAllNamed(Routes.LOGIN);
+                    Get.offAllNamed(Routes.WELCOME);
                   },
                 ),
               ],

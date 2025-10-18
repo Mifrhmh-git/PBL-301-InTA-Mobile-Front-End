@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:inta301/pages/form_jadwal.dart';
+import 'package:inta301/pages/home_page.dart';
+import 'package:inta301/pages/notifikasi_page.dart';
 import 'package:inta301/pages/pages.dart';
 import 'package:inta301/pages/welcome_page.dart';
 import 'package:inta301/pages/jadwal_pages.dart';
@@ -11,7 +14,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.WELCOME; // Halaman pertama saat app dibuka
+  static const INITIAL = Routes.WELCOME;
 
   static final routes = [
     GetPage(
@@ -42,6 +45,16 @@ class AppPages {
       name: _Paths.NOTIFIKASI,
       page: () => const NotifikasiPage(),
     ),
+    // === Form Jadwal Bimbingan ===
+    GetPage(
+      name: _Paths.FORM_JADWAL,
+      page: () {
+        // Ambil arguments dengan aman
+        final args = Get.arguments as Map<String, dynamic>?;
+        int jadwalId = args?["jadwalId"] ?? 0; // ✅ pastikan non-null
+
+        return FormJadwalBimbinganPage(jadwalId: jadwalId);
+      },
+    ),
   ];
 }
-
