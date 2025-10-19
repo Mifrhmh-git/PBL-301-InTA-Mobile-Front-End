@@ -190,7 +190,7 @@ class _ProfileMenuItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: blackColor, // ✅ diubah hitam
+                color: blackColor, 
               ),
             ),
           ],

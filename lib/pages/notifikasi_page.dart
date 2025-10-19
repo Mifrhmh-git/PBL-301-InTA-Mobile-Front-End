@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../shared/shared.dart';
-import '../routes/app_pages.dart'; // import Routes
+import '../routes/app_pages.dart'; 
 import 'form_jadwal.dart';
 
 class NotifikasiPage extends StatelessWidget {
@@ -77,7 +77,7 @@ class NotifikasiPage extends StatelessWidget {
             onTap: isClickable
                 ? () {
                     Get.toNamed(
-                      Routes.FORM_JADWAL, // ✅ ganti _Paths jadi Routes
+                      Routes.FORM_JADWAL, 
                       arguments: {"jadwalId": notif["jadwalId"]},
                     );
                   }

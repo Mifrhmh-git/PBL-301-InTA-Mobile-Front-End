@@ -45,13 +45,12 @@ class AppPages {
       name: _Paths.NOTIFIKASI,
       page: () => const NotifikasiPage(),
     ),
-    // === Form Jadwal Bimbingan ===
     GetPage(
       name: _Paths.FORM_JADWAL,
       page: () {
         // Ambil arguments dengan aman
         final args = Get.arguments as Map<String, dynamic>?;
-        int jadwalId = args?["jadwalId"] ?? 0; // ✅ pastikan non-null
+        int jadwalId = args?["jadwalId"] ?? 0; 
 
         return FormJadwalBimbinganPage(jadwalId: jadwalId);
       },

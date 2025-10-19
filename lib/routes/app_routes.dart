@@ -8,7 +8,7 @@ abstract class Routes {
   static const DOKUMEN = _Paths.DOKUMEN;
   static const PROFILE = _Paths.PROFILE;
   static const NOTIFIKASI = _Paths.NOTIFIKASI;
-  static const FORM_JADWAL = _Paths.FORM_JADWAL; // <<<<< tambahkan ini
+  static const FORM_JADWAL = _Paths.FORM_JADWAL; 
 }
 
 abstract class _Paths {
@@ -19,7 +19,7 @@ abstract class _Paths {
   static const DOKUMEN = '/dokumen';
   static const PROFILE = '/profile';
   static const NOTIFIKASI = '/notifikasi';
-  static const FORM_JADWAL = '/form-jadwal'; // <<<<< tambahkan ini
+  static const FORM_JADWAL = '/form-jadwal'; 
 }
 
 
