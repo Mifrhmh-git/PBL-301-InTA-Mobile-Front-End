@@ -4,9 +4,9 @@ class DokumenModel {
   String title;
   String bab;
   String description;
-  String status; // Menunggu, Revisi, Selesai
+  String status; 
   String fileName;
-  String date; // 🆕 Tambahan untuk menampung tanggal
+  String date; 
   String catatanDosen;
 
   DokumenModel({
@@ -15,7 +15,7 @@ class DokumenModel {
     required this.description,
     required this.status,
     required this.fileName,
-    required this.date, // 🆕 Tambahan parameter date
+    required this.date, 
     this.catatanDosen = "",
   });
 }
@@ -34,7 +34,7 @@ class DokumenController extends GetxController {
       description: "Baru dikirim untuk dicek",
       status: "Menunggu",
       fileName: "bab3.pdf",
-      date: "2025-09-20 20:00:00", // ✅ format ISO biar bisa di-parse DateTime
+      date: "2025-09-20 20:00:00", 
     ));
     revisiList.add(DokumenModel(
       title: "BAB II Landasan Teori",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inta301/pages/dokumen_modal.dart';
 import '../shared/shared.dart';
 import 'dokumen_controller.dart';
 import 'dokumen_card.dart';
@@ -39,8 +40,8 @@ class DokumenPage extends StatelessWidget {
           children: [
             // --- TabBar di body ---
             Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 12),
+              margin: const EdgeInsets.symmetric(
+                  horizontal: defaultMargin, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(15),
@@ -76,15 +77,12 @@ class DokumenPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: dangerColor,
           onPressed: () {
-            // logika tambah dokumen baru
-            controller.addDokumen(DokumenModel(
-              title: "BAB IV Pembahasan",
-              bab: "BAB IV",
-              description: "Baru ditambahkan",
-              status: "Menunggu",
-              fileName: "bab4.pdf",
-              date: DateTime.now().toString(),
-            ));
+            showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (_) => const DokumenModal(),
+            );
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
@@ -117,7 +115,9 @@ class DokumenPage extends StatelessWidget {
                   label: "Kanban",
                   onTap: () => Get.offAllNamed(Routes.KANBAN)),
               _BottomNavItem(
-                  icon: Icons.description_outlined, label: "Dokumen", onTap: () {}),
+                  icon: Icons.description_outlined,
+                  label: "Dokumen",
+                  onTap: () {}),
               _BottomNavItem(
                   icon: Icons.person_outline,
                   label: "Profile",
@@ -141,10 +141,18 @@ class DokumenPage extends StatelessWidget {
           return DokumenCard(
             dokumen: dokumen,
             onAdd: () {
-              // logika tambah dokumen
+              // tidak digunakan
             },
             onEdit: () {
-              // logika edit dokumen
+              showModalBottomSheet(
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (_) => DokumenModal(
+                  dokumen: dokumen,
+                  isEdit: true,
+                ),
+              );
             },
             onDelete: () {
               controller.deleteDokumen(dokumen);
@@ -179,7 +187,9 @@ class _BottomNavItem extends StatelessWidget {
           const SizedBox(height: 4),
           Text(label,
               style: const TextStyle(
-                  color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500)),
         ],
       ),
     );

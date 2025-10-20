@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dokumen_controller.dart';
+import '../shared/shared.dart'; // pastikan ada variabel dangerColor
 
 class DokumenCard extends StatelessWidget {
   final DokumenModel dokumen;
@@ -18,16 +19,15 @@ class DokumenCard extends StatelessWidget {
     required this.onDownload,
   });
 
-  // --- warna badge status ---
   Color _getStatusBgColor(String status) {
     switch (status.toLowerCase()) {
       case "menunggu":
-        return const Color(0xFFFFEAC1); // kuning lembut
+        return const Color(0xFFFFEAC1);
       case "revisi":
-        return const Color(0xFFFFCACA); // merah lembut
+        return const Color(0xFFFFCACA);
       case "disetujui":
       case "selesai":
-        return const Color(0xFFD6F5D6); // hijau lembut
+        return const Color(0xFFD6F5D6);
       default:
         return Colors.grey.shade200;
     }
@@ -141,27 +141,36 @@ class DokumenCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
+
+            // 🔴 Garis dangerColor di antara keterangan dan tombol ikon
+            Container(
+              height: 2,
+              color: dangerColor,
+            ),
+
+            const SizedBox(height: 4),
 
             // === Tombol aksi ===
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: onEdit,
-                  icon: const Icon(Icons.edit, color: Colors.black87, size: 20),
-                  tooltip: "Edit",
-                ),
                 IconButton(
                   onPressed: onDownload,
-                  icon:
-                      const Icon(Icons.download, color: Colors.black87, size: 20),
+                  icon: const Icon(Icons.download,
+                      color: Colors.black87, size: 20),
                   tooltip: "Download",
                 ),
                 IconButton(
+                  onPressed: onEdit,
+                  icon: const Icon(Icons.edit,
+                      color: Colors.black87, size: 20),
+                  tooltip: "Edit",
+                ),
+                IconButton(
                   onPressed: onDelete,
-                  icon: const Icon(Icons.delete, color: Colors.black87, size: 20),
+                  icon:
+                      const Icon(Icons.delete, color: Colors.black87, size: 20),
                   tooltip: "Hapus",
                 ),
               ],
