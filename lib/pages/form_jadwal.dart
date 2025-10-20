@@ -22,7 +22,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
   @override
   void initState() {
     super.initState();
-    // Contoh: bisa fetch data jadwal dari jadwalId dan prefill form
+  
     _judulController.text = "Diskusi TA #${widget.jadwalId}";
     _dosenController.text = "Dosen Pembimbing";
   }

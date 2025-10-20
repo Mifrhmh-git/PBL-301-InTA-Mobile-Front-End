@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:inta301/pages/form_jadwal.dart';
 import 'package:inta301/pages/home_page.dart';
 import 'package:inta301/pages/notifikasi_page.dart';
-import 'package:inta301/pages/pages.dart';
 import 'package:inta301/pages/welcome_page.dart';
 import 'package:inta301/pages/jadwal_pages.dart';
 import 'package:inta301/pages/kanban_page.dart';
 import 'package:inta301/pages/dokumen_page.dart';
+import 'package:inta301/pages/dokumen_controller.dart';
 import 'package:inta301/pages/profile_page.dart';
 
 part 'app_routes.dart';
@@ -36,6 +36,9 @@ class AppPages {
     GetPage(
       name: _Paths.DOKUMEN,
       page: () => DokumenPage(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<DokumenController>(() => DokumenController());
+      }),
     ),
     GetPage(
       name: _Paths.PROFILE,
@@ -48,10 +51,8 @@ class AppPages {
     GetPage(
       name: _Paths.FORM_JADWAL,
       page: () {
-        // Ambil arguments dengan aman
         final args = Get.arguments as Map<String, dynamic>?;
-        int jadwalId = args?["jadwalId"] ?? 0; 
-
+        int jadwalId = args?["jadwalId"] ?? 0;
         return FormJadwalBimbinganPage(jadwalId: jadwalId);
       },
     ),
