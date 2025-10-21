@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../shared/shared.dart';
-import '../routes/app_pages.dart'; 
-import 'form_jadwal.dart';
 
 class NotifikasiPage extends StatelessWidget {
   const NotifikasiPage({super.key});
@@ -19,13 +17,6 @@ class NotifikasiPage extends StatelessWidget {
         "time": "17:00 – April 24",
       },
       {
-        "type": "ajuan_dosen",
-        "title": "Ajuan Jadwal Dosen",
-        "message": "Dosen X mengajukan jadwal bimbingan 21 Oktober, 10:00",
-        "time": "16:00 – Oktober 19",
-        "jadwalId": 123,
-      },
-      {
         "type": "update",
         "title": "Update Terbaru",
         "message": "Unggah BAB II: Latar Belakang sebelum batas waktu.",
@@ -34,8 +25,8 @@ class NotifikasiPage extends StatelessWidget {
       {
         "type": "pengingat",
         "title": "Pengingat!",
-        "message": "Bimbingan pukul 10:00 di TA 12.4. Jangan sampai telat!",
-        "time": "17:00 – April 24",
+        "message": "Bimbingan pukul 10:00 di ruang TA 12.4. Jangan sampai telat!",
+        "time": "09:00 – Oktober 21",
       },
     ];
 
@@ -71,29 +62,15 @@ class NotifikasiPage extends StatelessWidget {
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           final notif = notifications[index];
-          final bool isClickable = notif["type"] == "ajuan_dosen";
 
-          return GestureDetector(
-            onTap: isClickable
-                ? () {
-                    Get.toNamed(
-                      Routes.FORM_JADWAL, 
-                      arguments: {"jadwalId": notif["jadwalId"]},
-                    );
-                  }
-                : null,
-            child: _buildNotificationItem(
-              icon: isClickable
-                  ? Icons.schedule
-                  : notif["type"] == "update"
-                      ? Icons.update
-                      : Icons.notifications_active_outlined,
-              title: notif["title"],
-              message: notif["message"],
-              time: notif["time"],
-              mainBlue: mainBlue,
-              isClickable: isClickable,
-            ),
+          return _buildNotificationItem(
+            icon: notif["type"] == "update"
+                ? Icons.update
+                : Icons.notifications_active_outlined,
+            title: notif["title"],
+            message: notif["message"],
+            time: notif["time"],
+            mainBlue: mainBlue,
           );
         },
       ),
@@ -106,7 +83,6 @@ class NotifikasiPage extends StatelessWidget {
     required String message,
     required String time,
     required Color mainBlue,
-    bool isClickable = false,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
@@ -121,7 +97,6 @@ class NotifikasiPage extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
         ],
-        border: isClickable ? Border.all(color: mainBlue, width: 1.5) : null,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +134,7 @@ class NotifikasiPage extends StatelessWidget {
                 Text(
                   time,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.black54,
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                   ),
@@ -167,12 +142,6 @@ class NotifikasiPage extends StatelessWidget {
               ],
             ),
           ),
-          if (isClickable)
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 14,
-              color: Colors.black54,
-            ),
         ],
       ),
     );

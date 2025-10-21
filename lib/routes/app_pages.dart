@@ -50,14 +50,21 @@ class AppPages {
       name: _Paths.NOTIFIKASI,
       page: () => const NotifikasiPage(),
     ),
+
+    // 🟦 FORM JADWAL BIMBINGAN
     GetPage(
       name: _Paths.FORM_JADWAL,
       page: () {
-        final args = Get.arguments as Map<String, dynamic>?;
-        final jadwalId = args?["jadwalId"] ?? 0;
-        return FormJadwalBimbinganPage(jadwalId: jadwalId);
+        final args = Get.arguments as Map<String, dynamic>? ?? {};
+        final jadwalId = args["jadwalId"] ?? 0;
+        final mode = args["mode"] ?? "mahasiswa"; // default mode mahasiswa
+        return FormJadwalBimbinganPage(
+          jadwalId: jadwalId,
+          mode: mode,
+        );
       },
     ),
+
     GetPage(
       name: _Paths.KELOLA_AKUN,
       page: () => const KelolaAkunPage(),

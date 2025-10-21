@@ -16,11 +16,14 @@ class InformasiDospemPage extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.only(top: 50, bottom: 25),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  primaryColor,
+                  dangerColor,
+                ],
               ),
             ),
             child: Column(
@@ -83,19 +86,31 @@ class InformasiDospemPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Text(
+                    "Informasi Kontak",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
                   _buildInfoTile(
                       "Email", "dwi.putra@universitas.ac.id", Icons.email),
                   _buildInfoTile("No. Telepon", "+62 812-3456-7890", Icons.phone),
                   _buildInfoTile(
-                      "Bidang Keahlian", "Kecerdasan Buatan, Machine Learning", Icons.science_outlined),
-                  _buildInfoTile(
-                      "Kantor", "Gedung Informatika Lt. 3, Ruang 305", Icons.location_on_outlined),
+                      "Bidang Keahlian",
+                      "Kecerdasan Buatan, Machine Learning",
+                      Icons.science_outlined),
+                  _buildInfoTile("Kantor",
+                      "Gedung Informatika Lt. 3, Ruang 305", Icons.location_on_outlined),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 25),
                   Center(
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        // nanti bisa diarahkan ke whatsapp atau email
+                        // nanti bisa diarahkan ke WhatsApp atau email
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,
@@ -126,9 +141,16 @@ class InformasiDospemPage extends StatelessWidget {
       // === BOTTOM NAVIGATION ===
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              primaryColor,
+              dangerColor,
+            ],
+          ),
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
@@ -172,7 +194,7 @@ class InformasiDospemPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 18),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: primaryColor.withOpacity(0.1),
+        color: primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: primaryColor.withOpacity(0.3)),
       ),
@@ -184,18 +206,22 @@ class InformasiDospemPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black54)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black54,
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   value,
                   style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
               ],
             ),

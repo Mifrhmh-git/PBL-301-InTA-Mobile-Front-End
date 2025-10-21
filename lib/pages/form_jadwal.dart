@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../shared/shared.dart'; 
+import '../shared/shared.dart';
 
 class FormJadwalBimbinganPage extends StatefulWidget {
   final int jadwalId;
+  final String mode; // 'mahasiswa' atau 'dosen'
 
-  const FormJadwalBimbinganPage({super.key, required this.jadwalId});
+  const FormJadwalBimbinganPage({
+    super.key,
+    required this.jadwalId,
+    required this.mode,
+  });
 
   @override
-  State<FormJadwalBimbinganPage> createState() => _FormJadwalBimbinganPageState();
+  State<FormJadwalBimbinganPage> createState() =>
+      _FormJadwalBimbinganPageState();
 }
 
 class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
@@ -22,16 +28,30 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
   @override
   void initState() {
     super.initState();
-  
-    _judulController.text = "Diskusi TA #${widget.jadwalId}";
-    _dosenController.text = "Dosen Pembimbing";
+
+    // === Contoh data ajuan dosen ===
+    _judulController.text = "Diskusi Revisi BAB II";
+    _dosenController.text = "Dr. Dosen Pembimbing";
+    _tanggalController.text = "Rabu, 23 Oktober 2025";
+    _waktuController.text = "10:00";
+    _lokasiController.text = "Ruang B.203";
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool isDosenMode = widget.mode == 'dosen';
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Jadwal Bimbingan #${widget.jadwalId}"),
+        title: Text(
+          isDosenMode ? "Ajuan Dosen" : "Ajukan Jadwal Bimbingan",
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: primaryColor,
         elevation: 0,
         leading: IconButton(
@@ -39,109 +59,224 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
           onPressed: () => Get.back(),
         ),
       ),
+
+      // === BODY ===
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _buildTextField("Judul Bimbingan", Icons.edit_outlined, _judulController),
-            const SizedBox(height: 15),
-            _buildTextField("Dosen Pembimbing", Icons.person_outline, _dosenController),
-            const SizedBox(height: 15),
+            _buildTextField(
+              "Judul Bimbingan",
+              _judulController,
+              readOnly: isDosenMode,
+            ),
+            _buildTextField(
+              "Dosen Pembimbing",
+              _dosenController,
+              readOnly: isDosenMode,
+            ),
+
+            // === Tanggal ===
             GestureDetector(
-              onTap: () async {
-                FocusScope.of(context).unfocus();
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime(2030),
-                  locale: const Locale('id', 'ID'),
-                  builder: (context, child) {
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        colorScheme: ColorScheme.light(
-                          primary: primaryColor,
-                          onPrimary: Colors.white,
-                          onSurface: Colors.black,
-                        ),
-                      ),
-                      child: child!,
+              onTap: isDosenMode
+                  ? null
+                  : () async {
+                      FocusScope.of(context).unfocus();
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2030),
+                        locale: const Locale('id', 'ID'),
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: primaryColor,
+                                onPrimary: Colors.white,
+                                onSurface: Colors.black,
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
+                      );
+
+                      if (pickedDate != null) {
+                        _tanggalController.text =
+                            DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                .format(pickedDate);
+                      }
+                    },
+              child: AbsorbPointer(
+                absorbing: isDosenMode,
+                child: _buildTextField("Tanggal", _tanggalController),
+              ),
+            ),
+
+            _buildTextField(
+              "Waktu (contoh: 10:30)",
+              _waktuController,
+              readOnly: isDosenMode,
+            ),
+            _buildTextField(
+              "Lokasi",
+              _lokasiController,
+              readOnly: isDosenMode,
+            ),
+
+            const SizedBox(height: 25),
+
+            // === TOMBOL AKSI ===
+            if (!isDosenMode)
+              // === MODE MAHASISWA ===
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 3,
+                  ),
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    Get.back();
+                    Get.snackbar(
+                      "Berhasil",
+                      "Jadwal bimbingan telah diajukan ke dosen",
+                      backgroundColor: Colors.white,
+                      colorText: Colors.black,
+                      snackPosition: SnackPosition.TOP,
+                      margin: const EdgeInsets.all(16),
+                      borderRadius: 12,
                     );
                   },
-                );
-
-                if (pickedDate != null) {
-                  setState(() {
-                    _tanggalController.text =
-                        DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(pickedDate);
-                  });
-                }
-              },
-              child: AbsorbPointer(
-                child: _buildTextField("Tanggal", Icons.calendar_today_outlined, _tanggalController),
-              ),
-            ),
-            const SizedBox(height: 15),
-            _buildTextField("Waktu (contoh: 10:30)", Icons.access_time, _waktuController),
-            const SizedBox(height: 15),
-            _buildTextField("Lokasi", Icons.location_on_outlined, _lokasiController),
-            const SizedBox(height: 25),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 4,
-                ),
-                onPressed: () {
-                  Get.back();
-                  Get.snackbar(
-                    "Berhasil",
-                    "Jadwal bimbingan telah disimpan",
-                    backgroundColor: primaryColor,
-                    colorText: Colors.white,
-                    snackPosition: SnackPosition.TOP,
-                    margin: const EdgeInsets.all(16),
-                    borderRadius: 12,
-                  );
-                },
-                child: const Text(
-                  "Simpan",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                  child: const Text(
+                    "Ajukan",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+              )
+            else
+              // === MODE DOSEN ===
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        Get.snackbar(
+                          "Diterima",
+                          "Jadwal diterima mahasiswa",
+                          backgroundColor: Colors.green,
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.TOP,
+                          margin: const EdgeInsets.all(16),
+                          borderRadius: 12,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        "Terima",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final TextEditingController alasanCtrl =
+                            TextEditingController();
+                        Get.defaultDialog(
+                          title: "Tolak Jadwal",
+                          titleStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          contentPadding: const EdgeInsets.all(16),
+                          content: TextField(
+                            controller: alasanCtrl,
+                            maxLines: 3,
+                            decoration: const InputDecoration(
+                              hintText: "Masukkan alasan penolakan...",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          textConfirm: "Kirim",
+                          confirmTextColor: Colors.white,
+                          buttonColor: primaryColor,
+                          onConfirm: () {
+                            Get.back();
+                            Get.snackbar(
+                              "Ditolak",
+                              "Jadwal ditolak dan dikirim ke dosen",
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white,
+                              snackPosition: SnackPosition.TOP,
+                              margin: const EdgeInsets.all(16),
+                              borderRadius: 12,
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        "Tolak",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTextField(String label, IconData icon, TextEditingController controller) {
-    return TextField(
-      controller: controller,
-      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon, color: primaryColor),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.3),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: primaryColor, width: 2),
+  Widget _buildTextField(String label, TextEditingController controller,
+      {bool readOnly = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 18),
+      child: TextFormField(
+        controller: controller,
+        readOnly: readOnly,
+        decoration: InputDecoration(
+          labelText: label,
+          filled: true,
+          fillColor: primaryColor.withOpacity(0.1),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );

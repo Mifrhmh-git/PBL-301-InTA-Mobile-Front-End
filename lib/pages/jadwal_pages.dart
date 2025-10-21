@@ -15,19 +15,19 @@ class JadwalPage extends StatefulWidget {
 class _JadwalPageState extends State<JadwalPage> {
   DateTime today = DateTime.now();
 
-  void _onDaySelected(DateTime day, DateTime focusedDay) {
-    setState(() {
-      today = day;
-    });
-  }
-
   final TextEditingController _judulController = TextEditingController();
   final TextEditingController _dosenController = TextEditingController();
   final TextEditingController _tanggalController = TextEditingController();
   final TextEditingController _waktuController = TextEditingController();
   final TextEditingController _lokasiController = TextEditingController();
 
-  // === Modal Tambah Jadwal ===
+  void _onDaySelected(DateTime day, DateTime focusedDay) {
+    setState(() {
+      today = day;
+    });
+  }
+
+  // === MODAL TAMBAH JADWAL ===
   void _showTambahJadwalModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -57,25 +57,31 @@ class _JadwalPageState extends State<JadwalPage> {
                   bottom: MediaQuery.of(context).viewInsets.bottom + 20,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 60,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
+                    Center(
+                      child: Container(
+                        width: 60,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      "Tambah Jadwal Bimbingan",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                    Center(
+                      child: Text(
+                        "Ajukan Jadwal Bimbingan",
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 25),
 
                     _buildTextField("Judul Bimbingan", Icons.edit_outlined, _judulController),
                     const SizedBox(height: 15),
@@ -104,28 +110,21 @@ class _JadwalPageState extends State<JadwalPage> {
                             );
                           },
                         );
-
                         if (pickedDate != null) {
-                          setState(() {
-                            _tanggalController.text =
-                                DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
-                                    .format(pickedDate);
-                          });
+                          _tanggalController.text =
+                              DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(pickedDate);
                         }
                       },
                       child: AbsorbPointer(
-                        child: _buildTextField(
-                          "Tanggal",
-                          Icons.calendar_today_outlined,
-                          _tanggalController,
-                        ),
+                        child: _buildTextField("Tanggal", Icons.calendar_today_outlined, _tanggalController),
                       ),
                     ),
                     const SizedBox(height: 15),
+
                     _buildTextField("Waktu (contoh: 10:30)", Icons.access_time, _waktuController),
                     const SizedBox(height: 15),
                     _buildTextField("Lokasi", Icons.location_on_outlined, _lokasiController),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 30),
 
                     SizedBox(
                       width: double.infinity,
@@ -136,25 +135,17 @@ class _JadwalPageState extends State<JadwalPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          elevation: 4,
                         ),
                         onPressed: () {
                           Get.back();
                           Get.snackbar(
                             "Berhasil",
-                            "Jadwal bimbingan telah diajukan",
+                            "Jadwal bimbingan berhasil diajukan",
                             backgroundColor: Colors.white,
                             colorText: Colors.black,
                             snackPosition: SnackPosition.TOP,
                             margin: const EdgeInsets.all(16),
                             borderRadius: 12,
-                            boxShadows: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
                           );
                         },
                         child: const Text(
@@ -163,6 +154,7 @@ class _JadwalPageState extends State<JadwalPage> {
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
+                            fontFamily: 'Poppins',
                           ),
                         ),
                       ),
@@ -180,18 +172,17 @@ class _JadwalPageState extends State<JadwalPage> {
   Widget _buildTextField(String label, IconData icon, TextEditingController controller) {
     return TextField(
       controller: controller,
-      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: const TextStyle(fontFamily: 'Poppins'),
         prefixIcon: Icon(icon, color: primaryColor),
         filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        fillColor: primaryColor.withOpacity(0.08),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.3),
+          borderSide: BorderSide(color: primaryColor.withOpacity(0.3), width: 1.3),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -203,13 +194,56 @@ class _JadwalPageState extends State<JadwalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> jadwalList = [
+      {
+        "judul": "Diskusi Awal Proposal",
+        "status": "Menunggu",
+        "dosen": "Dr. Fitriani, M.Kom",
+        "tanggal": "Senin, 21 Oktober 2025",
+        "waktu": "09:00",
+        "lokasi": "Ruang B-203",
+      },
+      {
+        "judul": "Revisi Bab II",
+        "status": "Diterima",
+        "dosen": "Dr. Adi Nugroho",
+        "tanggal": "Selasa, 22 Oktober 2025",
+        "waktu": "10:30",
+        "lokasi": "Lab Komputer 2",
+      },
+      {
+        "judul": "Bimbingan Bab III",
+        "status": "Ditolak",
+        "dosen": "Dr. Siti Marlina",
+        "tanggal": "Rabu, 23 Oktober 2025",
+        "waktu": "13:00",
+        "lokasi": "Ruang Dosen 1",
+      },
+      {
+        "judul": "Ajuan Jadwal Dosen",
+        "status": "Ajuan Dosen",
+        "dosen": "Dr. Bambang Setiawan",
+        "tanggal": "Kamis, 24 Oktober 2025",
+        "waktu": "15:00",
+        "lokasi": "Zoom Meeting",
+        "jadwalId": 123,
+      },
+    ];
+
     return Scaffold(
       backgroundColor: backgroundColor,
-
-      // === AppBar dengan Gradasi ===
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Container(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "Jadwal Bimbingan",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: 'Poppins',
+          ),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [primaryColor, dangerColor],
@@ -217,25 +251,12 @@ class _JadwalPageState extends State<JadwalPage> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Align(
-            alignment: Alignment(0, 0.6),
-            child: Text(
-              'Jadwal Bimbingan',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // === Kalender ===
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -256,145 +277,142 @@ class _JadwalPageState extends State<JadwalPage> {
                 lastDay: DateTime.utc(2030, 12, 31),
                 selectedDayPredicate: (day) => isSameDay(day, today),
                 onDaySelected: _onDaySelected,
-                headerStyle: HeaderStyle(
+                headerStyle: const HeaderStyle(
                   formatButtonVisible: false,
                   titleCentered: true,
                   titleTextStyle: TextStyle(
-                    color: primaryColor,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
                   ),
-                  leftChevronIcon:
-                      Icon(Icons.chevron_left, color: primaryColor),
-                  rightChevronIcon:
-                      Icon(Icons.chevron_right, color: primaryColor),
-                ),
-                calendarStyle: CalendarStyle(
-                  todayDecoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.3),
-                    shape: BoxShape.circle,
-                  ),
-                  selectedDecoration: BoxDecoration(
-                    color: primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  weekendTextStyle: TextStyle(color: primaryColor),
-                  defaultTextStyle: const TextStyle(color: Colors.black),
                 ),
               ),
             ),
             const SizedBox(height: 20),
-
-            // === Kartu Jadwal ===
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.25),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    DateFormat("EEEE, d MMMM", "id_ID").format(today),
-                    style: whiteTextStyle.copyWith(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _buildJadwalItem(
-                      time: "10:30", title: "Diskusi Perancangan, TA 10.3"),
-                  _buildJadwalItem(
-                      time: "13:30", title: "Ajuan Diskusi BAB I, TA 10.3"),
-                ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: jadwalList.length,
+                itemBuilder: (context, index) {
+                  return _buildJadwalCard(jadwalList[index]);
+                },
               ),
             ),
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
         onPressed: () => _showTambahJadwalModal(context),
-        backgroundColor: dangerColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
+      bottomNavigationBar: _BottomNavBar(),
+    );
+  }
 
-      // === Bottom Navigation Bar Gradasi ===
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [primaryColor, dangerColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
+  Widget _buildJadwalCard(Map<String, dynamic> item) {
+    final status = item["status"];
+    Color statusColor;
+
+    switch (status) {
+      case "Diterima":
+        statusColor = Colors.green;
+        break;
+      case "Ditolak":
+        statusColor = Colors.red;
+        break;
+      case "Menunggu":
+        statusColor = Colors.blueAccent;
+        break;
+      case "Ajuan Dosen":
+        statusColor = Colors.orange;
+        break;
+      default:
+        statusColor = Colors.grey;
+    }
+
+    return GestureDetector(
+      onTap: status == "Ajuan Dosen"
+          ? () {
+              Get.toNamed(Routes.FORM_JADWAL,
+                  arguments: {"jadwalId": item["jadwalId"], "mode": "dosen"});
+            }
+          : null,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: statusColor.withOpacity(0.8), width: 1.8),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _BottomNavItem(
-              icon: Icons.home,
-              label: "Beranda",
-              onTap: () => Get.offAllNamed(Routes.HOME),
-            ),
-            _BottomNavItem(
-              icon: Icons.calendar_month,
-              label: "Jadwal",
-              onTap: () => Get.offAllNamed(Routes.JADWAL),
-            ),
-            _BottomNavItem(
-              icon: Icons.bar_chart_outlined,
-              label: "Kanban",
-              onTap: () => Get.offAllNamed(Routes.KANBAN),
-            ),
-            _BottomNavItem(
-              icon: Icons.description_outlined,
-              label: "Dokumen",
-              onTap: () => Get.offAllNamed(Routes.DOKUMEN),
-            ),
-            _BottomNavItem(
-              icon: Icons.person_outline,
-              label: "Profile",
-              onTap: () => Get.offAllNamed(Routes.PROFILE),
+            Text(item["judul"],
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                    fontFamily: 'Poppins')),
+            const SizedBox(height: 8),
+            Text("Dosen: ${item["dosen"]}",
+                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+            Text("Tanggal: ${item["tanggal"]}",
+                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+            Text("Waktu: ${item["waktu"]}",
+                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+            Text("Lokasi: ${item["lokasi"]}",
+                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  status,
+                  style: TextStyle(
+                      color: statusColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      fontFamily: 'Poppins'),
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildJadwalItem({required String time, required String title}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+class _BottomNavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [primaryColor, dangerColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+      ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(
-            time,
-            style: whiteTextStyle.copyWith(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: whiteTextStyle.copyWith(color: Colors.black),
-            ),
-          ),
+          _BottomNavItem(icon: Icons.home, label: "Beranda", onTap: () => Get.offAllNamed(Routes.HOME)),
+          _BottomNavItem(icon: Icons.calendar_month, label: "Jadwal", onTap: () => Get.offAllNamed(Routes.JADWAL)),
+          _BottomNavItem(icon: Icons.bar_chart_outlined, label: "Kanban", onTap: () => Get.offAllNamed(Routes.KANBAN)),
+          _BottomNavItem(icon: Icons.description_outlined, label: "Dokumen", onTap: () => Get.offAllNamed(Routes.DOKUMEN)),
+          _BottomNavItem(icon: Icons.person_outline, label: "Profile", onTap: () => Get.offAllNamed(Routes.PROFILE)),
         ],
       ),
     );
@@ -406,11 +424,7 @@ class _BottomNavItem extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _BottomNavItem({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _BottomNavItem({required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -421,14 +435,9 @@ class _BottomNavItem extends StatelessWidget {
         children: [
           Icon(icon, color: Colors.white, size: 26),
           const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text(label,
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 12, fontFamily: 'Poppins')),
         ],
       ),
     );
