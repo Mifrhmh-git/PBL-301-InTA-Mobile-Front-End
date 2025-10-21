@@ -6,36 +6,39 @@ import '../routes/app_pages.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  PreferredSizeWidget _buildCustomAppBar() {
-    return AppBar(
-      backgroundColor: primaryColor,
-      centerTitle: true,
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      title: const Text(
-        "Profile",
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildCustomAppBar(),
+      extendBodyBehindAppBar: true, // biar gradient sampai atas
+      appBar: AppBar(
+        backgroundColor: Colors.transparent, // biar nyatu dengan gradient
+        elevation: 0,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
       body: Column(
         children: [
-          // Header biru tanpa lengkung bawah
+          // Header dengan gradient nyatu ke AppBar
           Container(
             width: double.infinity,
-            color: primaryColor,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [primaryColor, dangerColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
+              padding: const EdgeInsets.only(top: 100, bottom: 25),
               child: Column(
                 children: [
                   const CircleAvatar(
@@ -49,11 +52,11 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Rahayu Suci Ramadhani",
+                    "Putri Balqis",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: blackColor, // ✅ diubah hitam
+                      color: blackColor,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -61,7 +64,7 @@ class ProfilePage extends StatelessWidget {
                     "Mahasiswa",
                     style: TextStyle(
                       fontSize: 14,
-                      color: blackColor.withOpacity(0.7), // ✅ diubah hitam transparan
+                      color: blackColor.withOpacity(0.7),
                     ),
                   ),
                 ],
@@ -79,13 +82,17 @@ class ProfilePage extends StatelessWidget {
                 _ProfileMenuItem(
                   icon: Icons.manage_accounts,
                   label: "Kelola Akun",
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.KELOLA_AKUN);
+                  },
                 ),
                 const SizedBox(height: 20),
                 _ProfileMenuItem(
                   icon: Icons.person_search,
                   label: "Informasi Dosen Pembimbing",
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.INFORMASI_DOSPEM);
+                  },
                 ),
                 const SizedBox(height: 20),
                 _ProfileMenuItem(
@@ -101,12 +108,16 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
 
-      // Bottom Navigation
+      // Bottom Navigation dengan gradient sama
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [primaryColor, dangerColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
@@ -146,7 +157,6 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-/// --- ITEM MENU PROFILE ---
 class _ProfileMenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -190,7 +200,7 @@ class _ProfileMenuItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: blackColor, 
+                color: blackColor,
               ),
             ),
           ],
@@ -200,7 +210,6 @@ class _ProfileMenuItem extends StatelessWidget {
   }
 }
 
-/// --- Bottom Navigation Item ---
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

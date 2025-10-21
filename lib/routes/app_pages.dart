@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
+import 'package:inta301/pages/dokumen_controller.dart';
+import 'package:inta301/pages/dokumen_page.dart';
 import 'package:inta301/pages/form_jadwal.dart';
 import 'package:inta301/pages/home_page.dart';
-import 'package:inta301/pages/notifikasi_page.dart';
-import 'package:inta301/pages/welcome_page.dart';
 import 'package:inta301/pages/jadwal_pages.dart';
 import 'package:inta301/pages/kanban_page.dart';
-import 'package:inta301/pages/dokumen_page.dart';
-import 'package:inta301/pages/dokumen_controller.dart';
+import 'package:inta301/pages/notifikasi_page.dart';
 import 'package:inta301/pages/profile_page.dart';
+import 'package:inta301/pages/welcome_page.dart';
+import 'package:inta301/pages/kelola_akun_page.dart';
+import 'package:inta301/pages/informasi_dospem_page.dart';
 
 part 'app_routes.dart';
 
@@ -52,9 +54,17 @@ class AppPages {
       name: _Paths.FORM_JADWAL,
       page: () {
         final args = Get.arguments as Map<String, dynamic>?;
-        int jadwalId = args?["jadwalId"] ?? 0;
+        final jadwalId = args?["jadwalId"] ?? 0;
         return FormJadwalBimbinganPage(jadwalId: jadwalId);
       },
+    ),
+    GetPage(
+      name: _Paths.KELOLA_AKUN,
+      page: () => const KelolaAkunPage(),
+    ),
+    GetPage(
+      name: _Paths.INFORMASI_DOSPEM,
+      page: () => const InformasiDospemPage(),
     ),
   ];
 }
