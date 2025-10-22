@@ -3,7 +3,12 @@ import 'package:get/get.dart';
 import 'kanban_controller.dart';
 import '../shared/shared.dart';
 
-void showAddKanbanModal(BuildContext context, KanbanController controller, String defaultColumn) {
+/// 🔵 Modal Tambah Task Kanban
+void showAddKanbanModal(
+  BuildContext context,
+  KanbanController controller,
+  String defaultColumn,
+) {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final dueController = TextEditingController();
@@ -19,7 +24,7 @@ void showAddKanbanModal(BuildContext context, KanbanController controller, Strin
     builder: (context) {
       return DraggableScrollableSheet(
         expand: false,
-        initialChildSize: 0.65,
+        initialChildSize: 0.7,
         minChildSize: 0.45,
         maxChildSize: 0.95,
         builder: (context, scrollController) {
@@ -50,26 +55,34 @@ void showAddKanbanModal(BuildContext context, KanbanController controller, Strin
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    "Tambah Task Kanban",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  const Center(
+                    child: Text(
+                      "Tambah Task Kanban",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Dropdown Status
+                  // 🔹 Status Field
+                  const Text(
+                    "Status",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
                   DropdownButtonFormField<String>(
                     value: selectedColumn,
                     dropdownColor: Colors.white,
-                    decoration: const InputDecoration(
-                      labelText: "Status",
-                      border: OutlineInputBorder(),
-                    ),
+                    decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
                     items: ["To Do", "In Progress", "Done"]
-                        .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e, style: const TextStyle(color: Colors.black)),
-                            ))
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       if (value != null) selectedColumn = value;
@@ -77,74 +90,86 @@ void showAddKanbanModal(BuildContext context, KanbanController controller, Strin
                   ),
                   const SizedBox(height: 15),
 
-                  // Judul / Bab
-                  TextField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      labelText: "Judul / Bab",
-                      border: OutlineInputBorder(),
+                  // 🔹 Judul / Bab
+                  const Text(
+                    "Judul / Bab",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
                     ),
                   ),
+                  const SizedBox(height: 6),
+                  _buildField(controller: titleController),
                   const SizedBox(height: 15),
 
-                  // Keterangan
-                  TextField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration(
-                      labelText: "Keterangan",
-                      border: OutlineInputBorder(),
+                  // 🔹 Keterangan
+                  const Text(
+                    "Keterangan",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
                     ),
-                    maxLines: 2,
                   ),
+                  const SizedBox(height: 6),
+                  _buildField(controller: descriptionController, maxLines: 2),
                   const SizedBox(height: 15),
 
-                  // Due Date Manual Input
-                  TextField(
+                  // 🔹 Due Date
+                  const Text(
+                    "Due Date",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  _buildField(
                     controller: dueController,
-                    decoration: const InputDecoration(
-                      labelText: "Due Date (contoh: 22 September 2025, 23:59)",
-                      border: OutlineInputBorder(),
-                    ),
+                    hintText: "contoh: 22 September 2025, 23:59",
                   ),
                   const SizedBox(height: 25),
 
-                  // Tombol Tambah
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                  // 🔹 Tombol Tambah (kecil & tengah)
+                  Center(
+                    child: SizedBox(
+                      width: 160,
+                      height: 45,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 3,
                         ),
-                      ),
-                      onPressed: () {
-                        if (titleController.text.isEmpty || dueController.text.isEmpty) {
-                          Get.snackbar(
-                            "Gagal",
-                            "Judul dan tanggal harus diisi!",
-                            backgroundColor: Colors.redAccent,
-                            colorText: Colors.white,
-                            snackPosition: SnackPosition.TOP,
-                          );
-                          return;
-                        }
+                        onPressed: () {
+                          if (titleController.text.isEmpty ||
+                              dueController.text.isEmpty) {
+                            Get.snackbar(
+                              "Gagal",
+                              "Judul dan tanggal harus diisi!",
+                              backgroundColor: Colors.redAccent,
+                              colorText: Colors.white,
+                              snackPosition: SnackPosition.TOP,
+                            );
+                            return;
+                          }
 
-                        controller.addTaskWithDescription(
-                          titleController.text,
-                          dueController.text,
-                          selectedColumn,
-                          descriptionController.text,
-                        );
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                        "Tambah",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          controller.addTaskWithDescription(
+                            titleController.text,
+                            dueController.text,
+                            selectedColumn,
+                            descriptionController.text,
+                          );
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          "Tambah",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                     ),
@@ -159,7 +184,7 @@ void showAddKanbanModal(BuildContext context, KanbanController controller, Strin
   );
 }
 
-/// Modal Edit Task Kanban
+/// 🔵 Modal Edit Task Kanban
 void showEditKanbanModal(
   BuildContext context,
   KanbanController controller,
@@ -169,7 +194,8 @@ void showEditKanbanModal(
 ) {
   final task = tasks[index];
   final titleController = TextEditingController(text: task.title);
-  final descriptionController = TextEditingController(text: task.description);
+  final descriptionController =
+      TextEditingController(text: task.description);
   final dueController = TextEditingController(text: task.dueDate);
   String selectedColumn = column;
 
@@ -183,7 +209,7 @@ void showEditKanbanModal(
     builder: (context) {
       return DraggableScrollableSheet(
         expand: false,
-        initialChildSize: 0.65,
+        initialChildSize: 0.7,
         minChildSize: 0.45,
         maxChildSize: 0.95,
         builder: (context, scrollController) {
@@ -214,26 +240,29 @@ void showEditKanbanModal(
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    "Edit Task Kanban",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  const Center(
+                    child: Text(
+                      "Edit Task Kanban",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Dropdown Status
+                  const Text("Status",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  const SizedBox(height: 6),
                   DropdownButtonFormField<String>(
                     value: selectedColumn,
                     dropdownColor: Colors.white,
-                    decoration: const InputDecoration(
-                      labelText: "Status",
-                      border: OutlineInputBorder(),
-                    ),
+                    decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
                     items: ["To Do", "In Progress", "Done"]
-                        .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e, style: const TextStyle(color: Colors.black)),
-                            ))
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       if (value != null) selectedColumn = value;
@@ -241,46 +270,42 @@ void showEditKanbanModal(
                   ),
                   const SizedBox(height: 15),
 
-                  // Judul
-                  TextField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      labelText: "Judul / Bab",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+                  const Text("Judul / Bab",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  const SizedBox(height: 6),
+                  _buildField(controller: titleController),
                   const SizedBox(height: 15),
 
-                  // Keterangan
-                  TextField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration(
-                      labelText: "Keterangan",
-                      border: OutlineInputBorder(),
-                    ),
-                    maxLines: 2,
-                  ),
+                  const Text("Keterangan",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  const SizedBox(height: 6),
+                  _buildField(controller: descriptionController, maxLines: 2),
                   const SizedBox(height: 15),
 
-                  // Due Date Manual Input
-                  TextField(
+                  const Text("Due Date",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  const SizedBox(height: 6),
+                  _buildField(
                     controller: dueController,
-                    decoration: const InputDecoration(
-                      labelText: "Due Date (contoh: 22 September 2025, 23:59)",
-                      border: OutlineInputBorder(),
-                    ),
+                    hintText: "contoh: 22 September 2025, 23:59",
                   ),
                   const SizedBox(height: 25),
 
-                  // Tombol Aksi
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
+                      SizedBox(
+                        width: 140,
+                        height: 45,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: dangerColor,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           onPressed: () {
                             controller.deleteTask(tasks, index);
@@ -291,21 +316,25 @@ void showEditKanbanModal(
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 15,
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Expanded(
+                      SizedBox(
+                        width: 140,
+                        height: 45,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           onPressed: () {
-                            if (titleController.text.isEmpty || dueController.text.isEmpty) {
+                            if (titleController.text.isEmpty ||
+                                dueController.text.isEmpty) {
                               Get.snackbar(
                                 "Gagal",
                                 "Judul dan tanggal harus diisi!",
@@ -330,7 +359,7 @@ void showEditKanbanModal(
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 15,
                             ),
                           ),
                         ),
@@ -344,5 +373,40 @@ void showEditKanbanModal(
         },
       );
     },
+  );
+}
+
+/// 🧩 Reusable Field Decoration
+InputDecoration _fieldDecoration() {
+  return InputDecoration(
+    filled: true,
+    fillColor: primaryColor.withOpacity(0.15),
+    contentPadding:
+        const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: primaryColor, width: 1.2),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: primaryColor, width: 1.2),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: primaryColor, width: 1.8),
+    ),
+  );
+}
+
+/// 🔧 Field Builder
+Widget _buildField({
+  required TextEditingController controller,
+  String? hintText,
+  int maxLines = 1,
+}) {
+  return TextField(
+    controller: controller,
+    maxLines: maxLines,
+    decoration: _fieldDecoration().copyWith(hintText: hintText),
   );
 }
