@@ -10,9 +10,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true, // biar gradient sampai atas
+      extendBodyBehindAppBar: true, 
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // biar nyatu dengan gradient
+        backgroundColor: Colors.transparent, 
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -56,7 +56,7 @@ class ProfilePage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: blackColor,
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -64,7 +64,7 @@ class ProfilePage extends StatelessWidget {
                     "Mahasiswa",
                     style: TextStyle(
                       fontSize: 14,
-                      color: blackColor.withOpacity(0.7),
+                      color: Colors.white70,
                     ),
                   ),
                 ],

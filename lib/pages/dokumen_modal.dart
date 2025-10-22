@@ -121,6 +121,7 @@ class _DokumenModalState extends State<DokumenModal> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
                   const Text(
                     "File",
                     style: TextStyle(fontWeight: FontWeight.w600),
@@ -128,8 +129,12 @@ class _DokumenModalState extends State<DokumenModal> {
                   const SizedBox(height: 8),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: dangerColor, width: 1.3),
-                      borderRadius: BorderRadius.circular(10),
+                      color: primaryColor.withOpacity(0.2),
+                      border: Border.all(
+                        color: primaryColor.withOpacity(0.3),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       children: [
@@ -138,7 +143,7 @@ class _DokumenModalState extends State<DokumenModal> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12),
                             child: Text(
-                              _fileName ?? '',
+                              _fileName ?? 'Belum ada file dipilih',
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -146,10 +151,10 @@ class _DokumenModalState extends State<DokumenModal> {
                         Container(
                           height: 50,
                           decoration: BoxDecoration(
-                            color: dangerColor,
+                            color: primaryColor,
                             borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
+                              topRight: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
                             ),
                           ),
                           child: TextButton(
@@ -163,6 +168,7 @@ class _DokumenModalState extends State<DokumenModal> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 16),
                   const Text("Nama Dokumen",
                       style: TextStyle(fontWeight: FontWeight.w600)),
@@ -171,24 +177,29 @@ class _DokumenModalState extends State<DokumenModal> {
                     controller: _titleController,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: primaryColor.withOpacity(0.2),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 15),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: dangerColor),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                            color: primaryColor.withOpacity(0.3), width: 1),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: dangerColor),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                            color: primaryColor.withOpacity(0.3), width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide:
-                            const BorderSide(color: dangerColor, width: 1.5),
+                            const BorderSide(color: primaryColor, width: 1.5),
                       ),
                     ),
                     validator: (v) =>
                         v!.isEmpty ? "Nama dokumen wajib diisi" : null,
                   ),
+
                   const SizedBox(height: 16),
                   const Text("BAB",
                       style: TextStyle(fontWeight: FontWeight.w600)),
@@ -197,23 +208,28 @@ class _DokumenModalState extends State<DokumenModal> {
                     controller: _babController,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: primaryColor.withOpacity(0.2),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 15),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: dangerColor),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                            color: primaryColor.withOpacity(0.3), width: 1),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: dangerColor),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                            color: primaryColor.withOpacity(0.3), width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide:
-                            const BorderSide(color: dangerColor, width: 1.5),
+                            const BorderSide(color: primaryColor, width: 1.5),
                       ),
                     ),
                     validator: (v) => v!.isEmpty ? "BAB wajib diisi" : null,
                   ),
+
                   const SizedBox(height: 16),
                   const Text("Keterangan",
                       style: TextStyle(fontWeight: FontWeight.w600)),
@@ -222,30 +238,35 @@ class _DokumenModalState extends State<DokumenModal> {
                     controller: _descController,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: primaryColor.withOpacity(0.2),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 15),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: dangerColor),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                            color: primaryColor.withOpacity(0.3), width: 1),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: dangerColor),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                            color: primaryColor.withOpacity(0.3), width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide:
-                            const BorderSide(color: dangerColor, width: 1.5),
+                            const BorderSide(color: primaryColor, width: 1.5),
                       ),
                     ),
                     maxLines: 2,
                   ),
+
                   const SizedBox(height: 25),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: dangerColor,
+                        backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),

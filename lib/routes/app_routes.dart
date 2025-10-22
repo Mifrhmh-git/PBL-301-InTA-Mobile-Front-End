@@ -1,6 +1,7 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
+  Routes._();
   static const WELCOME = _Paths.WELCOME;
   static const HOME = _Paths.HOME;
   static const JADWAL = _Paths.JADWAL;
@@ -14,6 +15,7 @@ abstract class Routes {
 }
 
 abstract class _Paths {
+  _Paths._();
   static const WELCOME = '/welcome';
   static const HOME = '/home';
   static const JADWAL = '/jadwal';
@@ -21,10 +23,11 @@ abstract class _Paths {
   static const DOKUMEN = '/dokumen';
   static const PROFILE = '/profile';
   static const NOTIFIKASI = '/notifikasi';
-  static const FORM_JADWAL = '/form_jadwal';
+  static const FORM_JADWAL = '/form-jadwal';
   static const KELOLA_AKUN = '/kelola-akun';
   static const INFORMASI_DOSPEM = '/informasi-dospem';
 }
+
 
 
 
