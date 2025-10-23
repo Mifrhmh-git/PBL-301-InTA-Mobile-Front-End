@@ -29,12 +29,146 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
   void initState() {
     super.initState();
 
-    // === Contoh data ajuan dosen ===
     _judulController.text = "Diskusi Revisi BAB II";
     _dosenController.text = "Dr. Dosen Pembimbing";
     _tanggalController.text = "Rabu, 23 Oktober 2025";
     _waktuController.text = "10:00";
     _lokasiController.text = "Ruang B.203";
+  }
+
+  void _showTolakModal(BuildContext context) {
+    final TextEditingController alasanCtrl = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.55,
+          minChildSize: 0.4,
+          maxChildSize: 0.8,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+              ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 60,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    const Center(
+                      child: Text(
+                        "Alasan Penolakan Jadwal",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    const Text(
+                      "Tuliskan alasan Anda menolak jadwal ini:",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: alasanCtrl,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        hintText: "Masukkan alasan penolakan...",
+                        hintStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.black54,
+                        ),
+                        filled: true,
+                        fillColor: primaryColor.withOpacity(0.2),
+                        contentPadding: const EdgeInsets.all(14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.back();
+                          Get.snackbar(
+                            "Ditolak",
+                            "Jadwal ditolak dan dikirim ke mahasiswa",
+                            backgroundColor: Colors.white, // 🔹 putih
+                            colorText: Colors.black, // 🔹 tulisan hitam
+                            snackPosition: SnackPosition.TOP,
+                            margin: const EdgeInsets.all(16),
+                            borderRadius: 12,
+                            icon: const Icon(
+                              Icons.info_outline,
+                              color: Colors.black,
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Kirim Penolakan",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -49,6 +183,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Poppins',
           ),
         ),
         centerTitle: true,
@@ -59,24 +194,14 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
           onPressed: () => Get.back(),
         ),
       ),
-
-      // === BODY ===
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _buildTextField(
-              "Judul Bimbingan",
-              _judulController,
-              readOnly: isDosenMode,
-            ),
-            _buildTextField(
-              "Dosen Pembimbing",
-              _dosenController,
-              readOnly: isDosenMode,
-            ),
-
-            // === Tanggal ===
+            _buildTextField("Judul Bimbingan", _judulController,
+                readOnly: isDosenMode),
+            _buildTextField("Dosen Pembimbing", _dosenController,
+                readOnly: isDosenMode),
             GestureDetector(
               onTap: isDosenMode
                   ? null
@@ -101,7 +226,6 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                           );
                         },
                       );
-
                       if (pickedDate != null) {
                         _tanggalController.text =
                             DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
@@ -113,23 +237,12 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                 child: _buildTextField("Tanggal", _tanggalController),
               ),
             ),
-
-            _buildTextField(
-              "Waktu (contoh: 10:30)",
-              _waktuController,
-              readOnly: isDosenMode,
-            ),
-            _buildTextField(
-              "Lokasi",
-              _lokasiController,
-              readOnly: isDosenMode,
-            ),
-
+            _buildTextField("Waktu (contoh: 10:30)", _waktuController,
+                readOnly: isDosenMode),
+            _buildTextField("Lokasi", _lokasiController,
+                readOnly: isDosenMode),
             const SizedBox(height: 25),
-
-            // === TOMBOL AKSI ===
             if (!isDosenMode)
-              // === MODE MAHASISWA ===
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -139,10 +252,8 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    elevation: 3,
                   ),
                   onPressed: () {
-                    FocusScope.of(context).unfocus();
                     Get.back();
                     Get.snackbar(
                       "Berhasil",
@@ -160,26 +271,29 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                 ),
               )
             else
-              // === MODE DOSEN ===
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        FocusScope.of(context).unfocus();
                         Get.snackbar(
                           "Diterima",
                           "Jadwal diterima mahasiswa",
-                          backgroundColor: Colors.green,
-                          colorText: Colors.white,
+                          backgroundColor: Colors.white,
+                          colorText: Colors.black,
                           snackPosition: SnackPosition.TOP,
                           margin: const EdgeInsets.all(16),
                           borderRadius: 12,
+                          icon: const Icon(
+                            Icons.check_circle_outline,
+                            color: Colors.black,
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -194,6 +308,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ),
@@ -201,41 +316,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        final TextEditingController alasanCtrl =
-                            TextEditingController();
-                        Get.defaultDialog(
-                          title: "Tolak Jadwal",
-                          titleStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                          content: TextField(
-                            controller: alasanCtrl,
-                            maxLines: 3,
-                            decoration: const InputDecoration(
-                              hintText: "Masukkan alasan penolakan...",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          textConfirm: "Kirim",
-                          confirmTextColor: Colors.white,
-                          buttonColor: primaryColor,
-                          onConfirm: () {
-                            Get.back();
-                            Get.snackbar(
-                              "Ditolak",
-                              "Jadwal ditolak dan dikirim ke dosen",
-                              backgroundColor: Colors.red,
-                              colorText: Colors.white,
-                              snackPosition: SnackPosition.TOP,
-                              margin: const EdgeInsets.all(16),
-                              borderRadius: 12,
-                            );
-                          },
-                        );
-                      },
+                      onPressed: () => _showTolakModal(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -248,6 +329,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ),
@@ -269,6 +351,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
         readOnly: readOnly,
         decoration: InputDecoration(
           labelText: label,
+          labelStyle: const TextStyle(fontFamily: 'Poppins'),
           filled: true,
           fillColor: primaryColor.withOpacity(0.1),
           contentPadding:

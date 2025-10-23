@@ -24,7 +24,10 @@ class DokumenPage extends StatelessWidget {
           title: const Text(
             "Dokumen",
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -41,15 +44,18 @@ class DokumenPage extends StatelessWidget {
             // --- TabBar di body ---
             Container(
               margin: const EdgeInsets.symmetric(
-                  horizontal: defaultMargin, vertical: 12),
+                horizontal: defaultMargin,
+                vertical: 12,
+              ),
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: const TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
+                // 🔴 Ubah warna aktif tab ke dangerColor
                 indicator: BoxDecoration(
-                  color: primaryColor,
+                  color: dangerColor,
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
                 labelColor: Colors.white,
@@ -75,7 +81,8 @@ class DokumenPage extends StatelessWidget {
 
         // === TOMBOL TAMBAH ===
         floatingActionButton: FloatingActionButton(
-          backgroundColor: dangerColor,
+          // 🔵 Ganti ke primaryColor
+          backgroundColor: primaryColor,
           onPressed: () {
             showModalBottomSheet(
               isScrollControlled: true,
@@ -93,35 +100,43 @@ class DokumenPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [primaryColor, dangerColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight),
+              colors: [primaryColor, dangerColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _BottomNavItem(
-                  icon: Icons.home,
-                  label: "Beranda",
-                  onTap: () => Get.offAllNamed(Routes.HOME)),
+                icon: Icons.home,
+                label: "Beranda",
+                onTap: () => Get.offAllNamed(Routes.HOME),
+              ),
               _BottomNavItem(
-                  icon: Icons.calendar_month,
-                  label: "Jadwal",
-                  onTap: () => Get.offAllNamed(Routes.JADWAL)),
+                icon: Icons.calendar_month,
+                label: "Jadwal",
+                onTap: () => Get.offAllNamed(Routes.JADWAL),
+              ),
               _BottomNavItem(
-                  icon: Icons.bar_chart_outlined,
-                  label: "Kanban",
-                  onTap: () => Get.offAllNamed(Routes.KANBAN)),
+                icon: Icons.bar_chart_outlined,
+                label: "Kanban",
+                onTap: () => Get.offAllNamed(Routes.KANBAN),
+              ),
               _BottomNavItem(
-                  icon: Icons.description_outlined,
-                  label: "Dokumen",
-                  onTap: () {}),
+                icon: Icons.description_outlined,
+                label: "Dokumen",
+                onTap: () {},
+              ),
               _BottomNavItem(
-                  icon: Icons.person_outline,
-                  label: "Profile",
-                  onTap: () => Get.offAllNamed(Routes.PROFILE)),
+                icon: Icons.person_outline,
+                label: "Profile",
+                onTap: () => Get.offAllNamed(Routes.PROFILE),
+              ),
             ],
           ),
         ),
@@ -134,7 +149,9 @@ class DokumenPage extends StatelessWidget {
     return Obx(
       () => ListView.builder(
         padding: const EdgeInsets.symmetric(
-            vertical: 8, horizontal: defaultMargin),
+          vertical: 8,
+          horizontal: defaultMargin,
+        ),
         itemCount: list.length,
         itemBuilder: (context, index) {
           final dokumen = list[index];
@@ -173,8 +190,11 @@ class _BottomNavItem extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _BottomNavItem(
-      {required this.icon, required this.label, required this.onTap});
+  const _BottomNavItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -185,11 +205,14 @@ class _BottomNavItem extends StatelessWidget {
         children: [
           Icon(icon, color: Colors.white, size: 26),
           const SizedBox(height: 4),
-          Text(label,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );

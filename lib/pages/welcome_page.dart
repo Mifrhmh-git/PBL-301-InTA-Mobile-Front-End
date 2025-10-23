@@ -26,23 +26,31 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
+
+            // 🔹 Judul lebih tebal
             Text(
               "Selamat Datang di InTA",
               style: blackTextStyle.copyWith(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontWeight: FontWeight.w900, // lebih tebal dari bold
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
+
+            // 🔸 Subjudul warna hitam
             Text(
               "Aplikasi informasi tugas akhir mahasiswa Polibatam.",
-              style: greyTextStyle.copyWith(fontSize: 15),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 50),
 
-            // Tombol Create Account
+            // 🔹 Tombol Create Account
             SizedBox(
               height: 55,
               width: double.infinity,
@@ -65,14 +73,15 @@ class WelcomePage extends StatelessWidget {
             ),
             const SizedBox(height: 15),
 
-            // Tombol Login
+            // 🔸 Tombol Login warna Danger
             SizedBox(
               height: 55,
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () => showLoginModal(context),
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: primaryColor, width: 2),
+                  side: BorderSide(color: dangerColor, width: 2),
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -82,11 +91,12 @@ class WelcomePage extends StatelessWidget {
                   style: blackTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: primaryColor,
+                    color: dangerColor,
                   ),
                 ),
               ),
             ),
+
             const SizedBox(height: 40),
             Text(
               "All rights reserved ©2025",
