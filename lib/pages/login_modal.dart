@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import '../routes/app_pages.dart';
-import 'text_field_builder.dart';
 
 void showLoginModal(BuildContext context) {
   String selectedUser = "Mahasiswa";
+  final idController = TextEditingController();
+  final passwordController = TextEditingController();
 
   showModalBottomSheet(
     isScrollControlled: true,
@@ -19,9 +20,9 @@ void showLoginModal(BuildContext context) {
           expand: false,
           builder: (context, scrollController) {
             return Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
@@ -32,7 +33,7 @@ void showLoginModal(BuildContext context) {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header
+                    // ===== Header =====
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -51,14 +52,18 @@ void showLoginModal(BuildContext context) {
                     ),
                     const SizedBox(height: 25),
 
-                    // Dropdown Jenis User
-                    Text("Jenis Pengguna", style: greyTextStyle),
-                    const SizedBox(height: 5),
+                    // ===== Dropdown Jenis Pengguna =====
+                    _buildLabel("Jenis Pengguna"),
+                    const SizedBox(height: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade400),
+                        color: primaryColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: primaryColor.withOpacity(0.3),
+                          width: 1,
+                        ),
                       ),
                       child: DropdownButton<String>(
                         value: selectedUser,
@@ -74,15 +79,19 @@ void showLoginModal(BuildContext context) {
                         },
                       ),
                     ),
+                    const SizedBox(height: 20),
+
+                    // ===== ID Learning =====
+                    _buildLabel("ID Learning"),
+                    _buildField(controller: idController),
                     const SizedBox(height: 15),
 
-                    // Form Login
-                    buildTextField("ID Learning", Icons.badge_outlined),
-                    const SizedBox(height: 15),
-                    buildTextField("Password", Icons.lock_outline, isPassword: true),
+                    // ===== Password =====
+                    _buildLabel("Password"),
+                    _buildField(controller: passwordController, isPassword: true),
                     const SizedBox(height: 25),
 
-                    // Tombol Masuk
+                    // ===== Tombol Masuk =====
                     SizedBox(
                       height: 55,
                       width: double.infinity,
@@ -113,5 +122,54 @@ void showLoginModal(BuildContext context) {
         );
       });
     },
+  );
+}
+
+// ===== Label =====
+Widget _buildLabel(String text) {
+  return Text(
+    text,
+    style: const TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 14,
+      color: Colors.black,
+    ),
+  );
+}
+
+// ===== Field (gaya kanban) =====
+Widget _buildField({
+  required TextEditingController controller,
+  bool isPassword = false,
+}) {
+  return TextField(
+    controller: controller,
+    obscureText: isPassword,
+    decoration: InputDecoration(
+      filled: true,
+      fillColor: primaryColor.withOpacity(0.2), // 🎨 warna seperti kanban
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          color: primaryColor.withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          color: primaryColor.withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: primaryColor,
+          width: 1.5,
+        ),
+      ),
+    ),
   );
 }

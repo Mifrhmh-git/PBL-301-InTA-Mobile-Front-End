@@ -87,7 +87,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  "Rahayu Suci Ramadhani",
+                  "Putri Balqis",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
