@@ -12,6 +12,10 @@ abstract class Routes {
   static const FORM_JADWAL = _Paths.FORM_JADWAL;
   static const KELOLA_AKUN = _Paths.KELOLA_AKUN;
   static const INFORMASI_DOSPEM = _Paths.INFORMASI_DOSPEM;
+
+  // 🟨 Tambahan baru
+  static const LENGKAPI_DATA = _Paths.LENGKAPI_DATA;
+  static const PILIH_DOSEN = _Paths.PILIH_DOSEN;
 }
 
 abstract class _Paths {
@@ -26,11 +30,8 @@ abstract class _Paths {
   static const FORM_JADWAL = '/form-jadwal';
   static const KELOLA_AKUN = '/kelola-akun';
   static const INFORMASI_DOSPEM = '/informasi-dospem';
+
+  // 🟨 Tambahan baru
+  static const LENGKAPI_DATA = '/lengkapi-data';
+  static const PILIH_DOSEN = '/pilih-dosen';
 }
-
-
-
-
-
-
-

@@ -11,6 +11,11 @@ import 'package:inta301/pages/welcome_page.dart';
 import 'package:inta301/pages/kelola_akun_page.dart';
 import 'package:inta301/pages/informasi_dospem_page.dart';
 
+// 🆕 Tambahan baru
+import 'package:inta301/pages/lengkapi_data_page.dart';
+import 'package:inta301/pages/pilih_dosen_page.dart';
+import 'package:inta301/pages/mahasiswa_controller.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -57,7 +62,7 @@ class AppPages {
       page: () {
         final args = Get.arguments as Map<String, dynamic>? ?? {};
         final jadwalId = args["jadwalId"] ?? 0;
-        final mode = args["mode"] ?? "mahasiswa"; // default mode mahasiswa
+        final mode = args["mode"] ?? "mahasiswa";
         return FormJadwalBimbinganPage(
           jadwalId: jadwalId,
           mode: mode,
@@ -72,6 +77,19 @@ class AppPages {
     GetPage(
       name: _Paths.INFORMASI_DOSPEM,
       page: () => const InformasiDospemPage(),
+    ),
+
+    // 🟩 Tambahan halaman baru
+    GetPage(
+      name: _Paths.LENGKAPI_DATA,
+      page: () => LengkapiDataPage(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<MahasiswaController>(() => MahasiswaController());
+      }),
+    ),
+    GetPage(
+      name: _Paths.PILIH_DOSEN,
+      page: () => PilihDosenPage(),
     ),
   ];
 }

@@ -97,7 +97,18 @@ void showLoginModal(BuildContext context) {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.offAllNamed(Routes.HOME);
+                          if (selectedUser == "Mahasiswa") {
+                            // Cek apakah mahasiswa sudah melengkapi data atau belum
+                            bool sudahLengkapiData = false; // nanti bisa ganti dari backend / local storage
+
+                            if (sudahLengkapiData == false) {
+                              Get.offAllNamed(Routes.LENGKAPI_DATA);
+                            } else {
+                              Get.offAllNamed(Routes.HOME);
+                            }
+                          } else if (selectedUser == "Dosen") {
+                            Get.offAllNamed(Routes.HOME);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
