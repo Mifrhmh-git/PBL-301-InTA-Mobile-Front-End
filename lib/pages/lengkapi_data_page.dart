@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart'; // pastikan ada primaryColor & dangerColor
+import '../shared/shared.dart';
+import 'cari_dosen_page.dart'; // pastikan file ini ada
 
 class LengkapiDataPage extends StatefulWidget {
   const LengkapiDataPage({super.key});
@@ -26,7 +27,6 @@ class _LengkapiDataPageState extends State<LengkapiDataPage> {
     }
   }
 
-  // Reusable input decoration seperti modal Kanban
   InputDecoration _fieldDecoration({String? hintText}) {
     return InputDecoration(
       filled: true,
@@ -62,7 +62,7 @@ class _LengkapiDataPageState extends State<LengkapiDataPage> {
     return Scaffold(
       body: Column(
         children: [
-          // Bagian atas gradient tanpa lengkungan
+          // Bagian atas gradient
           Container(
             width: double.infinity,
             height: 200,
@@ -119,7 +119,7 @@ class _LengkapiDataPageState extends State<LengkapiDataPage> {
             ),
           ),
 
-          // Bagian bawah form
+          // Bagian form bawah
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -167,52 +167,63 @@ class _LengkapiDataPageState extends State<LengkapiDataPage> {
 
                   const Text("Portofolio",
                       style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 6),
-                  GestureDetector(
-                    onTap: pickFile,
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: primaryColor.withOpacity(0.3),
-                          width: 1,
-                        ),
+                  const SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor.withOpacity(0.2),
+                      border: Border.all(
+                        color: primaryColor.withOpacity(0.3),
+                        width: 1,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
                             child: Text(
-                              selectedFileName ?? "Upload file portofolio",
-                              style: TextStyle(
-                                color: selectedFileName == null
-                                    ? Colors.grey[600]
-                                    : Colors.black,
-                              ),
+                              selectedFileName ?? 'Belum ada file dipilih',
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Icon(Icons.upload_file,
-                                color: Colors.grey, size: 20),
+                        ),
+                        Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
                           ),
-                        ],
-                      ),
+                          child: TextButton(
+                            onPressed: pickFile,
+                            child: const Text(
+                              "Pilih File",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 32),
 
-                  // Tombol Simpan
+                  const SizedBox(height: 32),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.snackbar("Berhasil", "Data berhasil disimpan",
-                            backgroundColor: primaryColor.withOpacity(0.9),
-                            colorText: Colors.white);
+                        Get.snackbar(
+                          "Berhasil",
+                          "Data berhasil disimpan",
+                          backgroundColor: primaryColor.withOpacity(0.9),
+                          colorText: Colors.white,
+                        );
+
+                        // Arahkan ke halaman cari dosen pembimbing
+                        Future.delayed(const Duration(seconds: 1), () {
+                          Get.offAll(() => const CariDosenPage());
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,

@@ -10,8 +10,6 @@ import 'package:inta301/pages/profile_page.dart';
 import 'package:inta301/pages/welcome_page.dart';
 import 'package:inta301/pages/kelola_akun_page.dart';
 import 'package:inta301/pages/informasi_dospem_page.dart';
-
-// 🆕 Tambahan baru
 import 'package:inta301/pages/lengkapi_data_page.dart';
 import 'package:inta301/pages/pilih_dosen_page.dart';
 import 'package:inta301/pages/mahasiswa_controller.dart';
@@ -56,7 +54,6 @@ class AppPages {
       page: () => const NotifikasiPage(),
     ),
 
-    // 🟦 FORM JADWAL BIMBINGAN
     GetPage(
       name: _Paths.FORM_JADWAL,
       page: () {
@@ -79,7 +76,6 @@ class AppPages {
       page: () => const InformasiDospemPage(),
     ),
 
-    // 🟩 Tambahan halaman baru
     GetPage(
       name: _Paths.LENGKAPI_DATA,
       page: () => LengkapiDataPage(),
