@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../shared/shared.dart'; // pastikan ini sesuai path project kamu
+import '../shared/shared.dart';
+import 'detail_dosen_page.dart'; // ⬅️ tambahkan import ini
 
 class PilihDosenPage extends StatefulWidget {
   const PilihDosenPage({super.key});
@@ -11,18 +12,34 @@ class PilihDosenPage extends StatefulWidget {
 class _PilihDosenPageState extends State<PilihDosenPage> {
   final TextEditingController searchController = TextEditingController();
 
-  // contoh data dosen
   final List<Map<String, String>> dosenList = [
-    {"nama": "Sukma Evadini, S.T., M.Kom", "jabatan": "Dosen"},
-    {"nama": "Andi Prasetyo, M.T.", "jabatan": "Dosen"},
-    {"nama": "Rina Kusuma, S.Kom., M.Kom", "jabatan": "Dosen"},
+    {
+      "nama": "Sukma Evadini, S.T., M.Kom",
+      "jabatan": "Dosen",
+      "email": "gmail@gmail.com",
+      "nik": "1234556789",
+      "keahlian": "Bidang Keahlian"
+    },
+    {
+      "nama": "Andi Prasetyo, M.T.",
+      "jabatan": "Dosen",
+      "email": "andi@gmail.com",
+      "nik": "9876543210",
+      "keahlian": "Sistem Informasi"
+    },
+    {
+      "nama": "Rina Kusuma, S.Kom., M.Kom",
+      "jabatan": "Dosen",
+      "email": "rina@gmail.com",
+      "nik": "1122334455",
+      "keahlian": "Rekayasa Perangkat Lunak"
+    },
   ];
 
   String query = "";
 
   @override
   Widget build(BuildContext context) {
-    // filter hasil pencarian
     final filteredList = dosenList
         .where((dosen) =>
             dosen["nama"]!.toLowerCase().contains(query.toLowerCase()))
@@ -32,30 +49,33 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Bagian atas (judul dengan background biru)
+          // Header gradient
           Container(
             width: double.infinity,
             height: 160,
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.9),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
+              gradient: LinearGradient(
+                colors: [primaryColor, dangerColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            child: const Center(
-              child: Text(
-                "Pengajuan Dosen",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+            child: const Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Center(
+                child: Text(
+                  "Pengajuan Dosen",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
           ),
 
-          // Bagian isi (search dan list)
+          // Isi halaman
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -64,16 +84,12 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
                   // Search bar
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black54),
+                      border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: TextField(
                       controller: searchController,
-                      onChanged: (val) {
-                        setState(() {
-                          query = val;
-                        });
-                      },
+                      onChanged: (val) => setState(() => query = val),
                       decoration: const InputDecoration(
                         hintText: "Cari dosen pembimbing",
                         prefixIcon: Icon(Icons.search),
@@ -89,40 +105,65 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black54),
-                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      child: ListView.separated(
-                        itemCount: filteredList.length,
-                        separatorBuilder: (context, index) =>
-                            const Divider(height: 1),
-                        itemBuilder: (context, index) {
-                          final dosen = filteredList[index];
-                          return ListTile(
-                            leading: const CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              child: Icon(Icons.person, color: Colors.white),
-                            ),
-                            title: Text(
-                              dosen["nama"]!,
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
+                      child: Column(
+                        children: [
+                          for (int i = 0; i < filteredList.length; i++) ...[
+                            InkWell(
+                              onTap: () {
+                                // ⬅️ navigasi ke halaman detail
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailDosenPage(
+                                      dosen: filteredList[i],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                child: Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundColor: Colors.grey,
+                                      child: Icon(Icons.person,
+                                          color: Colors.white),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          filteredList[i]["nama"]!,
+                                          style: TextStyle(
+                                            color: dangerColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        const Text(
+                                          "Dosen",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            subtitle: Text(dosen["jabatan"]!),
-                            onTap: () {
-                              // aksi ketika memilih dosen
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      "Kamu memilih ${dosen["nama"]!} sebagai pembimbing"),
-                                  backgroundColor: primaryColor,
-                                ),
-                              );
-                            },
-                          );
-                        },
+                            if (i != filteredList.length - 1)
+                              const Divider(height: 1, color: Colors.black),
+                          ],
+                        ],
                       ),
                     ),
                   ),
@@ -135,4 +176,3 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
     );
   }
 }
-
