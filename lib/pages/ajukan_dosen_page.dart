@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../shared/shared.dart';
+import 'ajukan_dosen_terkirim_page.dart'; 
 
 class AjukanDosenPage extends StatelessWidget {
   const AjukanDosenPage({super.key});
@@ -121,10 +122,12 @@ class AjukanDosenPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text("Pengajuan berhasil dikirim!"),
-                            backgroundColor: primaryColor,
+                        // ✅ ubahan hanya di sini
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const AjukanDosenTerkirimPage(),
                           ),
                         );
                       },
@@ -160,7 +163,8 @@ class AjukanDosenPage extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: primaryColor.withOpacity(0.2),
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
