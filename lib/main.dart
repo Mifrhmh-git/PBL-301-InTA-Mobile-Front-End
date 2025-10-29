@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'; // 🟢 tambahkan ini
+import 'package:flutter_localizations/flutter_localizations.dart'; 
 import 'package:inta301/shared/shared.dart';
 import 'routes/app_pages.dart';
 
@@ -26,15 +26,14 @@ class MyApp extends StatelessWidget {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
 
-      // 🟩 Tambahkan ini supaya DatePicker bisa muncul & berfungsi normal
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('id', 'ID'), // Bahasa Indonesia
-        Locale('en', 'US'), // Bahasa Inggris
+        Locale('id', 'ID'), 
+        Locale('en', 'US'), 
       ],
     );
   }
