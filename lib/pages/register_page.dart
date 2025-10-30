@@ -3,23 +3,31 @@ import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import '../routes/app_pages.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final nameController = TextEditingController();
-    final emailController = TextEditingController();
-    final idController = TextEditingController();
-    final prodiController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmController = TextEditingController();
+  State<RegisterPage> createState() => _RegisterPageState();
+}
 
+class _RegisterPageState extends State<RegisterPage> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final idController = TextEditingController();
+  final prodiController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
+
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // 🔹 Background Gradient
+          // Background Gradient
           Container(
             height: 300,
             decoration: const BoxDecoration(
@@ -27,14 +35,14 @@ class RegisterPage extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF88BDF2), // primaryColor
-                  Color(0xFF384959), // dangerColor
+                  Color(0xFF88BDF2),
+                  Color(0xFF384959),
                 ],
               ),
             ),
           ),
 
-          // 🔸 Isi Halaman
+          // Isi Halaman
           SafeArea(
             bottom: false,
             child: ListView(
@@ -42,12 +50,12 @@ class RegisterPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 40),
 
-                // 🔹 Header di bagian atas
+                // 🔹 Header
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       "Halo, Selamat Datang Di InTA",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -56,9 +64,9 @@ class RegisterPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 5),
-                    Text(
+                    const Text(
                       "Silahkan Isi Data Diri Anda Dengan Sesuai",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -71,7 +79,7 @@ class RegisterPage extends StatelessWidget {
 
                 const SizedBox(height: 35),
 
-                // 🔸 Card putih berisi form
+                //  Card putih berisi form
                 Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -81,10 +89,14 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: defaultMargin, vertical: 25),
+                    horizontal: defaultMargin,
+                    vertical: 25,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 20),
+
                       _buildLabel("Nama Lengkap"),
                       _buildField(controller: nameController),
                       const SizedBox(height: 15),
@@ -102,16 +114,31 @@ class RegisterPage extends StatelessWidget {
                       const SizedBox(height: 15),
 
                       _buildLabel("Password"),
-                      _buildField(controller: passwordController,
-                          isPassword: true),
+                      _buildPasswordField(
+                        controller: passwordController,
+                        isVisible: _isPasswordVisible,
+                        onToggle: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
+                        },
+                      ),
                       const SizedBox(height: 15),
 
                       _buildLabel("Konfirmasi Password"),
-                      _buildField(controller: confirmController,
-                          isPassword: true),
+                      _buildPasswordField(
+                        controller: confirmController,
+                        isVisible: _isConfirmPasswordVisible,
+                        onToggle: () {
+                          setState(() {
+                            _isConfirmPasswordVisible =
+                                !_isConfirmPasswordVisible;
+                          });
+                        },
+                      ),
                       const SizedBox(height: 30),
 
-                      // 🔹 Tombol Daftar
+                      // Tombol Daftar
                       SizedBox(
                         height: 50,
                         width: double.infinity,
@@ -120,7 +147,7 @@ class RegisterPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF384959),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(16), 
                             ),
                           ),
                           child: Text(
@@ -135,7 +162,7 @@ class RegisterPage extends StatelessWidget {
 
                       const SizedBox(height: 20),
 
-                      // 🔸 Sudah punya akun?
+                      // Sudah punya akun?
                       Center(
                         child: RichText(
                           text: TextSpan(
@@ -165,53 +192,96 @@ class RegisterPage extends StatelessWidget {
       ),
     );
   }
-}
 
-// ===== Reusable Widgets =====
-Widget _buildLabel(String text) {
-  return Text(
-    text,
-    style: const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 14,
-      color: Colors.black,
-    ),
-  );
-}
+  // ===== Reusable Widgets =====
+  Widget _buildLabel(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+        color: Colors.black,
+      ),
+    );
+  }
 
-Widget _buildField({
-  required TextEditingController controller,
-  bool isPassword = false,
-}) {
-  return TextField(
-    controller: controller,
-    obscureText: isPassword,
-    decoration: InputDecoration(
-      filled: true,
-      fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
-      contentPadding:
-          const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(
-          color: const Color(0xFF88BDF2).withOpacity(0.3),
-          width: 1,
+  Widget _buildField({
+    required TextEditingController controller,
+  }) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16), 
+          borderSide: BorderSide(
+            color: const Color(0xFF88BDF2).withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16), 
+          borderSide: BorderSide(
+            color: const Color(0xFF88BDF2).withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)), 
+          borderSide: BorderSide(
+            color: Color(0xFF88BDF2),
+            width: 1.5,
+          ),
         ),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(
-          color: const Color(0xFF88BDF2).withOpacity(0.3),
-          width: 1,
+    );
+  }
+
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required bool isVisible,
+    required VoidCallback onToggle,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: !isVisible,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16), 
+          borderSide: BorderSide(
+            color: const Color(0xFF88BDF2).withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16), 
+          borderSide: BorderSide(
+            color: const Color(0xFF88BDF2).withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)), 
+          borderSide: BorderSide(
+            color: Color(0xFF88BDF2),
+            width: 1.5,
+          ),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isVisible ? Icons.visibility : Icons.visibility_off,
+            color: const Color(0xFF384959),
+          ),
+          onPressed: onToggle,
         ),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: const BorderSide(
-          color: Color(0xFF88BDF2),
-          width: 1.5,
-        ),
-      ),
-    ),
-  );
+    );
+  }
 }

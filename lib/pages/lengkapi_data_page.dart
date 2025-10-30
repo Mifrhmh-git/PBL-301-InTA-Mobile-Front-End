@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import '../shared/shared.dart';
-import 'cari_dosen_page.dart'; // pastikan file ini ada
+import 'cari_dosen_page.dart';
 
 class LengkapiDataPage extends StatefulWidget {
   const LengkapiDataPage({super.key});
@@ -34,22 +34,22 @@ class _LengkapiDataPageState extends State<LengkapiDataPage> {
       hintText: hintText,
       contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: BorderSide(
           color: primaryColor.withOpacity(0.3),
           width: 1,
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: BorderSide(
           color: primaryColor.withOpacity(0.3),
           width: 1,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
+        borderRadius: BorderRadius.circular(16), 
+        borderSide: BorderSide(
           color: primaryColor,
           width: 1.5,
         ),
@@ -60,191 +60,207 @@ class _LengkapiDataPageState extends State<LengkapiDataPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.white,
+      body: Stack(
         children: [
-          // Bagian atas gradient
+          // Background Gradient
           Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
+            height: 300,
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [primaryColor, dangerColor],
+                colors: [
+                  Color(0xFF88BDF2),
+                  Color(0xFF384959),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+          ),
+
+          SafeArea(
+            bottom: false,
+            child: ListView(
+              padding: EdgeInsets.zero,
               children: [
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 55,
-                        color: primaryColor,
+                const SizedBox(height: 40),
+
+                //  Header
+                Column(
+                  children: const [
+                    Text(
+                      "Lengkapi Data Diri Anda",
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.white,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 4,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        padding: const EdgeInsets.all(6),
-                        child: const Icon(
-                          Icons.camera_alt,
-                          size: 16,
-                          color: Colors.white,
-                        ),
+                    SizedBox(height: 5),
+                    Text(
+                      "Pastikan data yang Anda isi sudah benar",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  "Lengkapi Data",
-                  style: TextStyle(
+
+                const SizedBox(height: 35),
+
+                // Card putih isi form
+                Container(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(60),
+                      topRight: Radius.circular(60),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: defaultMargin,
+                    vertical: 25,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+
+                      const Text(
+                        "Nama Lengkap",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: namaController,
+                        decoration:
+                            _fieldDecoration(hintText: "Masukkan nama lengkap"),
+                      ),
+                      const SizedBox(height: 16),
+
+                      const Text(
+                        "NIM",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: nimController,
+                        decoration:
+                            _fieldDecoration(hintText: "Masukkan NIM Anda"),
+                      ),
+                      const SizedBox(height: 16),
+
+                      const Text(
+                        "Program Studi",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: prodiController,
+                        decoration: _fieldDecoration(
+                            hintText: "Masukkan program studi Anda"),
+                      ),
+                      const SizedBox(height: 16),
+
+                      const Text(
+                        "Bidang Keahlian",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: keahlianController,
+                        decoration: _fieldDecoration(
+                            hintText: "Masukkan bidang keahlian Anda"),
+                      ),
+                      const SizedBox(height: 16),
+
+                      const Text(
+                        "Portofolio",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: primaryColor.withOpacity(0.2),
+                          border: Border.all(
+                            color: primaryColor.withOpacity(0.3),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(16), 
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  selectedFileName ?? 'Belum ada file dipilih',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(16), 
+                                  bottomRight: Radius.circular(16), 
+                                ),
+                              ),
+                              child: TextButton(
+                                onPressed: pickFile,
+                                child: const Text(
+                                  "Pilih File",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      // Tombol Simpan 
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.offAll(() => const CariDosenPage());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: dangerColor,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(16), 
+                            ),
+                          ),
+                          child: const Text(
+                            "Simpan",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 40),
+                    ],
                   ),
                 ),
               ],
-            ),
-          ),
-
-          // Bagian form bawah
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Nama Lengkap",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: namaController,
-                    decoration:
-                        _fieldDecoration(hintText: "Masukkan nama lengkap"),
-                  ),
-                  const SizedBox(height: 16),
-
-                  const Text("NIM",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: nimController,
-                    decoration: _fieldDecoration(hintText: "Masukkan NIM"),
-                  ),
-                  const SizedBox(height: 16),
-
-                  const Text("Program Studi",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: prodiController,
-                    decoration:
-                        _fieldDecoration(hintText: "Masukkan program studi"),
-                  ),
-                  const SizedBox(height: 16),
-
-                  const Text("Bidang Keahlian",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: keahlianController,
-                    decoration:
-                        _fieldDecoration(hintText: "Masukkan bidang keahlian"),
-                  ),
-                  const SizedBox(height: 16),
-
-                  const Text("Portofolio",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(0.2),
-                      border: Border.all(
-                        color: primaryColor.withOpacity(0.3),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text(
-                              selectedFileName ?? 'Belum ada file dipilih',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
-                            ),
-                          ),
-                          child: TextButton(
-                            onPressed: pickFile,
-                            child: const Text(
-                              "Pilih File",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.snackbar(
-                          "Berhasil",
-                          "Data berhasil disimpan",
-                          backgroundColor: primaryColor.withOpacity(0.9),
-                          colorText: Colors.white,
-                        );
-
-                        // Arahkan ke halaman cari dosen pembimbing
-                        Future.delayed(const Duration(seconds: 1), () {
-                          Get.offAll(() => const CariDosenPage());
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 60, vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: const Text(
-                        "Simpan",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
         ],

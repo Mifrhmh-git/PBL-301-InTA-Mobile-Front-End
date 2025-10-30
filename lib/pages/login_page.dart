@@ -30,53 +30,51 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF88BDF2), // primaryColor
-                  Color(0xFF384959), // dangerColor
+                  Color(0xFF88BDF2), 
+                  Color(0xFF384959), 
                 ],
               ),
             ),
           ),
 
-          // 🔸 Isi Halaman
+          // Isi Halaman
           SafeArea(
             bottom: false,
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                const SizedBox(height: 80),
+                const SizedBox(height: 40),
 
-                // 🔹 Judul tanpa logo
-                Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        "Selamat Datang Kembali",
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
+                //  Header
+                Column(
+                  children: [
+                    const Text(
+                      "Halo, Selamat Datang Di InTA",
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.white,
                       ),
-                      const SizedBox(height: 6),
-                      Text(
-                        "Silakan masuk untuk melanjutkan",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 5),
+                    const Text(
+                      "Silakan masuk untuk melanjutkan",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
 
-                const SizedBox(height: 50),
+                const SizedBox(height: 35),
 
-                // 🔸 Card putih berisi form
+                // Card putih berisi form
                 Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -86,17 +84,21 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: defaultMargin, vertical: 25),
+                    horizontal: defaultMargin,
+                    vertical: 25,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 20),
+
                       _buildLabel("Jenis Pengguna"),
                       const SizedBox(height: 6),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         decoration: BoxDecoration(
                           color: const Color(0xFF88BDF2).withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(16), 
                           border: Border.all(
                             color: const Color(0xFF88BDF2).withOpacity(0.3),
                             width: 1,
@@ -107,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                           isExpanded: true,
                           underline: const SizedBox(),
                           dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(16), 
                           items: const [
                             DropdownMenuItem(
                                 value: "Mahasiswa", child: Text("Mahasiswa")),
@@ -138,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 30),
 
-                      // 🔹 Tombol Login
+                      // Tombol Login 
                       SizedBox(
                         height: 50,
                         width: double.infinity,
@@ -158,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF384959),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(16), 
                             ),
                           ),
                           child: Text(
@@ -243,21 +245,21 @@ Widget _buildField({
       contentPadding:
           const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: BorderSide(
           color: const Color(0xFF88BDF2).withOpacity(0.3),
           width: 1,
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: BorderSide(
           color: const Color(0xFF88BDF2).withOpacity(0.3),
           width: 1,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: const BorderSide(
           color: Color(0xFF88BDF2),
           width: 1.5,

@@ -40,8 +40,9 @@ class CariDosenPage extends StatelessWidget {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(16), // ✅ ubah jadi 16
                     ),
+                    elevation: 4, // opsional: bayangan halus
                   ),
                   child: const Text(
                     "Cari Dosen Pembimbing",

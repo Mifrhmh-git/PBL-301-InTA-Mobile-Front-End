@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../shared/shared.dart';
-import 'detail_dosen_page.dart'; // ⬅️ tambahkan import ini
+import 'ajukan_dosen_page.dart';
 
 class PilihDosenPage extends StatefulWidget {
   const PilihDosenPage({super.key});
@@ -12,27 +12,21 @@ class PilihDosenPage extends StatefulWidget {
 class _PilihDosenPageState extends State<PilihDosenPage> {
   final TextEditingController searchController = TextEditingController();
 
-  final List<Map<String, String>> dosenList = [
+  final List<Map<String, dynamic>> dosenList = [
     {
       "nama": "Sukma Evadini, S.T., M.Kom",
-      "jabatan": "Dosen",
-      "email": "gmail@gmail.com",
-      "nik": "1234556789",
-      "keahlian": "Bidang Keahlian"
+      "prodi": "Dosen Teknik Informatika",
+      "bimbingan": "5 dari 10 Mahasiswa",
     },
     {
       "nama": "Andi Prasetyo, M.T.",
-      "jabatan": "Dosen",
-      "email": "andi@gmail.com",
-      "nik": "9876543210",
-      "keahlian": "Sistem Informasi"
+      "prodi": "Dosen Teknik Informatika",
+      "bimbingan": "2 dari 10 Mahasiswa",
     },
     {
       "nama": "Rina Kusuma, S.Kom., M.Kom",
-      "jabatan": "Dosen",
-      "email": "rina@gmail.com",
-      "nik": "1122334455",
-      "keahlian": "Rekayasa Perangkat Lunak"
+      "prodi": "Dosen Teknik Informatika",
+      "bimbingan": "6 dari 10 Mahasiswa",
     },
   ];
 
@@ -42,133 +36,201 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
   Widget build(BuildContext context) {
     final filteredList = dosenList
         .where((dosen) =>
-            dosen["nama"]!.toLowerCase().contains(query.toLowerCase()))
+            dosen["nama"].toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
+      body: Stack(
         children: [
-          // Header gradient
+          //  HEADER GRADIENT
           Container(
-            width: double.infinity,
-            height: 160,
-            decoration: BoxDecoration(
+            height: 300,
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [primaryColor, dangerColor],
+                colors: [
+                  Color(0xFF88BDF2),
+                  Color(0xFF384959),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: Center(
-                child: Text(
-                  "Pengajuan Dosen",
-                  style: TextStyle(
+          ),
+
+          SafeArea(
+            bottom: false,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                const SizedBox(height: 40),
+
+                //  Header
+                Column(
+                  children: const [
+                    Text(
+                      "Daftar Dosen Pembimbing",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      "Pilih dosen untuk pengajuan bimbingan",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white70,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 60), 
+
+                // Container putih bawah
+                Container(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(60),
+                      topRight: Radius.circular(60),
+                    ),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 35), 
+                  child: Column(
+                    children: [
+                      // 🔍 Search Bar
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black.withOpacity(0.3),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: (val) => setState(() => query = val),
+                          decoration: const InputDecoration(
+                            hintText: "Cari dosen pembimbing...",
+                            prefixIcon: Icon(Icons.search),
+                            border: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 14),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 25), 
+
+                      // 📋 List Dosen
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          final dosen = filteredList[index];
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 14),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.black.withOpacity(0.2),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.06),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: primaryColor,
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        dosen["nama"],
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        dosen["prodi"],
+                                        style: const TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        dosen["bimbingan"],
+                                        style: const TextStyle(
+                                          color: Colors.black45,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16,
+                                    color: Colors.black87,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AjukanDosenPage(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
-              ),
+              ],
             ),
           ),
 
-          // Isi halaman
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  // Search bar
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: (val) => setState(() => query = val),
-                      decoration: const InputDecoration(
-                        hintText: "Cari dosen pembimbing",
-                        prefixIcon: Icon(Icons.search),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 15),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // List dosen
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        children: [
-                          for (int i = 0; i < filteredList.length; i++) ...[
-                            InkWell(
-                              onTap: () {
-                                // ⬅️ navigasi ke halaman detail
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailDosenPage(
-                                      dosen: filteredList[i],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.grey,
-                                      child: Icon(Icons.person,
-                                          color: Colors.white),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          filteredList[i]["nama"]!,
-                                          style: TextStyle(
-                                            color: dangerColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        const Text(
-                                          "Dosen",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            if (i != filteredList.length - 1)
-                              const Divider(height: 1, color: Colors.black),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          // Tombol Back
+          Positioned(
+            top: 50,
+            left: 15,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
         ],
