@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'kanban_controller.dart';
 import '../shared/shared.dart';
 
-/// 🔵 Modal Tambah Task Kanban
 void showAddKanbanModal(
   BuildContext context,
   KanbanController controller,
@@ -66,7 +65,7 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 20),
 
-                  // 🔹 Status Field
+                  // Status Field
                   const Text(
                     "Status",
                     style: TextStyle(
@@ -81,8 +80,7 @@ void showAddKanbanModal(
                     decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
                     items: ["To Do", "In Progress", "Done"]
-                        .map((e) =>
-                            DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       if (value != null) selectedColumn = value;
@@ -90,7 +88,7 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 15),
 
-                  // 🔹 Judul / Bab
+                  //  Judul / Bab
                   const Text(
                     "Judul / Bab",
                     style: TextStyle(
@@ -102,7 +100,7 @@ void showAddKanbanModal(
                   _buildField(controller: titleController),
                   const SizedBox(height: 15),
 
-                  // 🔹 Keterangan
+                  // Keterangan
                   const Text(
                     "Keterangan",
                     style: TextStyle(
@@ -114,7 +112,7 @@ void showAddKanbanModal(
                   _buildField(controller: descriptionController, maxLines: 2),
                   const SizedBox(height: 15),
 
-                  // 🔹 Due Date
+                  //  Due Date
                   const Text(
                     "Due Date",
                     style: TextStyle(
@@ -129,47 +127,45 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 25),
 
-                  // 🔹 Tombol Tambah (kecil & tengah)
-                  Center(
-                    child: SizedBox(
-                      width: 160,
-                      height: 45,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 3,
+                  // Tombol Tambah (full width seperti field)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        onPressed: () {
-                          if (titleController.text.isEmpty ||
-                              dueController.text.isEmpty) {
-                            Get.snackbar(
-                              "Gagal",
-                              "Judul dan tanggal harus diisi!",
-                              backgroundColor: Colors.redAccent,
-                              colorText: Colors.white,
-                              snackPosition: SnackPosition.TOP,
-                            );
-                            return;
-                          }
-
-                          controller.addTaskWithDescription(
-                            titleController.text,
-                            dueController.text,
-                            selectedColumn,
-                            descriptionController.text,
+                        elevation: 3,
+                      ),
+                      onPressed: () {
+                        if (titleController.text.isEmpty ||
+                            dueController.text.isEmpty) {
+                          Get.snackbar(
+                            "Gagal",
+                            "Judul dan tanggal harus diisi!",
+                            backgroundColor: Colors.redAccent,
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.TOP,
                           );
-                          Navigator.pop(context);
-                        },
-                        child: const Text(
-                          "Tambah",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                          return;
+                        }
+
+                        controller.addTaskWithDescription(
+                          titleController.text,
+                          dueController.text,
+                          selectedColumn,
+                          descriptionController.text,
+                        );
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Tambah",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1,
                         ),
                       ),
                     ),
@@ -184,7 +180,7 @@ void showAddKanbanModal(
   );
 }
 
-/// 🔵 Modal Edit Task Kanban
+// Modal Edit Task Kanban
 void showEditKanbanModal(
   BuildContext context,
   KanbanController controller,
@@ -194,8 +190,7 @@ void showEditKanbanModal(
 ) {
   final task = tasks[index];
   final titleController = TextEditingController(text: task.title);
-  final descriptionController =
-      TextEditingController(text: task.description);
+  final descriptionController = TextEditingController(text: task.description);
   final dueController = TextEditingController(text: task.dueDate);
   String selectedColumn = column;
 
@@ -261,8 +256,7 @@ void showEditKanbanModal(
                     decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
                     items: ["To Do", "In Progress", "Done"]
-                        .map((e) =>
-                            DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       if (value != null) selectedColumn = value;
@@ -376,29 +370,37 @@ void showEditKanbanModal(
   );
 }
 
-/// 🧩 Reusable Field Decoration
+//  Reusable Field Decoration
 InputDecoration _fieldDecoration() {
   return InputDecoration(
     filled: true,
-    fillColor: primaryColor.withOpacity(0.15),
-    contentPadding:
-        const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+    fillColor: primaryColor.withOpacity(0.2),
+    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: primaryColor, width: 1.2),
+      borderSide: BorderSide(
+        color: primaryColor.withOpacity(0.3),
+        width: 1,
+      ),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: primaryColor, width: 1.2),
+      borderSide: BorderSide(
+        color: primaryColor.withOpacity(0.3),
+        width: 1,
+      ),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: primaryColor, width: 1.8),
+      borderSide: const BorderSide(
+        color: primaryColor,
+        width: 1.5,
+      ),
     ),
   );
 }
 
-/// 🔧 Field Builder
+//  Field Builder
 Widget _buildField({
   required TextEditingController controller,
   String? hintText,

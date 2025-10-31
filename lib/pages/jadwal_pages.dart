@@ -27,7 +27,6 @@ class _JadwalPageState extends State<JadwalPage> {
     });
   }
 
-  // === MODAL TAMBAH JADWAL ===
   void _showTambahJadwalModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -70,11 +69,11 @@ class _JadwalPageState extends State<JadwalPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Center(
+                    const Center(
                       child: Text(
                         "Ajukan Jadwal Bimbingan",
                         style: TextStyle(
-                          color: primaryColor,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           fontFamily: 'Poppins',
@@ -83,11 +82,15 @@ class _JadwalPageState extends State<JadwalPage> {
                     ),
                     const SizedBox(height: 25),
 
-                    _buildTextField("Judul Bimbingan", Icons.edit_outlined, _judulController),
-                    const SizedBox(height: 15),
-                    _buildTextField("Dosen Pembimbing", Icons.person_outline, _dosenController),
+                    _buildLabel("Judul Bimbingan"),
+                    _buildField(_judulController),
                     const SizedBox(height: 15),
 
+                    _buildLabel("Dosen Pembimbing"),
+                    _buildField(_dosenController),
+                    const SizedBox(height: 15),
+
+                    _buildLabel("Tanggal"),
                     GestureDetector(
                       onTap: () async {
                         FocusScope.of(context).unfocus();
@@ -111,27 +114,43 @@ class _JadwalPageState extends State<JadwalPage> {
                           },
                         );
                         if (pickedDate != null) {
-                          _tanggalController.text =
-                              DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(pickedDate);
+                          _tanggalController.text = DateFormat(
+                                  'EEEE, dd MMMM yyyy', 'id_ID')
+                              .format(pickedDate);
                         }
                       },
                       child: AbsorbPointer(
-                        child: _buildTextField("Tanggal", Icons.calendar_today_outlined, _tanggalController),
+                        child: TextField(
+                          controller: _tanggalController,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                          decoration: _fieldDecoration().copyWith(
+                            suffixIcon: Icon(Icons.calendar_today_outlined,
+                                color: primaryColor),
+                            hintText: "Pilih tanggal bimbingan",
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 15),
 
-                    _buildTextField("Waktu (contoh: 10:30)", Icons.access_time, _waktuController),
+                    _buildLabel("Waktu (contoh: 10:30)"),
+                    _buildField(_waktuController),
                     const SizedBox(height: 15),
-                    _buildTextField("Lokasi", Icons.location_on_outlined, _lokasiController),
+
+                    _buildLabel("Lokasi"),
+                    _buildField(_lokasiController),
                     const SizedBox(height: 30),
 
                     SizedBox(
                       width: double.infinity,
+                      height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
-                          padding: const EdgeInsets.symmetric(vertical: 18),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -151,8 +170,8 @@ class _JadwalPageState extends State<JadwalPage> {
                         child: const Text(
                           "Ajukan",
                           style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
                             fontFamily: 'Poppins',
                           ),
@@ -169,26 +188,49 @@ class _JadwalPageState extends State<JadwalPage> {
     );
   }
 
-  Widget _buildTextField(String label, IconData icon, TextEditingController controller) {
+  InputDecoration _fieldDecoration() {
+    return InputDecoration(
+      filled: true,
+      fillColor: primaryColor.withOpacity(0.2),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide:
+            BorderSide(color: primaryColor.withOpacity(0.3), width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide:
+            BorderSide(color: primaryColor.withOpacity(0.3), width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: primaryColor, width: 1.5),
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+        fontFamily: 'Poppins',
+      ),
+    );
+  }
+
+  Widget _buildField(TextEditingController controller) {
     return TextField(
       controller: controller,
-      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(fontFamily: 'Poppins'),
-        prefixIcon: Icon(icon, color: primaryColor),
-        filled: true,
-        fillColor: primaryColor.withOpacity(0.08),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: primaryColor.withOpacity(0.3), width: 1.3),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: primaryColor, width: 2),
-        ),
+      style: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Poppins',
       ),
+      decoration: _fieldDecoration(),
     );
   }
 
@@ -343,7 +385,14 @@ class _JadwalPageState extends State<JadwalPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: statusColor.withOpacity(0.8), width: 1.8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.25),
+              blurRadius: 8,
+              spreadRadius: 2,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -356,29 +405,43 @@ class _JadwalPageState extends State<JadwalPage> {
                     fontFamily: 'Poppins')),
             const SizedBox(height: 8),
             Text("Dosen: ${item["dosen"]}",
-                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+                style: const TextStyle(
+                    fontSize: 13.5,
+                    color: Colors.black87,
+                    fontFamily: 'Poppins')),
             Text("Tanggal: ${item["tanggal"]}",
-                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+                style: const TextStyle(
+                    fontSize: 13.5,
+                    color: Colors.black87,
+                    fontFamily: 'Poppins')),
             Text("Waktu: ${item["waktu"]}",
-                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+                style: const TextStyle(
+                    fontSize: 13.5,
+                    color: Colors.black87,
+                    fontFamily: 'Poppins')),
             Text("Lokasi: ${item["lokasi"]}",
-                style: const TextStyle(fontSize: 13.5, color: Colors.black87, fontFamily: 'Poppins')),
+                style: const TextStyle(
+                    fontSize: 13.5,
+                    color: Colors.black87,
+                    fontFamily: 'Poppins')),
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerRight,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.12),
+                  color: statusColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   status,
                   style: TextStyle(
-                      color: statusColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                      fontFamily: 'Poppins'),
+                    color: statusColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
             ),
@@ -408,11 +471,26 @@ class _BottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _BottomNavItem(icon: Icons.home, label: "Beranda", onTap: () => Get.offAllNamed(Routes.HOME)),
-          _BottomNavItem(icon: Icons.calendar_month, label: "Jadwal", onTap: () => Get.offAllNamed(Routes.JADWAL)),
-          _BottomNavItem(icon: Icons.bar_chart_outlined, label: "Kanban", onTap: () => Get.offAllNamed(Routes.KANBAN)),
-          _BottomNavItem(icon: Icons.description_outlined, label: "Dokumen", onTap: () => Get.offAllNamed(Routes.DOKUMEN)),
-          _BottomNavItem(icon: Icons.person_outline, label: "Profile", onTap: () => Get.offAllNamed(Routes.PROFILE)),
+          _BottomNavItem(
+              icon: Icons.home,
+              label: "Beranda",
+              onTap: () => Get.offAllNamed(Routes.HOME)),
+          _BottomNavItem(
+              icon: Icons.calendar_month,
+              label: "Jadwal",
+              onTap: () => Get.offAllNamed(Routes.JADWAL)),
+          _BottomNavItem(
+              icon: Icons.bar_chart_outlined,
+              label: "Kanban",
+              onTap: () => Get.offAllNamed(Routes.KANBAN)),
+          _BottomNavItem(
+              icon: Icons.description_outlined,
+              label: "Dokumen",
+              onTap: () => Get.offAllNamed(Routes.DOKUMEN)),
+          _BottomNavItem(
+              icon: Icons.person_outline,
+              label: "Profile",
+              onTap: () => Get.offAllNamed(Routes.PROFILE)),
         ],
       ),
     );
@@ -424,7 +502,8 @@ class _BottomNavItem extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _BottomNavItem({required this.icon, required this.label, required this.onTap});
+  const _BottomNavItem(
+      {required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

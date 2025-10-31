@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inta301/shared/shared.dart';
+<<<<<<< HEAD
 import 'login_modal.dart';
 import 'register_modal.dart';
+=======
+import '../routes/app_pages.dart';
+import 'login_page.dart';
+import 'register_page.dart';
+>>>>>>> 4b3727936e6a4dc44269ce1a94b1059ddfaf9c90
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -13,9 +19,14 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 20),
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultMargin,
+            vertical: 20,
+          ),
           children: [
             const SizedBox(height: 30),
+
+            // Ilustrasi
             Center(
               child: Image.asset(
                 'assets/images/login-image.png',
@@ -23,29 +34,41 @@ class WelcomePage extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
+
             const SizedBox(height: 30),
+
+            //  Judul
             Text(
               "Selamat Datang di InTA",
               style: blackTextStyle.copyWith(
-                fontSize: 22,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto',
               ),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 10),
+
+            //  Deskripsi
             Text(
               "Aplikasi informasi tugas akhir mahasiswa Polibatam.",
-              style: greyTextStyle.copyWith(fontSize: 15),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Poppins',
+              ),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 50),
 
-            // Tombol Create Account
+            //  Tombol Create Account
             SizedBox(
               height: 55,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => showRegisterModal(context),
+                onPressed: () => Get.to(() => const RegisterPage()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
@@ -61,31 +84,37 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 15),
 
             // Tombol Login
             SizedBox(
               height: 55,
               width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () => showLoginModal(context),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: primaryColor, width: 2),
+              child: ElevatedButton(
+                onPressed: () => Get.to(() => const LoginPage()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: dangerColor,
+                  foregroundColor: Colors.white,
+                  shadowColor: primaryColor.withOpacity(0.4),
+                  elevation: 6,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
                 child: Text(
                   "Login",
-                  style: blackTextStyle.copyWith(
+                  style: whiteTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: primaryColor,
                   ),
                 ),
               ),
             ),
+
             const SizedBox(height: 40),
+
+            // Footer
             Text(
               "All rights reserved ©2025",
               textAlign: TextAlign.center,

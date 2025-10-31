@@ -20,14 +20,22 @@ void showLoginModal(BuildContext context) {
     String? savedPass = prefs.getString('password');
 
     if (idC.text == savedId && hash(passC.text) == savedPass) {
-      Get.snackbar("Success", "Login Berhasil ✅",
-          backgroundColor: Colors.green, colorText: Colors.white);
+      Get.snackbar(
+        "Success",
+        "Login Berhasil ✅",
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
 
       prefs.setBool('isLoggedIn', true);
       Get.offAllNamed(Routes.HOME);
     } else {
-      Get.snackbar("Error", "ID Learning / Password salah",
-          backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar(
+        "Error",
+        "ID Learning / Password salah",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -40,7 +48,10 @@ void showLoginModal(BuildContext context) {
       maxChildSize: 0.9,
       builder: (_, scroll) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 25),
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultMargin,
+            vertical: 25,
+          ),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -51,14 +62,27 @@ void showLoginModal(BuildContext context) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Login",
-                  style: blackTextStyle.copyWith(
-                    fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(
+                "Login",
+                style: blackTextStyle.copyWith(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 25),
 
-              buildTextField("ID Learning", Icons.badge_outlined, controller: idC),
+              buildTextField(
+                "ID Learning",
+                Icons.badge_outlined,
+                controller: idC,
+              ),
               const SizedBox(height: 15),
-              buildTextField("Password", Icons.lock_outline, controller: passC, isPassword: true),
+              buildTextField(
+                "Password",
+                Icons.lock_outline,
+                controller: passC,
+                isPassword: true,
+              ),
               const SizedBox(height: 25),
 
               SizedBox(
@@ -72,8 +96,10 @@ void showLoginModal(BuildContext context) {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: Text("Masuk",
-                      style: whiteTextStyle.copyWith(fontSize: 18)),
+                  child: Text(
+                    "Masuk",
+                    style: whiteTextStyle.copyWith(fontSize: 18),
+                  ),
                 ),
               ),
             ],

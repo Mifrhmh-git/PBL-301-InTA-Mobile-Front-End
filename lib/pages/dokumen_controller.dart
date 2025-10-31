@@ -4,10 +4,11 @@ class DokumenModel {
   String title;
   String bab;
   String description;
-  String status; 
+  String status;
   String fileName;
-  String date; 
+  String date;
   String catatanDosen;
+  String fileRevisi; // 🆕 Tambahan: file revisi dari dosen
 
   DokumenModel({
     required this.title,
@@ -15,8 +16,9 @@ class DokumenModel {
     required this.description,
     required this.status,
     required this.fileName,
-    required this.date, 
+    required this.date,
     this.catatanDosen = "",
+    this.fileRevisi = "", // 🆕 Default kosong
   });
 }
 
@@ -28,14 +30,16 @@ class DokumenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     menungguList.add(DokumenModel(
       title: "BAB III Analisis",
       bab: "BAB III",
       description: "Baru dikirim untuk dicek",
       status: "Menunggu",
       fileName: "bab3.pdf",
-      date: "2025-09-20 20:00:00", 
+      date: "2025-09-20 20:00:00",
     ));
+
     revisiList.add(DokumenModel(
       title: "BAB II Landasan Teori",
       bab: "BAB II",
@@ -44,7 +48,9 @@ class DokumenController extends GetxController {
       fileName: "bab2.pdf",
       date: "2025-09-19 19:00:00",
       catatanDosen: "Perbaiki referensi dan kutipan.",
+      fileRevisi: "revisi_bab2.pdf", // 🆕 contoh file revisi dosen
     ));
+
     selesaiList.add(DokumenModel(
       title: "BAB I Pendahuluan",
       bab: "BAB I",
@@ -58,8 +64,16 @@ class DokumenController extends GetxController {
   void addDokumen(DokumenModel d) {
     if (d.status == "Menunggu") {
       menungguList.add(d);
+<<<<<<< HEAD
     } else if (d.status == "Revisi") revisiList.add(d);
     else selesaiList.add(d);
+=======
+    } else if (d.status == "Revisi") {
+      revisiList.add(d);
+    } else {
+      selesaiList.add(d);
+    }
+>>>>>>> 4b3727936e6a4dc44269ce1a94b1059ddfaf9c90
   }
 
   void editDokumen(int index, DokumenModel d, String status) {

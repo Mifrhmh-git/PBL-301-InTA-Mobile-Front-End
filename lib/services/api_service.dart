@@ -7,7 +7,8 @@ import 'api_config.dart';
 class ApiService {
   // ---- LOGIN ----
   static Future<Map<String, dynamic>> login({
-    required String email,
+    // required String email,
+    required String username,
     required String password,
   }) async {
     final url = Uri.parse('${ApiConfig.baseUrl}/auth/login');
@@ -20,24 +21,19 @@ class ApiService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'email': email,
+          // 'email': email,
+          'username': username,
           'password': password,
         }),
       );
 
       final data = jsonDecode(response.body);
 
-      return {
-        'statusCode': response.statusCode,
-        'data': data,
-      };
+      return {'statusCode': response.statusCode, 'data': data};
     } catch (e) {
       return {
         'statusCode': 500,
-        'data': {
-          'status': false,
-          'message': 'Terjadi kesalahan: $e'
-        },
+        'data': {'status': false, 'message': 'Terjadi kesalahan: $e'},
       };
     }
   }
@@ -70,17 +66,11 @@ class ApiService {
 
       final data = jsonDecode(response.body);
 
-      return {
-        'statusCode': response.statusCode,
-        'data': data,
-      };
+      return {'statusCode': response.statusCode, 'data': data};
     } catch (e) {
       return {
         'statusCode': 500,
-        'data': {
-          'status': false,
-          'message': 'Terjadi kesalahan: $e'
-        },
+        'data': {'status': false, 'message': 'Terjadi kesalahan: $e'},
       };
     }
   }
