@@ -135,7 +135,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                             fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       Switch(
-                        activeColor: primaryColor,
+                        activeThumbColor: primaryColor,
                         value: pushNotification,
                         onChanged: (val) {
                           setState(() {

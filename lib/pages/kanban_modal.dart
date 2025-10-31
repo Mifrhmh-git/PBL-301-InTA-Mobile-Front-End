@@ -76,7 +76,7 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 6),
                   DropdownButtonFormField<String>(
-                    value: selectedColumn,
+                    initialValue: selectedColumn,
                     dropdownColor: Colors.white,
                     decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
@@ -256,7 +256,7 @@ void showEditKanbanModal(
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                   const SizedBox(height: 6),
                   DropdownButtonFormField<String>(
-                    value: selectedColumn,
+                    initialValue: selectedColumn,
                     dropdownColor: Colors.white,
                     decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),

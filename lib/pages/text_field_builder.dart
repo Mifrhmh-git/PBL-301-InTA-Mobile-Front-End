@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:inta301/shared/shared.dart';
 
-Widget buildTextField(String label, IconData icon, {bool isPassword = false}) {
+Widget buildTextField(
+  String label,
+  IconData icon, {
+  required TextEditingController controller,
+  bool isPassword = false,
+}) {
   return TextField(
+    controller: controller,
     obscureText: isPassword,
     decoration: InputDecoration(
       labelText: label,

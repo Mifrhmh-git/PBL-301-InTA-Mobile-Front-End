@@ -56,8 +56,9 @@ class DokumenController extends GetxController {
   }
 
   void addDokumen(DokumenModel d) {
-    if (d.status == "Menunggu") menungguList.add(d);
-    else if (d.status == "Revisi") revisiList.add(d);
+    if (d.status == "Menunggu") {
+      menungguList.add(d);
+    } else if (d.status == "Revisi") revisiList.add(d);
     else selesaiList.add(d);
   }
 
