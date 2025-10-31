@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:inta301/shared/shared.dart';
-<<<<<<< HEAD
-import 'login_modal.dart';
-import 'register_modal.dart';
-=======
 import '../routes/app_pages.dart';
 import 'login_page.dart';
 import 'register_page.dart';
->>>>>>> 4b3727936e6a4dc44269ce1a94b1059ddfaf9c90
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

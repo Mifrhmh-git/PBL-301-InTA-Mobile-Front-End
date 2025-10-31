@@ -64,16 +64,11 @@ class DokumenController extends GetxController {
   void addDokumen(DokumenModel d) {
     if (d.status == "Menunggu") {
       menungguList.add(d);
-<<<<<<< HEAD
-    } else if (d.status == "Revisi") revisiList.add(d);
-    else selesaiList.add(d);
-=======
     } else if (d.status == "Revisi") {
       revisiList.add(d);
     } else {
       selesaiList.add(d);
     }
->>>>>>> 4b3727936e6a4dc44269ce1a94b1059ddfaf9c90
   }
 
   void editDokumen(int index, DokumenModel d, String status) {
