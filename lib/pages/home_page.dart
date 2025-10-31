@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../shared/shared.dart';
 import '../routes/app_pages.dart';
 
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -149,49 +148,32 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.45),
-                      blurRadius: 12,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "Selasa, 7 Oktober",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Icon(Icons.access_time, color: Colors.black, size: 18),
-                        SizedBox(width: 6),
-                        Text("10:30", style: TextStyle(color: Colors.black87)),
-                      ],
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      "Diskusi Perancangan, TA 10.3",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
+              Column(
+                children: const [
+                  _UpcomingCard(
+                    title: "Bimbingan Revisi Bab 2",
+                    date: "Selasa, 7 Oktober 2025",
+                    time: "10:30",
+                  ),
+                  SizedBox(height: 12),
+                  _UpcomingCard(
+                    title: "Diskusi Desain UI",
+                    date: "Rabu, 9 Oktober 2025",
+                    time: "13:00",
+                  ),
+                  SizedBox(height: 12),
+                  _UpcomingCard(
+                    title: "Pengumpulan Proposal Final",
+                    date: "Jumat, 11 Oktober 2025",
+                    time: "09:00",
+                  ),
+                  SizedBox(height: 12),
+                  _UpcomingCard(
+                    title: "Sidang Akhir Tugas Akhir",
+                    date: "Senin, 14 Oktober 2025",
+                    time: "08:30",
+                  ),
+                ],
               ),
             ],
           ),
@@ -278,7 +260,7 @@ class _InfoCard extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Colors.black,
+              color: Colors.black, // ubah jadi hitam
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -286,7 +268,7 @@ class _InfoCard extends StatelessWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: mainBlue,
+              backgroundColor: mainBlue, // tetap warna biru
               minimumSize: const Size(100, 40),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -296,10 +278,88 @@ class _InfoCard extends StatelessWidget {
             child: const Text(
               "Lihat",
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white, // tulisan tombol tetap putih
                 fontWeight: FontWeight.w600,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+// === UPCOMING CARD ===
+class _UpcomingCard extends StatelessWidget {
+  final String title;
+  final String date;
+  final String time;
+
+  const _UpcomingCard({
+    required this.title,
+    required this.date,
+    required this.time,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.45),
+            blurRadius: 12,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              color: primaryColor,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+
+          Row(
+            children: [
+              const Icon(Icons.calendar_today, color: Colors.black, size: 18),
+              const SizedBox(width: 6),
+              Text(
+                date,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.w500, 
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+
+          Row(
+            children: [
+              const Icon(Icons.access_time, color: Colors.black, size: 18),
+              const SizedBox(width: 6),
+              Text(
+                time,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.w500, 
+                ),
+              ),
+            ],
           ),
         ],
       ),

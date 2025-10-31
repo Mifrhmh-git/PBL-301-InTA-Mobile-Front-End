@@ -28,6 +28,27 @@ class NotifikasiPage extends StatelessWidget {
         "message": "Bimbingan pukul 10:00 di ruang TA 12.4. Jangan sampai telat!",
         "time": "09:00 – Oktober 21",
       },
+      {
+        "type": "ajuan",
+        "title": "Ajuan Jadwal Bimbingan",
+        "message":
+            "Dosen pembimbing mengajukan jadwal bimbingan baru pada Rabu, 6 November 2025 pukul 14:00.",
+        "time": "10:30 – November 4",
+      },
+      {
+        "type": "diterima",
+        "title": "Ajuan Diterima",
+        "message":
+            "Pengajuan jadwal bimbinganmu telah disetujui oleh dosen pembimbing.",
+        "time": "12:15 – November 5",
+      },
+      {
+        "type": "info",
+        "title": "Info Tambahan",
+        "message":
+            "Mahasiswa lain sudah mengonfirmasi kehadiran pada jadwal bimbingan berikutnya.",
+        "time": "09:45 – November 6",
+      },
     ];
 
     return Scaffold(
@@ -66,7 +87,13 @@ class NotifikasiPage extends StatelessWidget {
           return _buildNotificationItem(
             icon: notif["type"] == "update"
                 ? Icons.update
-                : Icons.notifications_active_outlined,
+                : notif["type"] == "ajuan"
+                    ? Icons.schedule_send_outlined
+                    : notif["type"] == "diterima"
+                        ? Icons.check_circle_outline
+                        : notif["type"] == "info"
+                            ? Icons.info_outline
+                            : Icons.notifications_active_outlined,
             title: notif["title"],
             message: notif["message"],
             time: notif["time"],
@@ -125,18 +152,19 @@ class NotifikasiPage extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   message,
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.8),
-                    fontSize: 13,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   time,
                   style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.5,
                   ),
                 ),
               ],
