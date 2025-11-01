@@ -236,11 +236,13 @@ void showEditKanbanModal(
                     ),
                   ),
                   const SizedBox(height: 16),
+
+                  // 🔹 Judul ditebalkan
                   const Center(
                     child: Text(
                       "Edit Task Kanban",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                         fontSize: 18,
                       ),
                     ),
@@ -289,72 +291,79 @@ void showEditKanbanModal(
                   ),
                   const SizedBox(height: 25),
 
+                  // 🔹 Tombol sejajar horizontal
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 140,
-                        height: 45,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: dangerColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: dangerColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 3,
                             ),
-                          ),
-                          onPressed: () {
-                            controller.deleteTask(tasks, index);
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            "Hapus",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                            onPressed: () {
+                              controller.deleteTask(tasks, index);
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Hapus",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16,
+                                letterSpacing: 0.8,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 140,
-                        height: 45,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 3,
                             ),
-                          ),
-                          onPressed: () {
-                            if (titleController.text.isEmpty ||
-                                dueController.text.isEmpty) {
-                              Get.snackbar(
-                                "Gagal",
-                                "Judul dan tanggal harus diisi!",
-                                backgroundColor: Colors.redAccent,
-                                colorText: Colors.white,
-                                snackPosition: SnackPosition.TOP,
-                              );
-                              return;
-                            }
+                            onPressed: () {
+                              if (titleController.text.isEmpty ||
+                                  dueController.text.isEmpty) {
+                                Get.snackbar(
+                                  "Gagal",
+                                  "Judul dan tanggal harus diisi!",
+                                  backgroundColor: Colors.redAccent,
+                                  colorText: Colors.white,
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                                return;
+                              }
 
-                            controller.updateTaskWithDescription(
-                              tasks,
-                              index,
-                              titleController.text,
-                              dueController.text,
-                              descriptionController.text,
-                            );
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            "Simpan",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              controller.updateTaskWithDescription(
+                                tasks,
+                                index,
+                                titleController.text,
+                                dueController.text,
+                                descriptionController.text,
+                              );
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Simpan",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16,
+                                letterSpacing: 0.8,
+                              ),
                             ),
                           ),
                         ),

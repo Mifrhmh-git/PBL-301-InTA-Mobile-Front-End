@@ -53,9 +53,9 @@ class DokumenPage extends StatelessWidget {
               ),
               child: const TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
-                // 🔴 Ubah warna aktif tab ke dangerColor
+                // 🔵 Ubah warna aktif tab ke primaryColor
                 indicator: BoxDecoration(
-                  color: dangerColor,
+                  color: primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
                 labelColor: Colors.white,
@@ -81,8 +81,8 @@ class DokumenPage extends StatelessWidget {
 
         // === TOMBOL TAMBAH ===
         floatingActionButton: FloatingActionButton(
-          // 🔵 Ganti ke primaryColor
-          backgroundColor: primaryColor,
+          // 🔴 Sekarang pakai dangerColor
+          backgroundColor: dangerColor,
           onPressed: () {
             showModalBottomSheet(
               isScrollControlled: true,

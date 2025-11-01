@@ -83,220 +83,243 @@ class _DokumenModalState extends State<DokumenModal> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.65,
-      minChildSize: 0.45,
-      maxChildSize: 0.9,
-      expand: false,
-      builder: (context, scrollController) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          child: SingleChildScrollView(
-            controller: scrollController,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 5,
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      widget.isEdit
-                          ? "Edit File Dokumen"
-                          : "Upload File Dokumen",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  const Text(
-                    "File",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 5,
+                    margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(0.2),
-                      border: Border.all(
-                        color: primaryColor.withOpacity(0.3),
-                        width: 1,
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    widget.isEdit
+                        ? "Edit File Dokumen"
+                        : "Upload File Dokumen",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                const Text(
+                  "File",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor.withOpacity(0.2),
+                    border: Border.all(
+                      color: primaryColor.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            _fileName ?? 'Belum ada file dipilih',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ),
+                      Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(12),
+                            bottomRight: Radius.circular(12),
+                          ),
+                        ),
+                        child: TextButton(
+                          onPressed: _pickFile,
+                          child: const Text(
+                            "Pilih File",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+                const Text("Nama Dokumen",
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: primaryColor.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 15),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: primaryColor.withOpacity(0.3), width: 1),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text(
-                              _fileName ?? 'Belum ada file dipilih',
-                              overflow: TextOverflow.ellipsis,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: primaryColor.withOpacity(0.3), width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: primaryColor, width: 1.5),
+                    ),
+                  ),
+                  validator: (v) =>
+                      v!.isEmpty ? "Nama dokumen wajib diisi" : null,
+                ),
+
+                const SizedBox(height: 16),
+                const Text("BAB",
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _babController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: primaryColor.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: primaryColor.withOpacity(0.3), width: 1),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: primaryColor.withOpacity(0.3), width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: primaryColor, width: 1.5),
+                    ),
+                  ),
+                  validator: (v) => v!.isEmpty ? "BAB wajib diisi" : null,
+                ),
+
+                const SizedBox(height: 16),
+                const Text("Keterangan",
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _descController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: primaryColor.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: primaryColor.withOpacity(0.3), width: 1),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: primaryColor.withOpacity(0.3), width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: primaryColor, width: 1.5),
+                    ),
+                  ),
+                  maxLines: 2,
+                ),
+
+                const SizedBox(height: 25),
+
+                // 🔹 Tombol Hapus & Simpan sejajar
+                Row(
+                  children: [
+                    if (widget.isEdit)
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: dangerColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            controller.deleteDokumen(widget.dokumen!);
+                            Get.back();
+                          },
+                          child: const Text(
+                            "HAPUS",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1,
                             ),
                           ),
                         ),
-                        Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
-                            ),
-                          ),
-                          child: TextButton(
-                            onPressed: _pickFile,
-                            child: const Text(
-                              "Pilih File",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                      ),
+                    if (widget.isEdit) const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-                  const Text("Nama Dokumen",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: primaryColor.withOpacity(0.2),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                            color: primaryColor.withOpacity(0.3), width: 1),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                            color: primaryColor.withOpacity(0.3), width: 1),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(color: primaryColor, width: 1.5),
-                      ),
-                    ),
-                    validator: (v) =>
-                        v!.isEmpty ? "Nama dokumen wajib diisi" : null,
-                  ),
-
-                  const SizedBox(height: 16),
-                  const Text("BAB",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _babController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: primaryColor.withOpacity(0.2),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                            color: primaryColor.withOpacity(0.3), width: 1),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                            color: primaryColor.withOpacity(0.3), width: 1),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(color: primaryColor, width: 1.5),
-                      ),
-                    ),
-                    validator: (v) => v!.isEmpty ? "BAB wajib diisi" : null,
-                  ),
-
-                  const SizedBox(height: 16),
-                  const Text("Keterangan",
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _descController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: primaryColor.withOpacity(0.2),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                            color: primaryColor.withOpacity(0.3), width: 1),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                            color: primaryColor.withOpacity(0.3), width: 1),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(color: primaryColor, width: 1.5),
-                      ),
-                    ),
-                    maxLines: 2,
-                  ),
-
-                  const SizedBox(height: 25),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: _saveDokumen,
-                      child: Text(
-                        widget.isEdit ? "UPDATE" : "UPLOAD",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
+                        onPressed: _saveDokumen,
+                        child: Text(
+                          widget.isEdit ? "SIMPAN" : "UPLOAD",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
 
-// Tambahan Modal Revisi Dosen
+// 🔸 Modal Revisi Dosen
 void showRevisiModal(BuildContext context, DokumenModel dokumen) {
   showModalBottomSheet(
     isScrollControlled: true,
@@ -305,8 +328,9 @@ void showRevisiModal(BuildContext context, DokumenModel dokumen) {
     builder: (context) {
       return DraggableScrollableSheet(
         expand: false,
-        initialChildSize: 0.6,
-        maxChildSize: 0.9,
+       initialChildSize: 0.6, // tampil awal 60%
+      minChildSize: 0.5,     // bisa digeser ke bawah sedikit
+      maxChildSize: 0.95,    // bisa ditarik hampir penuh layar    
         builder: (context, scrollController) {
           return Container(
             decoration: const BoxDecoration(
@@ -408,7 +432,7 @@ void showRevisiModal(BuildContext context, DokumenModel dokumen) {
                       ),
                       onPressed: () => Navigator.pop(context),
                       child: const Text(
-                        "Tutup",
+                        "TUTUP",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
