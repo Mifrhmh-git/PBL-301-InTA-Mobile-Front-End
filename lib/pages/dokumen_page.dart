@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inta301/pages/dokumen_modal.dart';
+import 'package:inta301/pages/modal_tambah_dokumen.dart';
+import 'package:inta301/pages/modal_edit_dokumen.dart';
+import 'package:inta301/pages/modal_revisi_dokumen.dart';
 import '../shared/shared.dart';
 import 'dokumen_controller.dart';
 import 'dokumen_card.dart';
@@ -16,6 +18,8 @@ class DokumenPage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         backgroundColor: backgroundColor,
+
+        // === APP BAR ===
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -39,9 +43,11 @@ class DokumenPage extends StatelessWidget {
             ),
           ),
         ),
+
+        // === BODY ===
         body: Column(
           children: [
-            // --- TabBar di body ---
+            // --- TabBar ---
             Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: defaultMargin,
@@ -53,7 +59,6 @@ class DokumenPage extends StatelessWidget {
               ),
               child: const TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
-                // 🔵 Ubah warna aktif tab ke primaryColor
                 indicator: BoxDecoration(
                   color: primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -67,12 +72,14 @@ class DokumenPage extends StatelessWidget {
                 ],
               ),
             ),
+
+            // --- Daftar Dokumen per tab ---
             Expanded(
               child: TabBarView(
                 children: [
-                  _buildTabList(controller.menungguList),
-                  _buildTabList(controller.revisiList),
-                  _buildTabList(controller.selesaiList),
+                  _buildTabList(controller.menungguList, context),
+                  _buildTabList(controller.revisiList, context),
+                  _buildTabList(controller.selesaiList, context),
                 ],
               ),
             ),
@@ -81,21 +88,20 @@ class DokumenPage extends StatelessWidget {
 
         // === TOMBOL TAMBAH ===
         floatingActionButton: FloatingActionButton(
-          // 🔴 Sekarang pakai dangerColor
           backgroundColor: dangerColor,
           onPressed: () {
             showModalBottomSheet(
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
               context: context,
-              builder: (_) => const DokumenModal(),
+              builder: (_) => const TambahDokumenModal(),
             );
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-        // === BOTTOM NAV ===
+        // === BOTTOM NAVIGATION ===
         bottomNavigationBar: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
@@ -144,39 +150,68 @@ class DokumenPage extends StatelessWidget {
     );
   }
 
-  // --- Build List per tab ---
-  Widget _buildTabList(RxList<DokumenModel> list) {
+  // --- Build List per Tab ---
+  Widget _buildTabList(RxList<DokumenModel> list, BuildContext context) {
+    void _confirmDelete(DokumenModel dokumen) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Konfirmasi Hapus"),
+          content: const Text("Apakah Anda yakin ingin menghapus dokumen ini?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Batal"),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.find<DokumenController>().deleteDokumen(dokumen);
+                Navigator.pop(context);
+                Get.snackbar(
+                  "Dihapus",
+                  "Dokumen berhasil dihapus",
+                  backgroundColor: Colors.red.shade600,
+                  colorText: Colors.white,
+                  snackPosition: SnackPosition.BOTTOM,
+                  margin: const EdgeInsets.all(16),
+                );
+              },
+              child: const Text("Hapus", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Obx(
       () => ListView.builder(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: defaultMargin,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: defaultMargin),
         itemCount: list.length,
         itemBuilder: (context, index) {
           final dokumen = list[index];
+
           return DokumenCard(
             dokumen: dokumen,
-            onAdd: () {
-              // tidak digunakan
-            },
+            onAdd: () {},
             onEdit: () {
               showModalBottomSheet(
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
                 context: context,
-                builder: (_) => DokumenModal(
-                  dokumen: dokumen,
-                  isEdit: true,
-                ),
+                builder: (_) => EditModal(dokumen: dokumen),
               );
             },
             onDelete: () {
-              controller.deleteDokumen(dokumen);
+              _confirmDelete(dokumen);
             },
             onDownload: () {
               // logika download dokumen
             },
+            onViewRevisi: dokumen.status.toLowerCase() == "revisi"
+                ? () {
+                    showRevisiModal(context, dokumen);
+                  }
+                : null,
           );
         },
       ),
@@ -184,7 +219,7 @@ class DokumenPage extends StatelessWidget {
   }
 }
 
-// --- Bottom Nav Item ---
+// --- Bottom Navigation Item ---
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

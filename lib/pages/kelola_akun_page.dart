@@ -54,8 +54,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const Icon(Icons.notifications_none,
-                          color: Colors.white, size: 26),
+                      const SizedBox(width: 26),
                     ],
                   ),
                 ),
@@ -120,9 +119,9 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  _buildTextField("Nama Lengkap", "Rahayu Suci Ramadhani"),
+                  _buildTextField("Nama Lengkap", "Putri Balqis"),
                   _buildTextField("Email", "example@example.com"),
-                  _buildTextField("NIM", ""),
+                  _buildTextField("NIM", "4342401011"),
                   _buildTextField("Bidang Keahlian", ""),
 
                   const SizedBox(height: 15),
@@ -132,7 +131,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                       const Text(
                         "Push Notifications",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
+                            fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       Switch(
                         activeThumbColor: primaryColor,
@@ -147,23 +146,24 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                   ),
 
                   const SizedBox(height: 25),
-                  Center(
+                  // Tombol Update Profile disesuaikan dengan field
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50, // sama dengan field
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
+                        backgroundColor: dangerColor, // warna tombol
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12), // sama field
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 14),
                       ),
                       child: const Text(
                         "Update Profile",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                          fontSize: 16, // sama field
                         ),
                       ),
                     ),
@@ -186,7 +186,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
           Text(
             label,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: 16, // semua field 16 px
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),

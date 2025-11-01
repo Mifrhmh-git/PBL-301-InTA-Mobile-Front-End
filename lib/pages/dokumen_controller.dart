@@ -8,7 +8,7 @@ class DokumenModel {
   String fileName;
   String date;
   String catatanDosen;
-  String fileRevisi; // 🆕 Tambahan: file revisi dari dosen
+  String fileRevisi;
 
   DokumenModel({
     required this.title,
@@ -18,7 +18,7 @@ class DokumenModel {
     required this.fileName,
     required this.date,
     this.catatanDosen = "",
-    this.fileRevisi = "", // 🆕 Default kosong
+    this.fileRevisi = "",
   });
 }
 
@@ -48,7 +48,7 @@ class DokumenController extends GetxController {
       fileName: "bab2.pdf",
       date: "2025-09-19 19:00:00",
       catatanDosen: "Perbaiki referensi dan kutipan.",
-      fileRevisi: "revisi_bab2.pdf", // 🆕 contoh file revisi dosen
+      fileRevisi: "revisi_bab2.pdf",
     ));
 
     selesaiList.add(DokumenModel(
@@ -71,7 +71,8 @@ class DokumenController extends GetxController {
     }
   }
 
-  void editDokumen(int index, DokumenModel d, String status) {
+  void editDokumen(DokumenModel d) {
+    // hapus semua dokumen dengan judul sama, lalu tambahkan versi baru
     menungguList.removeWhere((e) => e.title == d.title);
     revisiList.removeWhere((e) => e.title == d.title);
     selesaiList.removeWhere((e) => e.title == d.title);

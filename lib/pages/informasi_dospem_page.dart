@@ -29,29 +29,32 @@ class InformasiDospemPage extends StatelessWidget {
             child: Column(
               children: [
                 // Bar atas
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () => Get.back(),
-                        child: const Icon(Icons.arrow_back,
-                            color: Colors.white, size: 26),
-                      ),
-                      const Text(
-                        "Informasi Dosen Pembimbing",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Icon(Icons.info_outline,
-                          color: Colors.white, size: 26),
-                    ],
-                  ),
-                ),
+              Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 20),
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+      const Center(
+        child: Text(
+          "Informasi Dosen Pembimbing",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () => Get.back(),
+          child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+        ),
+      ),
+    ],
+  ),
+),
+
                 const SizedBox(height: 20),
 
                 // Avatar dosen
@@ -71,7 +74,7 @@ class InformasiDospemPage extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  "Dosen Pembimbing Akademik",
+                  "Dosen Informatika",
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],
@@ -106,31 +109,6 @@ class InformasiDospemPage extends StatelessWidget {
                   _buildInfoTile("Kantor",
                       "Gedung Informatika Lt. 3, Ruang 305", Icons.location_on_outlined),
 
-                  const SizedBox(height: 25),
-                  Center(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        // nanti bisa diarahkan ke WhatsApp atau email
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 14),
-                      ),
-                      icon: const Icon(Icons.chat_bubble_outline,
-                          color: Colors.white),
-                      label: const Text(
-                        "Hubungi Dosen",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
