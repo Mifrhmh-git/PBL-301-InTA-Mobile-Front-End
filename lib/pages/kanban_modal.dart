@@ -58,7 +58,7 @@ void showAddKanbanModal(
                     child: Text(
                       "Tambah Task Kanban",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                         fontSize: 18,
                       ),
                     ),
@@ -133,7 +133,7 @@ void showAddKanbanModal(
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
+                        backgroundColor: dangerColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -164,8 +164,9 @@ void showAddKanbanModal(
                         "Tambah",
                         style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          letterSpacing: 0.8,
                         ),
                       ),
                     ),

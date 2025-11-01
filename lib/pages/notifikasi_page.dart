@@ -42,13 +42,6 @@ class NotifikasiPage extends StatelessWidget {
             "Pengajuan jadwal bimbinganmu telah disetujui oleh dosen pembimbing.",
         "time": "12:15 – November 5",
       },
-      {
-        "type": "info",
-        "title": "Info Tambahan",
-        "message":
-            "Mahasiswa lain sudah mengonfirmasi kehadiran pada jadwal bimbingan berikutnya.",
-        "time": "09:45 – November 6",
-      },
     ];
 
     return Scaffold(
@@ -91,13 +84,10 @@ class NotifikasiPage extends StatelessWidget {
                     ? Icons.schedule_send_outlined
                     : notif["type"] == "diterima"
                         ? Icons.check_circle_outline
-                        : notif["type"] == "info"
-                            ? Icons.info_outline
-                            : Icons.notifications_active_outlined,
+                        : Icons.notifications_active_outlined,
             title: notif["title"],
             message: notif["message"],
             time: notif["time"],
-            mainBlue: mainBlue,
           );
         },
       ),
@@ -109,7 +99,6 @@ class NotifikasiPage extends StatelessWidget {
     required String title,
     required String message,
     required String time,
-    required Color mainBlue,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
@@ -131,10 +120,10 @@ class NotifikasiPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: mainBlue.withOpacity(0.2),
+              color: dangerColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: mainBlue, size: 26),
+            child: Icon(icon, color: dangerColor, size: 26), // ✅ pakai dangerColor
           ),
           const SizedBox(width: 10),
           Expanded(

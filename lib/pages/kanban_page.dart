@@ -43,7 +43,7 @@ class KanbanPage extends StatelessWidget {
   Widget _buildKanbanColumn(RxList<KanbanTask> tasks, String column) {
     return Obx(
       () => ListView.builder(
-        padding: const EdgeInsets.fromLTRB(defaultMargin, 6, defaultMargin, 16), // ✅ jarak rapat
+        padding: const EdgeInsets.fromLTRB(defaultMargin, 6, defaultMargin, 16),
         itemCount: tasks.length,
         itemBuilder: (context, index) {
           final task = tasks[index];
@@ -86,9 +86,8 @@ class KanbanPage extends StatelessWidget {
               ),
               child: TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
-                // ✅ Ubah warna aktif (indikator) jadi dangerColor
                 indicator: BoxDecoration(
-                  color: dangerColor,
+                  color: primaryColor, // ✅ warna aktif tab pakai primaryColor
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                 ),
                 labelColor: Colors.white,
@@ -124,8 +123,7 @@ class KanbanPage extends StatelessWidget {
       ),
       // --- FAB Tambah Task ---
       floatingActionButton: FloatingActionButton(
-        // ✅ ganti ke primaryColor
-        backgroundColor: primaryColor,
+        backgroundColor: dangerColor, // 🔥 diubah dari primaryColor → dangerColor
         onPressed: () {
           showAddKanbanModal(context, controller, "To Do");
         },

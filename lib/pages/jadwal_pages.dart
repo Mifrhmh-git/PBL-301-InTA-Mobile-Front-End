@@ -115,8 +115,9 @@ class _JadwalPageState extends State<JadwalPage> {
                         );
                         if (pickedDate != null) {
                           _tanggalController.text = DateFormat(
-                                  'EEEE, dd MMMM yyyy', 'id_ID')
-                              .format(pickedDate);
+                            'EEEE, dd MMMM yyyy',
+                            'id_ID',
+                          ).format(pickedDate);
                         }
                       },
                       child: AbsorbPointer(
@@ -128,9 +129,23 @@ class _JadwalPageState extends State<JadwalPage> {
                             fontFamily: 'Poppins',
                           ),
                           decoration: _fieldDecoration().copyWith(
-                            suffixIcon: Icon(Icons.calendar_today_outlined,
-                                color: primaryColor),
+                            suffixIcon: Icon(
+                              Icons.calendar_today_outlined,
+                              color: primaryColor,
+                            ),
                             hintText: "Pilih tanggal bimbingan",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(
+                                  color: primaryColor.withOpacity(0.3),
+                                  width: 1),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              borderSide: BorderSide(
+                                  color: primaryColor, width: 1.5),
+                            ),
                           ),
                         ),
                       ),
@@ -147,12 +162,12 @@ class _JadwalPageState extends State<JadwalPage> {
 
                     SizedBox(
                       width: double.infinity,
-                      height: 50,
+                      height: 55,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
+                          backgroundColor: dangerColor,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
                         onPressed: () {
@@ -170,7 +185,7 @@ class _JadwalPageState extends State<JadwalPage> {
                         child: const Text(
                           "Ajukan",
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                             fontFamily: 'Poppins',
@@ -195,18 +210,18 @@ class _JadwalPageState extends State<JadwalPage> {
       contentPadding:
           const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide:
             BorderSide(color: primaryColor.withOpacity(0.3), width: 1),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide:
             BorderSide(color: primaryColor.withOpacity(0.3), width: 1),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: primaryColor, width: 1.5),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderSide: BorderSide(color: primaryColor, width: 1.5),
       ),
     );
   }
@@ -328,6 +343,18 @@ class _JadwalPageState extends State<JadwalPage> {
                     fontFamily: 'Poppins',
                   ),
                 ),
+                calendarStyle: const CalendarStyle(
+                  todayDecoration: BoxDecoration(
+                    color: primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  selectedDecoration: BoxDecoration(
+                    color: primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  todayTextStyle: TextStyle(color: Colors.white),
+                  selectedTextStyle: TextStyle(color: Colors.white),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -343,7 +370,7 @@ class _JadwalPageState extends State<JadwalPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
+        backgroundColor: dangerColor,
         onPressed: () => _showTambahJadwalModal(context),
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -375,8 +402,10 @@ class _JadwalPageState extends State<JadwalPage> {
     return GestureDetector(
       onTap: status == "Ajuan Dosen"
           ? () {
-              Get.toNamed(Routes.FORM_JADWAL,
-                  arguments: {"jadwalId": item["jadwalId"], "mode": "dosen"});
+              Get.toNamed(
+                Routes.FORM_JADWAL,
+                arguments: {"jadwalId": item["jadwalId"], "mode": "dosen"},
+              );
             }
           : null,
       child: Container(
@@ -397,33 +426,52 @@ class _JadwalPageState extends State<JadwalPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(item["judul"],
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                    fontFamily: 'Poppins')),
+            Text(
+              item["judul"],
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: primaryColor,
+                fontFamily: 'Poppins',
+              ),
+            ),
             const SizedBox(height: 8),
-            Text("Dosen: ${item["dosen"]}",
-                style: const TextStyle(
-                    fontSize: 13.5,
-                    color: Colors.black87,
-                    fontFamily: 'Poppins')),
-            Text("Tanggal: ${item["tanggal"]}",
-                style: const TextStyle(
-                    fontSize: 13.5,
-                    color: Colors.black87,
-                    fontFamily: 'Poppins')),
-            Text("Waktu: ${item["waktu"]}",
-                style: const TextStyle(
-                    fontSize: 13.5,
-                    color: Colors.black87,
-                    fontFamily: 'Poppins')),
-            Text("Lokasi: ${item["lokasi"]}",
-                style: const TextStyle(
-                    fontSize: 13.5,
-                    color: Colors.black87,
-                    fontFamily: 'Poppins')),
+            Text(
+              "Dosen: ${item["dosen"]}",
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            Text(
+              "Tanggal: ${item["tanggal"]}",
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            Text(
+              "Waktu: ${item["waktu"]}",
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            Text(
+              "Lokasi: ${item["lokasi"]}",
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Poppins',
+              ),
+            ),
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerRight,
@@ -472,25 +520,30 @@ class _BottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _BottomNavItem(
-              icon: Icons.home,
-              label: "Beranda",
-              onTap: () => Get.offAllNamed(Routes.HOME)),
+            icon: Icons.home,
+            label: "Beranda",
+            onTap: () => Get.offAllNamed(Routes.HOME),
+          ),
           _BottomNavItem(
-              icon: Icons.calendar_month,
-              label: "Jadwal",
-              onTap: () => Get.offAllNamed(Routes.JADWAL)),
+            icon: Icons.calendar_month,
+            label: "Jadwal",
+            onTap: () => Get.offAllNamed(Routes.JADWAL),
+          ),
           _BottomNavItem(
-              icon: Icons.bar_chart_outlined,
-              label: "Kanban",
-              onTap: () => Get.offAllNamed(Routes.KANBAN)),
+            icon: Icons.bar_chart_outlined,
+            label: "Kanban",
+            onTap: () => Get.offAllNamed(Routes.KANBAN),
+          ),
           _BottomNavItem(
-              icon: Icons.description_outlined,
-              label: "Dokumen",
-              onTap: () => Get.offAllNamed(Routes.DOKUMEN)),
+            icon: Icons.description_outlined,
+            label: "Dokumen",
+            onTap: () => Get.offAllNamed(Routes.DOKUMEN),
+          ),
           _BottomNavItem(
-              icon: Icons.person_outline,
-              label: "Profile",
-              onTap: () => Get.offAllNamed(Routes.PROFILE)),
+            icon: Icons.person_outline,
+            label: "Profile",
+            onTap: () => Get.offAllNamed(Routes.PROFILE),
+          ),
         ],
       ),
     );
@@ -502,8 +555,11 @@ class _BottomNavItem extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _BottomNavItem(
-      {required this.icon, required this.label, required this.onTap});
+  const _BottomNavItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -514,9 +570,14 @@ class _BottomNavItem extends StatelessWidget {
         children: [
           Icon(icon, color: Colors.white, size: 26),
           const SizedBox(height: 4),
-          Text(label,
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 12, fontFamily: 'Poppins')),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontFamily: 'Poppins',
+            ),
+          ),
         ],
       ),
     );

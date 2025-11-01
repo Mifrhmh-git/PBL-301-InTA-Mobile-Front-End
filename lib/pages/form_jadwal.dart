@@ -30,10 +30,10 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
     super.initState();
 
     _judulController.text = "Diskusi Revisi BAB II";
-    _dosenController.text = "Dr. Dosen Pembimbing";
-    _tanggalController.text = "Rabu, 23 Oktober 2025";
-    _waktuController.text = "10:00";
-    _lokasiController.text = "Ruang B.203";
+    _dosenController.text = "Dr. Fitriani, M.Kom";
+    _tanggalController.text = "Senin, 21 Oktober 2025";
+    _waktuController.text = "09:00";
+    _lokasiController.text = "Ruang B-203";
   }
 
   void _showTolakModal(BuildContext context) {
@@ -105,24 +105,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                     TextField(
                       controller: alasanCtrl,
                       maxLines: 4,
-                      decoration: InputDecoration(
-                        hintText: "Masukkan alasan penolakan...",
-                        hintStyle: const TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.black54,
-                        ),
-                        filled: true,
-                        fillColor: primaryColor.withOpacity(0.2),
-                        contentPadding: const EdgeInsets.all(14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
+                      decoration: _fieldDecoration("Masukkan alasan penolakan..."),
                     ),
                     const SizedBox(height: 25),
                     SizedBox(
@@ -140,8 +123,8 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                           Get.snackbar(
                             "Ditolak",
                             "Jadwal ditolak dan dikirim ke mahasiswa",
-                            backgroundColor: Colors.white, // 🔹 putih
-                            colorText: Colors.black, // 🔹 tulisan hitam
+                            backgroundColor: Colors.white,
+                            colorText: Colors.black,
                             snackPosition: SnackPosition.TOP,
                             margin: const EdgeInsets.all(16),
                             borderRadius: 12,
@@ -178,6 +161,17 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 6,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [primaryColor, dangerColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         title: Text(
           isDosenMode ? "Ajuan Dosen" : "Ajukan Jadwal Bimbingan",
           style: const TextStyle(
@@ -187,8 +181,6 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: primaryColor,
-        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Get.back(),
@@ -197,49 +189,16 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextField("Judul Bimbingan", _judulController,
+            _buildLabeledField("Judul Bimbingan", _judulController,
                 readOnly: isDosenMode),
-            _buildTextField("Dosen Pembimbing", _dosenController,
+            _buildLabeledField("Dosen Pembimbing", _dosenController,
                 readOnly: isDosenMode),
-            GestureDetector(
-              onTap: isDosenMode
-                  ? null
-                  : () async {
-                      FocusScope.of(context).unfocus();
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2030),
-                        locale: const Locale('id', 'ID'),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
-                                primary: primaryColor,
-                                onPrimary: Colors.white,
-                                onSurface: Colors.black,
-                              ),
-                            ),
-                            child: child!,
-                          );
-                        },
-                      );
-                      if (pickedDate != null) {
-                        _tanggalController.text =
-                            DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
-                                .format(pickedDate);
-                      }
-                    },
-              child: AbsorbPointer(
-                absorbing: isDosenMode,
-                child: _buildTextField("Tanggal", _tanggalController),
-              ),
-            ),
-            _buildTextField("Waktu (contoh: 10:30)", _waktuController,
+            _buildTanggalField(isDosenMode),
+            _buildLabeledField("Waktu (contoh: 10:30)", _waktuController,
                 readOnly: isDosenMode),
-            _buildTextField("Lokasi", _lokasiController,
+            _buildLabeledField("Lokasi", _lokasiController,
                 readOnly: isDosenMode),
             const SizedBox(height: 25),
             if (!isDosenMode)
@@ -247,10 +206,10 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
+                    backgroundColor: dangerColor,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   onPressed: () {
@@ -268,7 +227,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
                   child: const Text(
                     "Ajukan",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontFamily: 'Poppins',
@@ -342,25 +301,115 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller,
+  // Field dengan label di atas
+  Widget _buildLabeledField(String label, TextEditingController controller,
       {bool readOnly = false}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
-      child: TextFormField(
-        controller: controller,
-        readOnly: readOnly,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: const TextStyle(fontFamily: 'Poppins'),
-          filled: true,
-          fillColor: primaryColor.withOpacity(0.1),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Colors.black,
+            ),
           ),
-        ),
+          const SizedBox(height: 6),
+          TextFormField(
+            controller: controller,
+            readOnly: readOnly,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              color: Colors.black,
+              fontSize: 14,
+            ),
+            decoration: _fieldDecoration(""),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTanggalField(bool isDosenMode) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Tanggal",
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 6),
+          GestureDetector(
+            onTap: isDosenMode
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime(2030),
+                      locale: const Locale('id', 'ID'),
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: ColorScheme.light(
+                              primary: primaryColor,
+                              onPrimary: Colors.white,
+                              onSurface: Colors.black,
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
+                    if (pickedDate != null) {
+                      _tanggalController.text =
+                          DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                              .format(pickedDate);
+                    }
+                  },
+            child: AbsorbPointer(
+              absorbing: isDosenMode,
+              child: TextFormField(
+                controller: _tanggalController,
+                decoration: _fieldDecoration("Pilih tanggal bimbingan").copyWith(
+                  suffixIcon: const Icon(Icons.calendar_today_rounded,
+                      color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  InputDecoration _fieldDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint.isEmpty ? null : hint,
+      hintStyle: const TextStyle(
+        fontFamily: 'Poppins',
+        color: Colors.black54,
+      ),
+      filled: true,
+      fillColor: primaryColor.withOpacity(0.15),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
       ),
     );
   }
