@@ -12,6 +12,9 @@ class DokumenPage extends StatelessWidget {
   DokumenPage({super.key});
   final DokumenController controller = Get.put(DokumenController());
 
+  // Untuk menyoroti halaman aktif di BottomNav
+  final RxInt selectedIndex = 3.obs; // Dokumen ada di index 3
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -102,48 +105,70 @@ class DokumenPage extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
         // === BOTTOM NAVIGATION ===
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [primaryColor, dangerColor],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        bottomNavigationBar: Obx(
+          () => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [primaryColor, dangerColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
             ),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(25),
-              topRight: Radius.circular(25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _BottomNavItem(
+                  icon: Icons.home,
+                  label: "Beranda",
+                  isActive: selectedIndex.value == 0,
+                  onTap: () {
+                    selectedIndex.value = 0;
+                    Get.offAllNamed(Routes.HOME);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.calendar_month,
+                  label: "Jadwal",
+                  isActive: selectedIndex.value == 1,
+                  onTap: () {
+                    selectedIndex.value = 1;
+                    Get.offAllNamed(Routes.JADWAL);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.bar_chart_outlined,
+                  label: "Kanban",
+                  isActive: selectedIndex.value == 2,
+                  onTap: () {
+                    selectedIndex.value = 2;
+                    Get.offAllNamed(Routes.KANBAN);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.description_outlined,
+                  label: "Dokumen",
+                  isActive: selectedIndex.value == 3,
+                  onTap: () {
+                    selectedIndex.value = 3;
+                    Get.offAllNamed(Routes.DOKUMEN);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.person_outline,
+                  label: "Profile",
+                  isActive: selectedIndex.value == 4,
+                  onTap: () {
+                    selectedIndex.value = 4;
+                    Get.offAllNamed(Routes.PROFILE);
+                  },
+                ),
+              ],
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _BottomNavItem(
-                icon: Icons.home,
-                label: "Beranda",
-                onTap: () => Get.offAllNamed(Routes.HOME),
-              ),
-              _BottomNavItem(
-                icon: Icons.calendar_month,
-                label: "Jadwal",
-                onTap: () => Get.offAllNamed(Routes.JADWAL),
-              ),
-              _BottomNavItem(
-                icon: Icons.bar_chart_outlined,
-                label: "Kanban",
-                onTap: () => Get.offAllNamed(Routes.KANBAN),
-              ),
-              _BottomNavItem(
-                icon: Icons.description_outlined,
-                label: "Dokumen",
-                onTap: () {},
-              ),
-              _BottomNavItem(
-                icon: Icons.person_outline,
-                label: "Profile",
-                onTap: () => Get.offAllNamed(Routes.PROFILE),
-              ),
-            ],
           ),
         ),
       ),
@@ -204,9 +229,7 @@ class DokumenPage extends StatelessWidget {
             onDelete: () {
               _confirmDelete(dokumen);
             },
-            onDownload: () {
-              // logika download dokumen
-            },
+            onDownload: () {},
             onViewRevisi: dokumen.status.toLowerCase() == "revisi"
                 ? () {
                     showRevisiModal(context, dokumen);
@@ -224,11 +247,13 @@ class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final bool isActive;
 
   const _BottomNavItem({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.isActive = false,
   });
 
   @override
@@ -238,12 +263,12 @@ class _BottomNavItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.white, size: 26),
+          Icon(icon, color: isActive ? Colors.yellow : Colors.white, size: 26),
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isActive ? Colors.yellow : Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),

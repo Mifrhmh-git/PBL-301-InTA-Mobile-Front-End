@@ -374,7 +374,7 @@ class _JadwalPageState extends State<JadwalPage> {
         onPressed: () => _showTambahJadwalModal(context),
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: _BottomNavBar(),
+      bottomNavigationBar: const _BottomNavBar(),
     );
   }
 
@@ -500,7 +500,24 @@ class _JadwalPageState extends State<JadwalPage> {
   }
 }
 
-class _BottomNavBar extends StatelessWidget {
+class _BottomNavBar extends StatefulWidget {
+  const _BottomNavBar({super.key});
+
+  @override
+  State<_BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<_BottomNavBar> {
+  String currentPage = Routes.JADWAL;
+
+  void _onTap(String route) {
+    if (route == currentPage) return;
+    setState(() {
+      currentPage = route;
+    });
+    Get.offAllNamed(route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -522,27 +539,32 @@ class _BottomNavBar extends StatelessWidget {
           _BottomNavItem(
             icon: Icons.home,
             label: "Beranda",
-            onTap: () => Get.offAllNamed(Routes.HOME),
+            isActive: currentPage == Routes.HOME,
+            onTap: () => _onTap(Routes.HOME),
           ),
           _BottomNavItem(
             icon: Icons.calendar_month,
             label: "Jadwal",
-            onTap: () => Get.offAllNamed(Routes.JADWAL),
+            isActive: currentPage == Routes.JADWAL,
+            onTap: () => _onTap(Routes.JADWAL),
           ),
           _BottomNavItem(
             icon: Icons.bar_chart_outlined,
             label: "Kanban",
-            onTap: () => Get.offAllNamed(Routes.KANBAN),
+            isActive: currentPage == Routes.KANBAN,
+            onTap: () => _onTap(Routes.KANBAN),
           ),
           _BottomNavItem(
             icon: Icons.description_outlined,
             label: "Dokumen",
-            onTap: () => Get.offAllNamed(Routes.DOKUMEN),
+            isActive: currentPage == Routes.DOKUMEN,
+            onTap: () => _onTap(Routes.DOKUMEN),
           ),
           _BottomNavItem(
             icon: Icons.person_outline,
             label: "Profile",
-            onTap: () => Get.offAllNamed(Routes.PROFILE),
+            isActive: currentPage == Routes.PROFILE,
+            onTap: () => _onTap(Routes.PROFILE),
           ),
         ],
       ),
@@ -554,11 +576,13 @@ class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final bool isActive;
 
   const _BottomNavItem({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.isActive = false,
   });
 
   @override
@@ -568,13 +592,14 @@ class _BottomNavItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.white, size: 26),
+          Icon(icon, color: isActive ? Colors.yellow : Colors.white, size: 26),
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isActive ? Colors.yellow : Colors.white,
               fontSize: 12,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
               fontFamily: 'Poppins',
             ),
           ),

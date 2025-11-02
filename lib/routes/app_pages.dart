@@ -46,9 +46,10 @@ class AppPages {
       }),
     ),
     GetPage(
-      name: _Paths.PROFILE,
-      page: () => const ProfilePage(),
-    ),
+  name: _Paths.PROFILE,
+  page: () => ProfilePage(),
+),
+
     GetPage(
       name: _Paths.NOTIFIKASI,
       page: () => const NotifikasiPage(),

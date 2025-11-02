@@ -4,15 +4,18 @@ import '../shared/shared.dart';
 import '../routes/app_pages.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+
+  // index halaman Profile = 4
+  final RxInt selectedIndex = 4.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true, 
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, 
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -108,49 +111,71 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
 
-      // Bottom Navigation dengan gradient sama
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [primaryColor, dangerColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      // Bottom Navigation dengan highlight halaman aktif
+      bottomNavigationBar: Obx(
+        () => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [primaryColor, dangerColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _BottomNavItem(
+                icon: Icons.home,
+                label: "Beranda",
+                isActive: selectedIndex.value == 0,
+                onTap: () {
+                  selectedIndex.value = 0;
+                  Get.offAllNamed(Routes.HOME);
+                },
+              ),
+              _BottomNavItem(
+                icon: Icons.calendar_month,
+                label: "Jadwal",
+                isActive: selectedIndex.value == 1,
+                onTap: () {
+                  selectedIndex.value = 1;
+                  Get.offAllNamed(Routes.JADWAL);
+                },
+              ),
+              _BottomNavItem(
+                icon: Icons.bar_chart_outlined,
+                label: "Kanban",
+                isActive: selectedIndex.value == 2,
+                onTap: () {
+                  selectedIndex.value = 2;
+                  Get.offAllNamed(Routes.KANBAN);
+                },
+              ),
+              _BottomNavItem(
+                icon: Icons.description_outlined,
+                label: "Dokumen",
+                isActive: selectedIndex.value == 3,
+                onTap: () {
+                  selectedIndex.value = 3;
+                  Get.offAllNamed(Routes.DOKUMEN);
+                },
+              ),
+              _BottomNavItem(
+                icon: Icons.person_outline,
+                label: "Profile",
+                isActive: selectedIndex.value == 4,
+                onTap: () {
+                  selectedIndex.value = 4;
+                  // tetap di profile
+                },
+              ),
+            ],
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _BottomNavItem(
-              icon: Icons.home,
-              label: "Beranda",
-              onTap: () => Get.offAllNamed(Routes.HOME),
-            ),
-            _BottomNavItem(
-              icon: Icons.calendar_month,
-              label: "Jadwal",
-              onTap: () => Get.offAllNamed(Routes.JADWAL),
-            ),
-            _BottomNavItem(
-              icon: Icons.bar_chart_outlined,
-              label: "Kanban",
-              onTap: () => Get.offAllNamed(Routes.KANBAN),
-            ),
-            _BottomNavItem(
-              icon: Icons.description_outlined,
-              label: "Dokumen",
-              onTap: () => Get.offAllNamed(Routes.DOKUMEN),
-            ),
-            _BottomNavItem(
-              icon: Icons.person_outline,
-              label: "Profile",
-              onTap: () {},
-            ),
-          ],
         ),
       ),
     );
@@ -214,11 +239,13 @@ class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final bool isActive;
 
   const _BottomNavItem({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.isActive = false,
   });
 
   @override
@@ -228,12 +255,12 @@ class _BottomNavItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.white, size: 26),
+          Icon(icon, color: isActive ? Colors.yellow : Colors.white, size: 26),
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isActive ? Colors.yellow : Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),

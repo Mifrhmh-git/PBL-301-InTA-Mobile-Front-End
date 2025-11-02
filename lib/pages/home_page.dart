@@ -16,6 +16,9 @@ class HomePage extends GetView<myCtrl.MenuController> {
   Widget build(BuildContext context) {
     const mainBlue = Color(0xFF88BDF2);
 
+    // Pastikan halaman aktif saat HomePage dibuka
+    controller.setPage(myCtrl.PageType.home);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -206,7 +209,7 @@ class HomePage extends GetView<myCtrl.MenuController> {
                   isActive: controller.currentPage.value == myCtrl.PageType.home,
                   onTap: () {
                     controller.setPage(myCtrl.PageType.home);
-                    Get.toNamed(Routes.HOME);
+                    Get.offAllNamed(Routes.HOME);
                   },
                 ),
                 _BottomNavItem(
@@ -215,7 +218,7 @@ class HomePage extends GetView<myCtrl.MenuController> {
                   isActive: controller.currentPage.value == myCtrl.PageType.jadwal,
                   onTap: () {
                     controller.setPage(myCtrl.PageType.jadwal);
-                    Get.toNamed(Routes.JADWAL);
+                    Get.offAllNamed(Routes.JADWAL);
                   },
                 ),
                 _BottomNavItem(
@@ -224,7 +227,7 @@ class HomePage extends GetView<myCtrl.MenuController> {
                   isActive: controller.currentPage.value == myCtrl.PageType.kanban,
                   onTap: () {
                     controller.setPage(myCtrl.PageType.kanban);
-                    Get.toNamed(Routes.KANBAN);
+                    Get.offAllNamed(Routes.KANBAN);
                   },
                 ),
                 _BottomNavItem(
@@ -233,7 +236,7 @@ class HomePage extends GetView<myCtrl.MenuController> {
                   isActive: controller.currentPage.value == myCtrl.PageType.dokumen,
                   onTap: () {
                     controller.setPage(myCtrl.PageType.dokumen);
-                    Get.toNamed(Routes.DOKUMEN);
+                    Get.offAllNamed(Routes.DOKUMEN);
                   },
                 ),
                 _BottomNavItem(
@@ -242,7 +245,7 @@ class HomePage extends GetView<myCtrl.MenuController> {
                   isActive: controller.currentPage.value == myCtrl.PageType.profile,
                   onTap: () {
                     controller.setPage(myCtrl.PageType.profile);
-                    Get.toNamed(Routes.PROFILE);
+                    Get.offAllNamed(Routes.PROFILE);
                   },
                 ),
               ],
