@@ -153,8 +153,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: Text(
                             "Daftar",
                             style: whiteTextStyle.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ),

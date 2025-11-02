@@ -87,7 +87,7 @@ class KanbanPage extends StatelessWidget {
               child: TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: BoxDecoration(
-                  color: primaryColor, // ✅ warna aktif tab pakai primaryColor
+                  color: primaryColor, 
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                 ),
                 labelColor: Colors.white,
@@ -123,7 +123,7 @@ class KanbanPage extends StatelessWidget {
       ),
       // --- FAB Tambah Task ---
       floatingActionButton: FloatingActionButton(
-        backgroundColor: dangerColor, // 🔥 diubah dari primaryColor → dangerColor
+        backgroundColor: dangerColor, 
         onPressed: () {
           showAddKanbanModal(context, controller, "To Do");
         },

@@ -3,7 +3,13 @@ import 'package:get/get.dart';
 import '../shared/shared.dart';
 import '../routes/app_pages.dart';
 
-class HomePage extends StatelessWidget {
+// Gunakan alias supaya tidak konflik dengan MenuController Flutter
+import '../controllers/menu_controller.dart' as myCtrl;
+
+// =========================
+// HomePage menggunakan GetView agar controller otomatis tersedia
+// =========================
+class HomePage extends GetView<myCtrl.MenuController> {
   const HomePage({super.key});
 
   @override
@@ -37,14 +43,14 @@ class HomePage extends StatelessWidget {
         ],
       ),
 
-      // === BODY ===
+      // ================= BODY =================
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(defaultMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // === Halo Balqis ===
+              // Halo Balqis
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(18),
@@ -70,7 +76,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 25),
 
-              // === Progress TA ===
+              // Progress TA
               const Text(
                 "Progress TA",
                 style: TextStyle(
@@ -80,7 +86,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-
               Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -111,7 +116,7 @@ class HomePage extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // === Pengumuman ===
+              // Pengumuman
               const Text(
                 "Pengumuman",
                 style: TextStyle(
@@ -121,23 +126,22 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-
               SizedBox(
                 height: 160,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: const [
+                  children: [
                     _InfoCard(title: "Template Laporan", mainBlue: mainBlue),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     _InfoCard(title: "Jadwal Sidang", mainBlue: mainBlue),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     _InfoCard(title: "Panduan Sidang", mainBlue: mainBlue),
                   ],
                 ),
               ),
               const SizedBox(height: 25),
 
-              // === Upcoming ===
+              // Upcoming
               const Text(
                 "Upcoming",
                 style: TextStyle(
@@ -147,7 +151,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-
               Column(
                 children: const [
                   _UpcomingCard(
@@ -180,56 +183,76 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-      // === Bottom Navigation ===
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [primaryColor, dangerColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _BottomNavItem(
-              icon: Icons.home,
-              label: "Beranda",
-              onTap: () {},
+      // ================= Bottom Navigation =================
+      bottomNavigationBar: Obx(() => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [primaryColor, dangerColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
             ),
-            _BottomNavItem(
-              icon: Icons.calendar_month,
-              label: "Jadwal",
-              onTap: () => Get.toNamed(Routes.JADWAL),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _BottomNavItem(
+                  icon: Icons.home,
+                  label: "Beranda",
+                  isActive: controller.currentPage.value == myCtrl.PageType.home,
+                  onTap: () {
+                    controller.setPage(myCtrl.PageType.home);
+                    Get.toNamed(Routes.HOME);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.calendar_month,
+                  label: "Jadwal",
+                  isActive: controller.currentPage.value == myCtrl.PageType.jadwal,
+                  onTap: () {
+                    controller.setPage(myCtrl.PageType.jadwal);
+                    Get.toNamed(Routes.JADWAL);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.bar_chart_outlined,
+                  label: "Kanban",
+                  isActive: controller.currentPage.value == myCtrl.PageType.kanban,
+                  onTap: () {
+                    controller.setPage(myCtrl.PageType.kanban);
+                    Get.toNamed(Routes.KANBAN);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.description_outlined,
+                  label: "Dokumen",
+                  isActive: controller.currentPage.value == myCtrl.PageType.dokumen,
+                  onTap: () {
+                    controller.setPage(myCtrl.PageType.dokumen);
+                    Get.toNamed(Routes.DOKUMEN);
+                  },
+                ),
+                _BottomNavItem(
+                  icon: Icons.person_outline,
+                  label: "Profil",
+                  isActive: controller.currentPage.value == myCtrl.PageType.profile,
+                  onTap: () {
+                    controller.setPage(myCtrl.PageType.profile);
+                    Get.toNamed(Routes.PROFILE);
+                  },
+                ),
+              ],
             ),
-            _BottomNavItem(
-              icon: Icons.bar_chart_outlined,
-              label: "Kanban",
-              onTap: () => Get.toNamed(Routes.KANBAN),
-            ),
-            _BottomNavItem(
-              icon: Icons.description_outlined,
-              label: "Dokumen",
-              onTap: () => Get.toNamed(Routes.DOKUMEN),
-            ),
-            _BottomNavItem(
-              icon: Icons.person_outline,
-              label: "Profil",
-              onTap: () => Get.toNamed(Routes.PROFILE),
-            ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
 
-// === INFO CARD ===
+// ================= InfoCard =================
 class _InfoCard extends StatelessWidget {
   final String title;
   final Color mainBlue;
@@ -260,15 +283,15 @@ class _InfoCard extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Colors.black, // ubah jadi hitam
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
+              color: dangerColor,
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
             ),
           ),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: mainBlue, // tetap warna biru
+              backgroundColor: mainBlue,
               minimumSize: const Size(100, 40),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -278,8 +301,9 @@ class _InfoCard extends StatelessWidget {
             child: const Text(
               "Lihat",
               style: TextStyle(
-                color: Colors.white, // tulisan tombol tetap putih
-                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -289,8 +313,7 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-
-// === UPCOMING CARD ===
+// ================= UpcomingCard =================
 class _UpcomingCard extends StatelessWidget {
   final String title;
   final String date;
@@ -324,13 +347,12 @@ class _UpcomingCard extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              color: primaryColor,
-              fontSize: 16,
+              color: dangerColor,
+              fontSize: 17,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 6),
-
           Row(
             children: [
               const Icon(Icons.calendar_today, color: Colors.black, size: 18),
@@ -340,13 +362,12 @@ class _UpcomingCard extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14.5,
-                  fontWeight: FontWeight.w500, 
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 6),
-
           Row(
             children: [
               const Icon(Icons.access_time, color: Colors.black, size: 18),
@@ -356,7 +377,7 @@ class _UpcomingCard extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14.5,
-                  fontWeight: FontWeight.w500, 
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -367,16 +388,18 @@ class _UpcomingCard extends StatelessWidget {
   }
 }
 
-// === BOTTOM NAV ITEM ===
+// ================= BottomNavItem =================
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final bool isActive;
 
   const _BottomNavItem({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.isActive = false,
   });
 
   @override
@@ -386,14 +409,14 @@ class _BottomNavItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.white, size: 26),
+          Icon(icon, color: isActive ? Colors.yellow : Colors.white, size: 26),
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isActive ? Colors.yellow : Colors.white,
               fontSize: 12,
-              fontWeight: FontWeight.w500,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
             ),
           ),
         ],

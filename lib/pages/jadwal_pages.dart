@@ -429,9 +429,9 @@ class _JadwalPageState extends State<JadwalPage> {
             Text(
               item["judul"],
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: primaryColor,
+                fontSize: 17,
+                fontWeight: FontWeight.w800,
+                color: dangerColor,
                 fontFamily: 'Poppins',
               ),
             ),
@@ -440,7 +440,7 @@ class _JadwalPageState extends State<JadwalPage> {
               "Dosen: ${item["dosen"]}",
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black87,
+                color: Colors.black,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),
@@ -449,7 +449,7 @@ class _JadwalPageState extends State<JadwalPage> {
               "Tanggal: ${item["tanggal"]}",
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black87,
+                color: Colors.black,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),
@@ -458,7 +458,7 @@ class _JadwalPageState extends State<JadwalPage> {
               "Waktu: ${item["waktu"]}",
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black87,
+                color: Colors.black,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),
@@ -467,7 +467,7 @@ class _JadwalPageState extends State<JadwalPage> {
               "Lokasi: ${item["lokasi"]}",
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black87,
+                color: Colors.black,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),

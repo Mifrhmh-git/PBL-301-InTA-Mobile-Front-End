@@ -70,7 +70,7 @@ class DokumenCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     dokumen.title,
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Colors.black, height: 1.3),
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 17, color: dangerColor, height: 1.3),
                   ),
                 ),
                 Container(
@@ -91,15 +91,15 @@ class DokumenCard extends StatelessWidget {
             // Tanggal
             Row(
               children: [
-                const Icon(Icons.access_time, size: 15, color: Colors.black54),
+                const Icon(Icons.access_time, size: 15, color: Colors.black),
                 const SizedBox(width: 6),
-                Text(formattedDate, style: const TextStyle(fontSize: 13, color: Colors.black87, height: 1.4)),
+                Text(formattedDate, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black, height: 1.4)),
               ],
             ),
             const SizedBox(height: 10),
 
             // Deskripsi
-            Text("Keterangan : ${dokumen.description}", style: const TextStyle(fontSize: 13, color: Colors.black87, height: 1.4)),
+            Text("Keterangan : ${dokumen.description}", style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black, height: 1.4)),
             const SizedBox(height: 10),
             Container(height: 2, color: primaryColor),
             const SizedBox(height: 4),
