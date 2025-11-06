@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../shared/shared.dart';
+import '../../shared/shared.dart';
+import 'ajukan_dosen_menunggu_page.dart'; // 🔹 tambahkan import halaman selanjutnya
 
-class AjukanDosenMenungguPage extends StatelessWidget {
-  const AjukanDosenMenungguPage({super.key});
+class AjukanDosenTerkirimPage extends StatelessWidget {
+  const AjukanDosenTerkirimPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,52 +18,56 @@ class AjukanDosenMenungguPage extends StatelessWidget {
               children: [
                 // Gambar ilustrasi
                 Image.asset(
-                  'assets/images/tunggu-image.png', 
+                  'assets/images/kirim-image.png',
                   height: 200,
                 ),
                 const SizedBox(height: 30),
 
                 // Judul
                 const Text(
-                  "Sedang menunggu konfirmasi",
+                  "TERKIRIM",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
 
                 // Deskripsi
                 const Text(
-                  "Pengajuan dosen pembimbing sedang diproses,\nHarap sabar sebentar ya!",
+                  "Permintaan pengajuan dosen pembimbing mu sudah terkirim",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black87,
-                    height: 1.4,
                   ),
                 ),
                 const SizedBox(height: 40),
 
-                // Tombol kembali ke beranda
+                // Tombol
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2F3E52), // warna sesuai contoh
+                      backgroundColor: const Color(0xFF2F3E52), // warna abu gelap sesuai gambar
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () {
-                      // TODO: arahkan ke halaman beranda
-                      Navigator.popUntil(context, (route) => route.isFirst);
+                      // ✅ ubahan hanya di sini
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const AjukanDosenMenungguPage(),
+                        ),
+                      );
                     },
                     child: const Text(
-                      "Kembali Ke Beranda",
+                      "Lihat Status Pengajuan",
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,

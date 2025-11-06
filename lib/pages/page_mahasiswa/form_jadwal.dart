@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../shared/shared.dart';
+
+// global
+import 'package:inta301/shared/shared.dart';
 
 class FormJadwalBimbinganPage extends StatefulWidget {
   final int jadwalId;

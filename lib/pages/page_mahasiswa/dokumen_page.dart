@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inta301/pages/modal_tambah_dokumen.dart';
-import 'package:inta301/pages/modal_edit_dokumen.dart';
-import 'package:inta301/pages/modal_revisi_dokumen.dart';
-import '../shared/shared.dart';
-import 'dokumen_controller.dart';
-import 'dokumen_card.dart';
-import '../routes/app_pages.dart';
+import 'package:inta301/pages/page_mahasiswa/modal_tambah_dokumen.dart';
+import 'package:inta301/pages/page_mahasiswa/modal_edit_dokumen.dart';
+import 'package:inta301/pages/page_mahasiswa/modal_revisi_dokumen.dart';
+import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
+import 'package:inta301/pages/page_mahasiswa/dokumen_card.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/routes/app_pages.dart';
 
 class DokumenPage extends StatelessWidget {
-  DokumenPage({super.key});
-  final DokumenController controller = Get.put(DokumenController());
+  final bool hasDosen;
+  DokumenPage({super.key, required this.hasDosen});
 
-  // Untuk menyoroti halaman aktif di BottomNav
-  final RxInt selectedIndex = 3.obs; // Dokumen ada di index 3
+  final DokumenController controller = Get.put(DokumenController());
+  final RxInt selectedIndex = 3.obs; // Dokumen di index 3
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,11 @@ class DokumenPage extends StatelessWidget {
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 20,
+              fontFamily: 'Poppins',
             ),
           ),
           flexibleSpace: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [primaryColor, dangerColor],
                 begin: Alignment.topLeft,
@@ -48,73 +49,92 @@ class DokumenPage extends StatelessWidget {
         ),
 
         // === BODY ===
-        body: Column(
-          children: [
-            // --- TabBar ---
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: defaultMargin,
-                vertical: 12,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: const TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicator: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                labelColor: Colors.white,
-                unselectedLabelColor: blackColor,
-                tabs: [
-                  Tab(text: "Menunggu"),
-                  Tab(text: "Revisi"),
-                  Tab(text: "Selesai"),
-                ],
-              ),
-            ),
-
-            // --- Daftar Dokumen per tab ---
-            Expanded(
-              child: TabBarView(
+        body: hasDosen
+            ? Column(
                 children: [
-                  _buildTabList(controller.menungguList, context),
-                  _buildTabList(controller.revisiList, context),
-                  _buildTabList(controller.selesaiList, context),
+                  // --- TabBar ---
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: defaultMargin,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: const TabBar(
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      labelColor: Colors.white,
+                      unselectedLabelColor: blackColor,
+                      tabs: [
+                        Tab(text: "Menunggu"),
+                        Tab(text: "Revisi"),
+                        Tab(text: "Selesai"),
+                      ],
+                    ),
+                  ),
+
+                  // --- Daftar Dokumen per tab ---
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        _buildTabList(controller.menungguList, context),
+                        _buildTabList(controller.revisiList, context),
+                        _buildTabList(controller.selesaiList, context),
+                      ],
+                    ),
+                  ),
                 ],
-              ),
-            ),
-          ],
-        ),
+              )
+            : const Padding(
+  padding: EdgeInsets.only(top: 100), 
+  child: Center(
+    child: Text(
+      "Belum memiliki dosen pembimbing",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.black54,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        fontFamily: 'Poppins',
+      ),
+    ),
+  ),
+),
+
 
         // === TOMBOL TAMBAH ===
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: dangerColor,
-          onPressed: () {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              context: context,
-              builder: (_) => const TambahDokumenModal(),
-            );
-          },
-          child: const Icon(Icons.add, color: Colors.white),
-        ),
+        floatingActionButton: hasDosen
+            ? FloatingActionButton(
+                backgroundColor: dangerColor,
+                onPressed: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (_) => const TambahDokumenModal(),
+                  );
+                },
+                child: const Icon(Icons.add, color: Colors.white),
+              )
+            : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
         // === BOTTOM NAVIGATION ===
         bottomNavigationBar: Obx(
           () => Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [primaryColor, dangerColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
@@ -214,7 +234,6 @@ class DokumenPage extends StatelessWidget {
         itemCount: list.length,
         itemBuilder: (context, index) {
           final dokumen = list[index];
-
           return DokumenCard(
             dokumen: dokumen,
             onAdd: () {},
@@ -226,14 +245,10 @@ class DokumenPage extends StatelessWidget {
                 builder: (_) => EditModal(dokumen: dokumen),
               );
             },
-            onDelete: () {
-              _confirmDelete(dokumen);
-            },
+            onDelete: () => _confirmDelete(dokumen),
             onDownload: () {},
             onViewRevisi: dokumen.status.toLowerCase() == "revisi"
-                ? () {
-                    showRevisiModal(context, dokumen);
-                  }
+                ? () => showRevisiModal(context, dokumen)
                 : null,
           );
         },
@@ -271,6 +286,7 @@ class _BottomNavItem extends StatelessWidget {
               color: isActive ? Colors.yellow : Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w500,
+              fontFamily: 'Poppins',
             ),
           ),
         ],

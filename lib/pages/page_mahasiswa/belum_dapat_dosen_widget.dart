@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../shared/shared.dart';
-import '../pages/ajukan_dosen_page.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/pages/page_mahasiswa/ajukan_dosen_page.dart';
+
+
 
 class BelumDapatDosenWidget extends StatelessWidget {
   const BelumDapatDosenWidget({super.key});

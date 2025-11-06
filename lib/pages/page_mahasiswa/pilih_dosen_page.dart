@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../shared/shared.dart';
-import 'ajukan_dosen_page.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/pages/page_mahasiswa/ajukan_dosen_page.dart';
+
 
 class PilihDosenPage extends StatefulWidget {
   const PilihDosenPage({super.key});
@@ -180,7 +181,8 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
                                       Text(
                                         dosen["prodi"],
                                         style: const TextStyle(
-                                          color: Colors.black54,
+                                          color:Color(0xFF616161),
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 13,
                                         ),
                                       ),
@@ -188,8 +190,9 @@ class _PilihDosenPageState extends State<PilihDosenPage> {
                                       Text(
                                         dosen["bimbingan"],
                                         style: const TextStyle(
-                                          color: Colors.black45,
-                                          fontSize: 12,
+                                          color:Color(0xFF616161),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
                                         ),
                                       ),
                                     ],

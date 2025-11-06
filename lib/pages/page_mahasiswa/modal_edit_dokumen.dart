@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
-import 'dokumen_controller.dart';
+import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
+import 'package:inta301/shared/shared.dart';
 
-class TambahDokumenModal extends StatefulWidget {
-  const TambahDokumenModal({super.key});
+
+class EditModal extends StatefulWidget {
+  final DokumenModel dokumen;
+
+  const EditModal({super.key, required this.dokumen});
 
   @override
-  State<TambahDokumenModal> createState() => _TambahDokumenModalState();
+  State<EditModal> createState() => _EditModalState();
 }
 
-class _TambahDokumenModalState extends State<TambahDokumenModal> {
+class _EditModalState extends State<EditModal> {
   final _formKey = GlobalKey<FormState>();
-  final DokumenController controller = Get.find<DokumenController>();
+  final DokumenController controller = Get.find();
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _babController = TextEditingController();
-  final TextEditingController _descController = TextEditingController();
+  late TextEditingController _titleController;
+  late TextEditingController _babController;
+  late TextEditingController _descController;
   String? _fileName;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.dokumen.title);
+    _babController = TextEditingController(text: widget.dokumen.bab);
+    _descController = TextEditingController(text: widget.dokumen.description);
+    _fileName = widget.dokumen.fileName;
+  }
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -28,35 +40,70 @@ class _TambahDokumenModalState extends State<TambahDokumenModal> {
     if (result != null) {
       setState(() {
         _fileName = result.files.single.name;
-        _titleController.text = result.files.single.name;
       });
     }
   }
 
-  void _uploadDokumen() {
+  void _saveChanges() {
     if (_formKey.currentState!.validate()) {
-      controller.addDokumen(
+      controller.editDokumen(
         DokumenModel(
           title: _titleController.text,
           bab: _babController.text,
           description: _descController.text,
-          status: "Menunggu",
-          fileName: _fileName ?? "Belum dipilih",
-          date: DateTime.now().toString(),
-          catatanDosen: "",
-          fileRevisi: "",
+          status: widget.dokumen.status,
+          fileName: _fileName ?? widget.dokumen.fileName,
+          date: widget.dokumen.date,
+          catatanDosen: widget.dokumen.catatanDosen,
+          fileRevisi: widget.dokumen.fileRevisi,
         ),
       );
       Get.back();
       Get.snackbar(
         "Berhasil",
-        "Dokumen berhasil diunggah",
+        "Dokumen berhasil diperbarui",
         backgroundColor: Colors.green.shade600,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
       );
     }
+  }
+
+  void _deleteDokumen() {
+    controller.deleteDokumen(widget.dokumen);
+    Get.back();
+    Get.snackbar(
+      "Dihapus",
+      "Dokumen berhasil dihapus",
+      backgroundColor: Colors.red.shade600,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(16),
+    );
+  }
+
+  void _confirmDelete() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Konfirmasi Hapus"),
+        content: const Text("Apakah Anda yakin ingin menghapus dokumen ini?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Batal"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _deleteDokumen();
+            },
+            child: const Text("Hapus", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -100,11 +147,8 @@ class _TambahDokumenModalState extends State<TambahDokumenModal> {
 
                   const Center(
                     child: Text(
-                      "Upload File Dokumen",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                      ),
+                      "Edit File Dokumen",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -165,20 +209,39 @@ class _TambahDokumenModalState extends State<TambahDokumenModal> {
                   _buildTextFormField(_descController, "Opsional", maxLines: 2),
 
                   const SizedBox(height: 25),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: _uploadDokumen,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: dangerColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  // Tombol Hapus & Simpan sejajar
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _confirmDelete, // panggil konfirmasi
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: dangerColor,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: const Text("HAPUS",
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          ),
+                        ),
                       ),
-                      child: const Text(
-                        "UPLOAD",
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _saveChanges,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: const Text("SIMPAN",
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                 ],

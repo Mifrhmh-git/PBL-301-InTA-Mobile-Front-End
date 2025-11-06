@@ -17,6 +17,18 @@ class _LoginPageState extends State<LoginPage> {
   bool obscurePassword = true;
 
   @override
+  void initState() {
+    super.initState();
+
+    // Cek apakah ada argument role dari halaman sebelumnya (misalnya dari register)
+    final args = Get.arguments as Map<String, dynamic>? ?? {};
+    final role = args["role"] as String?;
+    if (role != null && (role == "Mahasiswa" || role == "Dosen")) {
+      selectedUser = role;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -30,8 +42,8 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF88BDF2), 
-                  Color(0xFF384959), 
+                  Color(0xFF88BDF2),
+                  Color(0xFF384959),
                 ],
               ),
             ),
@@ -45,11 +57,11 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const SizedBox(height: 40),
 
-                //  Header
+                // Header
                 Column(
-                  children: [
-                    const Text(
-                      "Halo, Selamat Datang Di InTA",
+                  children: const [
+                    Text(
+                      "Halo, Selamat Datang di InTA",
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
@@ -58,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 5),
-                    const Text(
+                    SizedBox(height: 5),
+                    Text(
                       "Silakan masuk untuk melanjutkan",
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -74,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 35),
 
-                // Card putih berisi form
+                // Card putih berisi form login
                 Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -98,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         decoration: BoxDecoration(
                           color: const Color(0xFF88BDF2).withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(16), 
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: const Color(0xFF88BDF2).withOpacity(0.3),
                             width: 1,
@@ -109,12 +121,16 @@ class _LoginPageState extends State<LoginPage> {
                           isExpanded: true,
                           underline: const SizedBox(),
                           dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(16), 
+                          borderRadius: BorderRadius.circular(16),
                           items: const [
                             DropdownMenuItem(
-                                value: "Mahasiswa", child: Text("Mahasiswa")),
+                              value: "Mahasiswa",
+                              child: Text("Mahasiswa"),
+                            ),
                             DropdownMenuItem(
-                                value: "Dosen", child: Text("Dosen")),
+                              value: "Dosen",
+                              child: Text("Dosen"),
+                            ),
                           ],
                           onChanged: (value) {
                             setState(() => selectedUser = value!);
@@ -123,7 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 15),
 
-                      _buildLabel("ID Learning"),
+                      // Label ID dinamis sesuai role
+                      _buildLabel(
+                        selectedUser == "Mahasiswa" ? "ID Learning" : "NIK",
+                      ),
                       _buildField(controller: idController),
                       const SizedBox(height: 15),
 
@@ -140,27 +159,23 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 30),
 
-                      // Tombol Login 
+                      // Tombol Login
                       SizedBox(
                         height: 50,
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
                             if (selectedUser == "Mahasiswa") {
-                              bool sudahLengkapiData = false;
-                              if (!sudahLengkapiData) {
-                                Get.offAllNamed(Routes.LENGKAPI_DATA);
-                              } else {
-                                Get.offAllNamed(Routes.HOME);
-                              }
+                              // Langsung ke Home tanpa cek form data diri
+                              Get.offAllNamed(Routes.HOME, arguments: false); // hasDosen default false
                             } else {
-                              Get.offAllNamed(Routes.HOME);
+                              Get.offAllNamed(Routes.HOME_DOSEN);
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF384959),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16), 
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           child: Text(
@@ -186,21 +201,38 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             const SizedBox(height: 5),
-                            RichText(
-                              text: TextSpan(
-                                text: "Belum punya akun? ",
-                                style: blackTextStyle.copyWith(fontSize: 13),
-                                children: [
-                                  TextSpan(
-                                    text: "Daftar Sekarang",
-                                    style: TextStyle(
-                                      color: const Color(0xFF88BDF2),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Poppins',
+
+                            // Teks "Daftar Sekarang"
+                            GestureDetector(
+                              onTap: () {
+                                if (selectedUser == "Mahasiswa") {
+                                  Get.toNamed(
+                                    Routes.REGISTER_MAHASISWA,
+                                    arguments: {"role": "Mahasiswa"},
+                                  );
+                                } else {
+                                  Get.toNamed(
+                                    Routes.REGISTER_DOSEN,
+                                    arguments: {"role": "Dosen"},
+                                  );
+                                }
+                              },
+                              child: RichText(
+                                text: TextSpan(
+                                  text: "Belum punya akun? ",
+                                  style: blackTextStyle.copyWith(fontSize: 13),
+                                  children: const [
+                                    TextSpan(
+                                      text: "Daftar Sekarang",
+                                      style: TextStyle(
+                                        color: Color(0xFF88BDF2),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -242,25 +274,24 @@ Widget _buildField({
     decoration: InputDecoration(
       filled: true,
       fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
-      contentPadding:
-          const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16), 
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
           color: const Color(0xFF88BDF2).withOpacity(0.3),
           width: 1,
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16), 
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
           color: const Color(0xFF88BDF2).withOpacity(0.3),
           width: 1,
         ),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16), 
-        borderSide: const BorderSide(
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderSide: BorderSide(
           color: Color(0xFF88BDF2),
           width: 1.5,
         ),

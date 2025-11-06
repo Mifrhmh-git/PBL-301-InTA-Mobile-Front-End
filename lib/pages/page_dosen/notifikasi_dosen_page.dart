@@ -1,46 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
+import 'package:intl/intl.dart';
+import 'package:inta301/shared/shared.dart';
 
-class NotifikasiPage extends StatelessWidget {
-  const NotifikasiPage({super.key});
+class NotifikasiDosenPage extends StatelessWidget {
+  const NotifikasiDosenPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     const mainBlue = Color(0xFF88BDF2);
 
+    // Fungsi format waktu otomatis Indonesia
+    String formatDate(DateTime date) {
+      return DateFormat('HH:mm – dd MMMM yyyy', 'id_ID').format(date);
+    }
+
     final List<Map<String, dynamic>> notifications = [
       {
-        "type": "pengingat",
-        "title": "Pengingat!",
-        "message": "Sidang TA akan segera berlangsung, persiapkan dokumen.",
-        "time": "17:00 – April 24",
-      },
-      {
-        "type": "update",
-        "title": "Update Terbaru",
-        "message": "Unggah BAB II: Latar Belakang sebelum batas waktu.",
-        "time": "15:00 – April 24",
-      },
-      {
-        "type": "pengingat",
-        "title": "Pengingat!",
-        "message": "Bimbingan pukul 10:00 di ruang TA 12.4. Jangan sampai telat!",
-        "time": "09:00 – Oktober 21",
-      },
-      {
         "type": "ajuan",
-        "title": "Ajuan Jadwal Bimbingan",
+        "title": "Ajuan Bimbingan Baru",
         "message":
-            "Dosen pembimbing mengajukan jadwal bimbingan baru pada Rabu, 6 November 2025 pukul 14:00.",
-        "time": "10:30 – November 4",
+            "Mahasiswa Putri Balqis mengajukan jadwal bimbingan pada Jumat, 8 November 2025 pukul 13:00.",
+        "time": formatDate(DateTime(2025, 11, 5, 9, 30)),
       },
       {
         "type": "diterima",
-        "title": "Ajuan Diterima",
+        "title": "Jadwal Diterima Mahasiswa",
         "message":
-            "Pengajuan jadwal bimbinganmu telah disetujui oleh dosen pembimbing.",
-        "time": "12:15 – November 5",
+            "Mahasiswa Ahmad Rafi telah menyetujui jadwal bimbingan yang Anda ajukan.",
+        "time": formatDate(DateTime(2025, 11, 4, 14, 10)),
+      },
+      {
+        "type": "ditolak",
+        "title": "Jadwal Ditolak Mahasiswa",
+        "message":
+            "Mahasiswa Lina Septiani menolak jadwal bimbingan yang Anda ajukan karena bentrok dengan mata kuliah.",
+        "time": formatDate(DateTime(2025, 11, 3, 16, 45)),
+      },
+      {
+        "type": "pengingat",
+        "title": "Pengingat Bimbingan",
+        "message":
+            "Bimbingan bersama mahasiswa Andi akan dimulai pukul 10:00 di ruang TA 12.4.",
+        "time": formatDate(DateTime(2025, 11, 3, 8, 00)),
+      },
+      {
+        "type": "update",
+        "title": "Update Dokumen Mahasiswa",
+        "message":
+            "Mahasiswa Dini Kurnia telah mengunggah revisi BAB III untuk Anda tinjau.",
+        "time": formatDate(DateTime(2025, 11, 2, 19, 20)),
       },
     ];
 
@@ -78,13 +87,15 @@ class NotifikasiPage extends StatelessWidget {
           final notif = notifications[index];
 
           return _buildNotificationItem(
-            icon: notif["type"] == "update"
-                ? Icons.update
-                : notif["type"] == "ajuan"
-                    ? Icons.schedule_send_outlined
-                    : notif["type"] == "diterima"
-                        ? Icons.check_circle_outline
-                        : Icons.notifications_active_outlined,
+            icon: notif["type"] == "ajuan"
+                ? Icons.schedule_send_outlined
+                : notif["type"] == "diterima"
+                    ? Icons.check_circle_outline
+                    : notif["type"] == "ditolak"
+                        ? Icons.cancel_outlined
+                        : notif["type"] == "update"
+                            ? Icons.upload_file_outlined
+                            : Icons.notifications_active_outlined,
             title: notif["title"],
             message: notif["message"],
             time: notif["time"],
@@ -123,7 +134,7 @@ class NotifikasiPage extends StatelessWidget {
               color: dangerColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: dangerColor, size: 26), // ✅ pakai dangerColor
+            child: Icon(icon, color: dangerColor, size: 26),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -151,8 +162,8 @@ class NotifikasiPage extends StatelessWidget {
                 Text(
                   time,
                   style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF616161),
+                    fontWeight: FontWeight.w600,
                     fontSize: 12.5,
                   ),
                 ),

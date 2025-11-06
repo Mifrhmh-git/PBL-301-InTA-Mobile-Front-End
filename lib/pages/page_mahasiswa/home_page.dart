@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
-import '../routes/app_pages.dart';
 
-// Gunakan alias supaya tidak konflik dengan MenuController Flutter
-import '../controllers/menu_controller.dart' as myCtrl;
+// Import global
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/routes/app_pages.dart';
+
+// Import controller global (pakai alias agar tidak bentrok)
+import 'package:inta301/controllers/menu_controller.dart' as myCtrl;
 
 // =========================
 // HomePage menggunakan GetView agar controller otomatis tersedia
 // =========================
-class HomePage extends GetView<myCtrl.MenuController> {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  final bool hasDosen; // parameter untuk cek status dosen
+
+  const HomePage({super.key, required this.hasDosen});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final controller = Get.find<myCtrl.MenuController>();
+
+  // 🔥 Status mahasiswa: 'belum', 'menunggu', atau 'sudah'
+  String status = 'sudah';
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +67,7 @@ class HomePage extends GetView<myCtrl.MenuController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Halo Balqis
+              // Halo Mahasiswa
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(18),
@@ -79,43 +93,8 @@ class HomePage extends GetView<myCtrl.MenuController> {
               ),
               const SizedBox(height: 25),
 
-              // Progress TA
-              const Text(
-                "Progress TA",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  Container(
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: dangerColor.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      double progressWidth = constraints.maxWidth * 0.6;
-                      return Container(
-                        width: progressWidth,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          color: dangerColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const Text("60%", style: TextStyle(color: Colors.black)),
+              // 🔥 Jika sudah punya dosen, tampilkan Progress TA dulu
+              if (status == 'sudah') _buildProgressTA(),
 
               const SizedBox(height: 25),
 
@@ -133,54 +112,23 @@ class HomePage extends GetView<myCtrl.MenuController> {
                 height: 160,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: [
+                  children: const [
                     _InfoCard(title: "Template Laporan", mainBlue: mainBlue),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     _InfoCard(title: "Jadwal Sidang", mainBlue: mainBlue),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     _InfoCard(title: "Panduan Sidang", mainBlue: mainBlue),
                   ],
                 ),
               ),
               const SizedBox(height: 25),
 
-              // Upcoming
-              const Text(
-                "Upcoming",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Column(
-                children: const [
-                  _UpcomingCard(
-                    title: "Bimbingan Revisi Bab 2",
-                    date: "Selasa, 7 Oktober 2025",
-                    time: "10:30",
-                  ),
-                  SizedBox(height: 12),
-                  _UpcomingCard(
-                    title: "Diskusi Desain UI",
-                    date: "Rabu, 9 Oktober 2025",
-                    time: "13:00",
-                  ),
-                  SizedBox(height: 12),
-                  _UpcomingCard(
-                    title: "Pengumpulan Proposal Final",
-                    date: "Jumat, 11 Oktober 2025",
-                    time: "09:00",
-                  ),
-                  SizedBox(height: 12),
-                  _UpcomingCard(
-                    title: "Sidang Akhir Tugas Akhir",
-                    date: "Senin, 14 Oktober 2025",
-                    time: "08:30",
-                  ),
-                ],
-              ),
+              // 🔥 Jika sudah punya dosen, tampilkan Upcoming setelah Pengumuman
+              if (status == 'sudah') _buildUpcoming(),
+
+              // 🔥 Kondisi lain
+              if (status == 'belum') _buildBelumPunyaDosen(),
+              if (status == 'menunggu') _buildCardStatusPengajuan(),
             ],
           ),
         ),
@@ -251,6 +199,140 @@ class HomePage extends GetView<myCtrl.MenuController> {
               ],
             ),
           )),
+    );
+  }
+
+  // ================= Jika belum punya dosen =================
+  Widget _buildBelumPunyaDosen() {
+    return const Padding(
+      padding: EdgeInsets.only(top: 100),
+      child: Center(
+        child: Text(
+          "Belum memiliki dosen pembimbing",
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFF616161),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ================= Jika status pengajuan sedang menunggu =================
+  Widget _buildCardStatusPengajuan() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.45),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text(
+            "Status Pengajuan Dosen Pembimbing",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: dangerColor,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text("Nama Dosen: Sukma Evadini, S.T., M.Kom"),
+          Text("Tanggal Pengajuan: 4 November 2025"),
+          Text("Jam Pengajuan: 14:30"),
+          SizedBox(height: 8),
+          Text(
+            "Status: Menunggu Konfirmasi Dosen",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.orange,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ================= Progress TA =================
+  Widget _buildProgressTA() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Progress TA",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Container(
+              height: 10,
+              decoration: BoxDecoration(
+                color: dangerColor.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                double progressWidth = constraints.maxWidth * 0.6;
+                return Container(
+                  width: progressWidth,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: dangerColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        const Text("60%", style: TextStyle(color: Colors.black)),
+      ],
+    );
+  }
+
+  // ================= Upcoming =================
+  Widget _buildUpcoming() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text(
+          "Upcoming",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 10),
+        _UpcomingCard(
+          title: "Bimbingan Revisi Bab 2",
+          date: "Selasa, 7 Oktober 2025",
+          time: "10:30",
+        ),
+        SizedBox(height: 12),
+        _UpcomingCard(
+          title: "Diskusi Desain UI",
+          date: "Rabu, 9 Oktober 2025",
+          time: "13:00",
+        ),
+      ],
     );
   }
 }
@@ -360,14 +442,12 @@ class _UpcomingCard extends StatelessWidget {
             children: [
               const Icon(Icons.calendar_today, color: Colors.black, size: 18),
               const SizedBox(width: 6),
-              Text(
-                date,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(date,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.w500,
+                  )),
             ],
           ),
           const SizedBox(height: 6),
@@ -375,14 +455,12 @@ class _UpcomingCard extends StatelessWidget {
             children: [
               const Icon(Icons.access_time, color: Colors.black, size: 18),
               const SizedBox(width: 6),
-              Text(
-                time,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(time,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.w500,
+                  )),
             ],
           ),
         ],

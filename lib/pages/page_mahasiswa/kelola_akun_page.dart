@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
-import '../routes/app_pages.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/routes/app_pages.dart';
+
 
 class KelolaAkunPage extends StatefulWidget {
   const KelolaAkunPage({super.key});

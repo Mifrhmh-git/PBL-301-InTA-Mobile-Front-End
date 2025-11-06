@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:inta301/shared/shared.dart';
 import '../routes/app_pages.dart';
-import 'login_page.dart';
-import 'register_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -23,7 +20,7 @@ class WelcomePage extends StatelessWidget {
           children: [
             const SizedBox(height: 30),
 
-            // Ilustrasi
+            // 🖼️ Ilustrasi
             Center(
               child: Image.asset(
                 'assets/images/login-image.png',
@@ -34,7 +31,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            //  Judul
+            // 🏷️ Judul
             Text(
               "Selamat Datang di InTA",
               style: blackTextStyle.copyWith(
@@ -47,7 +44,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            //  Deskripsi
+            // 📝 Deskripsi
             Text(
               "Aplikasi informasi tugas akhir mahasiswa Polibatam.",
               style: blackTextStyle.copyWith(
@@ -60,12 +57,13 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 50),
 
-            //  Tombol Create Account
+            // 🟦 Tombol Create Account
             SizedBox(
               height: 55,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.to(() => const RegisterPage()),
+                // 🔹 Arahkan ke halaman pilih role dulu
+                onPressed: () => Get.toNamed(Routes.PILIH_ROLE),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
@@ -84,12 +82,13 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            // Tombol Login
+            // 🟥 Tombol Login
             SizedBox(
               height: 55,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.to(() => const LoginPage()),
+                // 🔹 Juga ke halaman pilih role dulu
+                onPressed: () => Get.toNamed(Routes.PILIH_ROLE),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: dangerColor,
                   foregroundColor: Colors.white,
@@ -111,7 +110,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            // Footer
+            // 🧾 Footer
             Text(
               "All rights reserved ©2025",
               textAlign: TextAlign.center,
@@ -123,3 +122,4 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
+

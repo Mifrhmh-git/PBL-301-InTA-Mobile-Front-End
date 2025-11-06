@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
+import 'package:inta301/shared/shared.dart';
+
 
 class CariDosenPage extends StatelessWidget {
   const CariDosenPage({super.key});

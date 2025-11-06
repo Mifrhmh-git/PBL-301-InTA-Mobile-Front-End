@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import '../shared/shared.dart';
-import '../routes/app_pages.dart';
+
+// global import
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/routes/app_pages.dart';
 
 class JadwalPage extends StatefulWidget {
-  const JadwalPage({super.key});
+  final bool hasDosen; 
+  const JadwalPage({super.key, this.hasDosen = true}); // default false/true
 
   @override
   State<JadwalPage> createState() => _JadwalPageState();
@@ -143,8 +146,8 @@ class _JadwalPageState extends State<JadwalPage> {
                             focusedBorder: const OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16)),
-                              borderSide: BorderSide(
-                                  color: primaryColor, width: 1.5),
+                              borderSide:
+                                  BorderSide(color: primaryColor, width: 1.5),
                             ),
                           ),
                         ),
@@ -251,6 +254,56 @@ class _JadwalPageState extends State<JadwalPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Jika belum punya dosen, tampilkan pesan tengah saja
+    if (!widget.hasDosen) {
+      return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "Jadwal Bimbingan",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [primaryColor, dangerColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+        ),
+        body: const Padding(
+  padding: EdgeInsets.only(top: 100),
+  child: Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Belum memiliki dosen pembimbing.",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF616161),
+            fontFamily: 'Poppins',
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+bottomNavigationBar: const _BottomNavBar(),
+floatingActionButton: null, // FAB tidak muncul
+);
+}
+
+
+    // Jika punya dosen, tampilkan jadwal
     final List<Map<String, dynamic>> jadwalList = [
       {
         "judul": "Diskusi Awal Proposal",
@@ -369,11 +422,13 @@ class _JadwalPageState extends State<JadwalPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: dangerColor,
-        onPressed: () => _showTambahJadwalModal(context),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      floatingActionButton: widget.hasDosen
+          ? FloatingActionButton(
+              backgroundColor: dangerColor,
+              onPressed: () => _showTambahJadwalModal(context),
+              child: const Icon(Icons.add, color: Colors.white),
+            )
+          : null,
       bottomNavigationBar: const _BottomNavBar(),
     );
   }
@@ -515,7 +570,14 @@ class _BottomNavBarState extends State<_BottomNavBar> {
     setState(() {
       currentPage = route;
     });
-    Get.offAllNamed(route);
+
+    // Kirim hasDosen ke halaman Jadwal
+    if (route == Routes.JADWAL) {
+      final bool hasDosen = false; // <--- ambil dari user data sebenarnya
+      Get.offAllNamed(route, arguments: hasDosen);
+    } else {
+      Get.offAllNamed(route);
+    }
   }
 
   @override
@@ -562,7 +624,7 @@ class _BottomNavBarState extends State<_BottomNavBar> {
           ),
           _BottomNavItem(
             icon: Icons.person_outline,
-            label: "Profile",
+            label: "Profil",
             isActive: currentPage == Routes.PROFILE,
             onTap: () => _onTap(Routes.PROFILE),
           ),

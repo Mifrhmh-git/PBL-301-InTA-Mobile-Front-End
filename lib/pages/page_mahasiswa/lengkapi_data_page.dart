@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
-import 'cari_dosen_page.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/pages/page_mahasiswa/cari_dosen_page.dart';
+
 
 class LengkapiDataPage extends StatefulWidget {
   const LengkapiDataPage({super.key});

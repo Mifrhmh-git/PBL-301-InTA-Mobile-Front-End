@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../shared/shared.dart';
-import 'dokumen_controller.dart';
+
+// global
+import 'package:inta301/shared/shared.dart';
+
+// file di folder yang sama
+import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
 
 class DokumenCard extends StatelessWidget {
   final DokumenModel dokumen;

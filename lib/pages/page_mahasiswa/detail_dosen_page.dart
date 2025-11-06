@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
-import 'ajukan_dosen_page.dart'; // ⬅️ import halaman tujuan
+
+// Global
+import 'package:inta301/shared/shared.dart';
+
+// File di folder yang sama
+import 'package:inta301/pages/page_mahasiswa/ajukan_dosen_page.dart';
+ // ⬅️ import halaman tujuan
 
 class DetailDosenPage extends StatelessWidget {
   final Map<String, String> dosen;

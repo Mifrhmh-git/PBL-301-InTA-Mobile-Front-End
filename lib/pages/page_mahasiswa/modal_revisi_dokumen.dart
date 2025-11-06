@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../shared/shared.dart';
-import 'dokumen_controller.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
 
 void showRevisiModal(BuildContext context, DokumenModel dokumen) {
   showModalBottomSheet(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'kanban_controller.dart';
-import '../shared/shared.dart';
+import 'package:inta301/pages/page_mahasiswa/kanban_controller.dart';
+import 'package:inta301/shared/shared.dart';
+
 
 void showAddKanbanModal(
   BuildContext context,

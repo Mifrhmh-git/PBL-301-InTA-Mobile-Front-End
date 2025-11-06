@@ -1,18 +1,37 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inta301/pages/dokumen_controller.dart';
-import 'package:inta301/pages/dokumen_page.dart';
-import 'package:inta301/pages/form_jadwal.dart';
-import 'package:inta301/pages/home_page.dart';
-import 'package:inta301/pages/jadwal_pages.dart';
-import 'package:inta301/pages/kanban_page.dart';
-import 'package:inta301/pages/notifikasi_page.dart';
-import 'package:inta301/pages/profile_page.dart';
+
+// 🧩 Import halaman mahasiswa
+import 'package:inta301/pages/page_mahasiswa/home_page.dart';
+import 'package:inta301/pages/page_mahasiswa/jadwal_pages.dart';
+import 'package:inta301/pages/page_mahasiswa/kanban_page.dart';
+import 'package:inta301/pages/page_mahasiswa/notifikasi_page.dart';
+import 'package:inta301/pages/page_mahasiswa/profile_page.dart';
+import 'package:inta301/pages/page_mahasiswa/dokumen_page.dart';
+import 'package:inta301/pages/page_mahasiswa/form_jadwal.dart';
+import 'package:inta301/pages/page_mahasiswa/kelola_akun_page.dart';
+import 'package:inta301/pages/page_mahasiswa/informasi_dospem_page.dart';
+import 'package:inta301/pages/page_mahasiswa/lengkapi_data_page.dart';
+import 'package:inta301/pages/page_mahasiswa/pilih_dosen_page.dart';
+import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
+import 'package:inta301/pages/page_mahasiswa/mahasiswa_controller.dart';
+import 'package:inta301/pages/page_mahasiswa/register_mahasiswa_page.dart';
+
+// 🧩 Import halaman dosen
+import 'package:inta301/pages/page_dosen/home_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/jadwal_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/mahasiswa_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/dokumen_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/profile_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/register_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/notifikasi_dosen_page.dart';
+
+
+
+// 🧩 Import halaman umum (welcome, login, pilih role)
+import 'package:inta301/pages/login_page.dart';
+import 'package:inta301/pages/pilih_role_page.dart';
 import 'package:inta301/pages/welcome_page.dart';
-import 'package:inta301/pages/kelola_akun_page.dart';
-import 'package:inta301/pages/informasi_dospem_page.dart';
-import 'package:inta301/pages/lengkapi_data_page.dart';
-import 'package:inta301/pages/pilih_dosen_page.dart';
-import 'package:inta301/pages/mahasiswa_controller.dart';
 
 part 'app_routes.dart';
 
@@ -22,39 +41,76 @@ class AppPages {
   static const INITIAL = Routes.WELCOME;
 
   static final routes = [
+    // 🏠 Halaman Awal
     GetPage(
       name: _Paths.WELCOME,
       page: () => const WelcomePage(),
     ),
+
+    // 🧭 Pilih Role
+    GetPage(
+      name: _Paths.PILIH_ROLE,
+      page: () => const PilihRolePage(),
+    ),
+
+    // 🔐 Login
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => const LoginPage(),
+    ),
+
+    // 🧾 Register Mahasiswa
+    GetPage(
+      name: _Paths.REGISTER_MAHASISWA,
+      page: () => const RegisterMahasiswaPage(),
+    ),
+
+    // 🧾 Register Dosen
+    GetPage(
+      name: _Paths.REGISTER_DOSEN,
+      page: () => const RegisterDosenPage(),
+    ),
+
+    // 👨‍🎓 Halaman Mahasiswa
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomePage(),
+      page: () {
+        final hasDosen = Get.arguments as bool? ?? true;
+        return HomePage(hasDosen: hasDosen);
+      },
     ),
     GetPage(
       name: _Paths.JADWAL,
-      page: () => const JadwalPage(),
+      page: () => JadwalPage(),
     ),
     GetPage(
       name: _Paths.KANBAN,
-      page: () => KanbanPage(),
+      page: () {
+        final hasDosen = Get.arguments as bool? ?? true;
+        return KanbanPage(hasDosen: hasDosen);
+      },
     ),
     GetPage(
       name: _Paths.DOKUMEN,
-      page: () => DokumenPage(),
+      page: () {
+        final hasDosen = Get.arguments as bool? ?? true;
+        return DokumenPage(hasDosen: hasDosen);
+      },
       binding: BindingsBuilder(() {
         Get.lazyPut<DokumenController>(() => DokumenController());
       }),
     ),
     GetPage(
-  name: _Paths.PROFILE,
-  page: () => ProfilePage(),
-),
-
+      name: _Paths.PROFILE,
+      page: () {
+        final hasDosen = Get.arguments as bool? ?? false;
+        return ProfilePage(hasDosen: hasDosen);
+      },
+    ),
     GetPage(
       name: _Paths.NOTIFIKASI,
       page: () => const NotifikasiPage(),
     ),
-
     GetPage(
       name: _Paths.FORM_JADWAL,
       page: () {
@@ -67,16 +123,30 @@ class AppPages {
         );
       },
     ),
-
     GetPage(
       name: _Paths.KELOLA_AKUN,
       page: () => const KelolaAkunPage(),
     ),
     GetPage(
       name: _Paths.INFORMASI_DOSPEM,
-      page: () => const InformasiDospemPage(),
+      page: () {
+        final hasDosen = Get.arguments as bool? ?? true;
+        if (hasDosen) {
+          return const InformasiDospemPage();
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Informasi Dosen Pembimbing"),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: const Center(
+              child: Text("Belum ada dosen pembimbing."),
+            ),
+          );
+        }
+      },
     ),
-
     GetPage(
       name: _Paths.LENGKAPI_DATA,
       page: () => LengkapiDataPage(),
@@ -86,7 +156,36 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PILIH_DOSEN,
-      page: () => PilihDosenPage(),
+      page: () => const PilihDosenPage(),
     ),
+
+   // 👨‍🏫 Halaman Dosen
+GetPage(
+  name: Routes.HOME_DOSEN,
+  page: () => const HomeDosenPage(),
+),
+GetPage(
+  name: Routes.JADWAL_DOSEN,
+  page: () => const JadwalDosenPage(),
+),
+GetPage(
+  name: Routes.MAHASISWA_DOSEN,
+  page: () => const MahasiswaDosenPage(),
+),
+GetPage(
+  name: Routes.DOKUMEN_DOSEN,
+  page: () => const DokumenDosenPage(),
+),
+GetPage(
+  name: Routes.PROFILE_DOSEN,
+  page: () => const ProfileDosenPage(),
+),
+
+// 🔔 Notifikasi Dosen
+GetPage(
+ name: Routes.DOSEN_NOTIFIKASI,
+page: () => const NotifikasiDosenPage(),
+
+),
   ];
 }

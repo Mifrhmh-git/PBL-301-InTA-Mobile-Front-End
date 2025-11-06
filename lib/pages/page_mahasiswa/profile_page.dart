@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../shared/shared.dart';
-import '../routes/app_pages.dart';
+import 'package:inta301/shared/shared.dart';
+import 'package:inta301/routes/app_pages.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+  final bool hasDosen; // parameter cek status dosen
+  ProfilePage({super.key, required this.hasDosen});
 
   // index halaman Profile = 4
   final RxInt selectedIndex = 4.obs;
@@ -56,14 +57,14 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                     "Putri Balqis",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  const Text(
                     "Mahasiswa",
                     style: TextStyle(
                       fontSize: 14,
@@ -90,14 +91,27 @@ class ProfilePage extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                _ProfileMenuItem(
-                  icon: Icons.person_search,
-                  label: "Informasi Dosen Pembimbing",
-                  onTap: () {
-                    Get.toNamed(Routes.INFORMASI_DOSPEM);
-                  },
-                ),
+
+                // --- Bagian dinamis sesuai status dosen ---
+                if (hasDosen)
+                  _ProfileMenuItem(
+                    icon: Icons.person_search,
+                    label: "Informasi Dosen Pembimbing",
+                    onTap: () {
+                      Get.toNamed(Routes.INFORMASI_DOSPEM);
+                    },
+                  )
+                else
+                  _ProfileMenuItem(
+                    icon: Icons.search,
+                    label: "Cari Dosen Pembimbing",
+                    onTap: () {
+                      Get.toNamed(Routes.PILIH_DOSEN);
+
+                    },
+                  ),
                 const SizedBox(height: 20),
+
                 _ProfileMenuItem(
                   icon: Icons.logout,
                   label: "Keluar",
@@ -182,6 +196,7 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+// --- Widget Menu Item ---
 class _ProfileMenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -222,7 +237,7 @@ class _ProfileMenuItem extends StatelessWidget {
             const SizedBox(width: 15),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: blackColor,
@@ -235,6 +250,7 @@ class _ProfileMenuItem extends StatelessWidget {
   }
 }
 
+// --- Bottom Nav Item ---
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -262,7 +278,7 @@ class _BottomNavItem extends StatelessWidget {
             style: TextStyle(
               color: isActive ? Colors.yellow : Colors.white,
               fontSize: 12,
-              fontWeight: FontWeight.w500,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
             ),
           ),
         ],

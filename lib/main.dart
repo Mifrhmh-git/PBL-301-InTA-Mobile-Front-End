@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+// Routes dan binding global
 import 'routes/app_pages.dart';
 import 'bindings/app_binding.dart';
+
+// Splash screen
+import 'pages/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,14 +24,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Helpdesk App',
+      title: 'INTA301',
       theme: ThemeData(
         primaryColor: const Color(0xFF88BDF2),
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialBinding: AppBinding(), // Binding global
-      initialRoute: Routes.WELCOME,  // <-- ubah ini
-      getPages: AppPages.routes,
+      initialBinding: AppBinding(), // Global binding
+
+      // 👇 Ubah: pakai route SPLASH dari AppPages, bukan buat _Paths baru
+      initialRoute: Routes.SPLASH, 
+
+      // 👇 Gabungkan route dari AppPages + tambahkan Splash
+     getPages: [
+  GetPage(
+    name: Routes.SPLASH, // pakai Routes, bukan _Paths
+    page: () => const SplashPage(),
+  ),
+  ...AppPages.routes,
+],
+
+      // Dukungan lokal Indonesia
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
