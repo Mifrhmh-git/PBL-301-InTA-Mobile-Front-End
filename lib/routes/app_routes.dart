@@ -29,7 +29,7 @@ abstract class Routes {
   static const HOME_DOSEN = _Paths.HOME_DOSEN;
   static const LOGIN_DOSEN = _Paths.LOGIN_DOSEN;
   static const JADWAL_DOSEN = _Paths.JADWAL_DOSEN;
-  static const MAHASISWA_DOSEN = _Paths.MAHASISWA_DOSEN;
+  static const BIMBINGAN_DOSEN = _Paths.BIMBINGAN_DOSEN; 
   static const DOKUMEN_DOSEN = _Paths.DOKUMEN_DOSEN;
   static const PROFILE_DOSEN = _Paths.PROFILE_DOSEN;
   static const DOSEN_NOTIFIKASI = _Paths.DOSEN_NOTIFIKASI;
@@ -63,7 +63,7 @@ abstract class _Paths {
   static const HOME_DOSEN = '/home-dosen';
   static const LOGIN_DOSEN = '/login-dosen';
   static const JADWAL_DOSEN = '/jadwal-dosen';
-  static const MAHASISWA_DOSEN = '/mahasiswa-dosen';
+  static const BIMBINGAN_DOSEN = '/bimbingan-dosen'; 
   static const DOKUMEN_DOSEN = '/dokumen-dosen';
   static const PROFILE_DOSEN = '/profile-dosen';
   static const DOSEN_NOTIFIKASI = '/dosen-notifikasi'; 

@@ -2,56 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
-import 'package:inta301/controllers/menu_controller.dart' as myCtrl;
+import 'package:inta301/controllers/menu_dosen_controller.dart' as myCtrl;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'jadwal_card_dosen_page.dart';
 
-class JadwalDosenPage extends GetView<myCtrl.MenuController> {
+class JadwalDosenPage extends StatefulWidget {
   const JadwalDosenPage({super.key});
 
   @override
+  State<JadwalDosenPage> createState() => _JadwalDosenPageState();
+}
+
+class _JadwalDosenPageState extends State<JadwalDosenPage> {
+  // gunakan controller Dosen
+  final controller = Get.find<myCtrl.MenuDosenController>();
+
+  DateTime focusedDay = DateTime.now();
+  DateTime? selectedDay;
+
+  final List<Map<String, String>> jadwalList = [
+    {
+      "title": "Bimbingan BAB 1",
+      "mahasiswa": "Putri Balqis",
+      "tanggal": "Rabu, 6 November 2025",
+      "waktu": "13:00",
+      "lokasi": "Ruang TA 12.3",
+    },
+    {
+      "title": "Revisi BAB 2",
+      "mahasiswa": "Ahmad Rafi",
+      "tanggal": "Kamis, 7 November 2025",
+      "waktu": "10:00",
+      "lokasi": "Zoom Meeting",
+    },
+    {
+      "title": "Diskusi BAB 3",
+      "mahasiswa": "Dini Kurnia",
+      "tanggal": "Jumat, 8 November 2025",
+      "waktu": "09:30",
+      "lokasi": "Ruang TA 12.1",
+    },
+  ];
+
+  DateTime parseTanggal(String tgl) {
+    return DateFormat('EEEE, d MMMM yyyy', 'id_ID').parse(tgl);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    controller.setPage(myCtrl.PageType.jadwal);
+    controller.setPage(myCtrl.PageTypeDosen.jadwal);
 
-    // Data jadwal
-    final List<Map<String, String>> jadwalList = [
-      {
-        "title": "Bimbingan BAB 1",
-        "mahasiswa": "Putri Balqis",
-        "tanggal": "Rabu, 6 November 2025",
-        "waktu": "13:00",
-        "lokasi": "Ruang TA 12.3",
-      },
-      {
-        "title": "Revisi BAB 2",
-        "mahasiswa": "Ahmad Rafi",
-        "tanggal": "Kamis, 7 November 2025",
-        "waktu": "10:00",
-        "lokasi": "Zoom Meeting",
-      },
-      {
-        "title": "Diskusi BAB 3",
-        "mahasiswa": "Dini Kurnia",
-        "tanggal": "Jumat, 8 November 2025",
-        "waktu": "09:30",
-        "lokasi": "Ruang TA 12.1",
-      },
-    ];
-
-    DateTime selectedDay = DateTime.now();
-
-    // Parsing string ke DateTime
-    DateTime parseTanggal(String tgl) {
-      return DateFormat('EEEE, d MMMM yyyy', 'id_ID').parse(tgl);
-    }
-
-    // Buat map event untuk kalender
     Map<DateTime, List<Map<String, String>>> events = {};
     for (var jadwal in jadwalList) {
       DateTime date = parseTanggal(jadwal["tanggal"]!);
       if (!events.containsKey(date)) events[date] = [];
       events[date]!.add(jadwal);
     }
+
+    List<Map<String, String>> jadwalHariIni = jadwalList;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -75,46 +84,44 @@ class JadwalDosenPage extends GetView<myCtrl.MenuController> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none, color: Colors.white),
-            onPressed: () => Get.toNamed(Routes.DOSEN_NOTIFIKASI),
-          ),
-        ],
       ),
 
+      // ===== BODY =====
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(defaultMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ================= CALENDAR =================
+              // ========== CALENDAR ==========
               TableCalendar(
                 locale: 'id_ID',
-                focusedDay: selectedDay,
+                focusedDay: focusedDay,
                 firstDay: DateTime.utc(2020, 1, 1),
                 lastDay: DateTime.utc(2030, 12, 31),
                 selectedDayPredicate: (day) => isSameDay(day, selectedDay),
-                onDaySelected: (day, focusedDay) {
-                  selectedDay = day;
+                onDaySelected: (selected, focused) {
+                  setState(() {
+                    selectedDay = selected;
+                    focusedDay = focused;
+                  });
                 },
                 calendarStyle: const CalendarStyle(
-                  todayDecoration:
-                      BoxDecoration(color: primaryColor, shape: BoxShape.circle),
-                  selectedDecoration:
-                      BoxDecoration(color: dangerColor, shape: BoxShape.circle),
+                  todayDecoration: BoxDecoration(
+                      color: primaryColor, shape: BoxShape.circle),
+                  selectedDecoration: BoxDecoration(
+                      color: dangerColor, shape: BoxShape.circle),
                   todayTextStyle: TextStyle(color: Colors.white),
                   selectedTextStyle: TextStyle(color: Colors.white),
                 ),
                 headerStyle: const HeaderStyle(
                   titleCentered: true,
                   formatButtonVisible: false,
-                  titleTextStyle:
-                      TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  titleTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
                 calendarBuilders: CalendarBuilders(
-                  markerBuilder: (context, date, eventsList) {
+                  markerBuilder: (context, date, _) {
                     if (events.containsKey(date)) {
                       return Positioned(
                         bottom: 1,
@@ -132,42 +139,39 @@ class JadwalDosenPage extends GetView<myCtrl.MenuController> {
                   },
                 ),
               ),
+
               const SizedBox(height: 16),
 
-              const Text(
-                "Daftar Jadwal Bimbingan",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // ====== DAFTAR BIMBINGAN ======
+              // ========== DAFTAR JADWAL ==========
               Expanded(
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: jadwalList.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 14),
-                  itemBuilder: (context, index) {
-                    final jadwal = jadwalList[index];
-                    return _JadwalCard(
-                      title: jadwal["title"]!,
-                      mahasiswa: jadwal["mahasiswa"]!,
-                      tanggal: jadwal["tanggal"]!,
-                      waktu: jadwal["waktu"]!,
-                      lokasi: jadwal["lokasi"]!,
-                    );
-                  },
-                ),
+                child: jadwalHariIni.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "Tidak ada jadwal untuk tanggal ini.",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: jadwalHariIni.length,
+                        itemBuilder: (context, index) {
+                          final jadwal = jadwalHariIni[index];
+                          return JadwalCard(
+                            title: jadwal["title"]!,
+                            mahasiswa: jadwal["mahasiswa"]!,
+                            tanggal: jadwal["tanggal"]!,
+                            waktu: jadwal["waktu"]!,
+                            lokasi: jadwal["lokasi"]!,
+                          );
+                        },
+                      ),
               ),
             ],
           ),
         ),
       ),
 
-      // ====== Bottom Navigation ======
+      // ===== BOTTOM NAVIGATION =====
       bottomNavigationBar: Obx(
         () => Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -188,44 +192,50 @@ class JadwalDosenPage extends GetView<myCtrl.MenuController> {
               _BottomNavItem(
                 icon: Icons.home,
                 label: "Home",
-                isActive: controller.currentPage.value == myCtrl.PageType.home,
+                isActive:
+                    controller.currentPage.value == myCtrl.PageTypeDosen.home,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.home);
+                  controller.setPage(myCtrl.PageTypeDosen.home);
                   Get.offAllNamed(Routes.HOME_DOSEN);
                 },
               ),
               _BottomNavItem(
                 icon: Icons.schedule_outlined,
                 label: "Jadwal",
-                isActive: controller.currentPage.value == myCtrl.PageType.jadwal,
+                isActive:
+                    controller.currentPage.value == myCtrl.PageTypeDosen.jadwal,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.jadwal);
+                  controller.setPage(myCtrl.PageTypeDosen.jadwal);
                   Get.offAllNamed(Routes.JADWAL_DOSEN);
                 },
               ),
               _BottomNavItem(
-                icon: Icons.people_outline,
-                label: "Mahasiswa",
-                isActive: false,
+                icon: Icons.school_outlined,
+                label: "Bimbingan",
+                isActive: controller.currentPage.value ==
+                    myCtrl.PageTypeDosen.bimbingan,
                 onTap: () {
-                  Get.offAllNamed(Routes.MAHASISWA_DOSEN);
+                  controller.setPage(myCtrl.PageTypeDosen.bimbingan);
+                  Get.offAllNamed(Routes.BIMBINGAN_DOSEN);
                 },
               ),
               _BottomNavItem(
                 icon: Icons.description_outlined,
                 label: "Dokumen",
-                isActive: controller.currentPage.value == myCtrl.PageType.dokumen,
+                isActive: controller.currentPage.value ==
+                    myCtrl.PageTypeDosen.dokumen,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.dokumen);
+                  controller.setPage(myCtrl.PageTypeDosen.dokumen);
                   Get.offAllNamed(Routes.DOKUMEN_DOSEN);
                 },
               ),
               _BottomNavItem(
                 icon: Icons.person_outline,
                 label: "Profil",
-                isActive: controller.currentPage.value == myCtrl.PageType.profile,
+                isActive: controller.currentPage.value ==
+                    myCtrl.PageTypeDosen.profile,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.profile);
+                  controller.setPage(myCtrl.PageTypeDosen.profile);
                   Get.offAllNamed(Routes.PROFILE_DOSEN);
                 },
               ),
@@ -237,128 +247,7 @@ class JadwalDosenPage extends GetView<myCtrl.MenuController> {
   }
 }
 
-// ================= CARD JADWAL DOSEN =================
-class _JadwalCard extends StatelessWidget {
-  final String title;
-  final String mahasiswa;
-  final String tanggal;
-  final String waktu;
-  final String lokasi;
-
-  const _JadwalCard({
-    required this.title,
-    required this.mahasiswa,
-    required this.tanggal,
-    required this.waktu,
-    required this.lokasi,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Judul bimbingan
-          Text(
-            title,
-            style: const TextStyle(
-              color: dangerColor,
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          // Info mahasiswa
-          Row(
-            children: [
-              const Icon(Icons.person_outline, size: 20, color: Colors.black),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  "Mahasiswa: $mahasiswa",
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-
-          // Info tanggal
-          Row(
-            children: [
-              const Icon(Icons.calendar_today_outlined, size: 18, color: Colors.black),
-              const SizedBox(width: 6),
-              Text(
-                tanggal,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-
-          // Info waktu
-          Row(
-            children: [
-              const Icon(Icons.access_time, size: 18, color: Colors.black),
-              const SizedBox(width: 6),
-              Text(
-                waktu,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-
-          // Info lokasi
-          Row(
-            children: [
-              const Icon(Icons.location_on_outlined, size: 18, color: Colors.black),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  lokasi,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= BottomNavItem =================
+// ========== Bottom Navigation Item ==========
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

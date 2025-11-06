@@ -20,7 +20,7 @@ import 'package:inta301/pages/page_mahasiswa/register_mahasiswa_page.dart';
 // 🧩 Import halaman dosen
 import 'package:inta301/pages/page_dosen/home_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/jadwal_dosen_page.dart';
-import 'package:inta301/pages/page_dosen/mahasiswa_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/bimbingan_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/dokumen_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/profile_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/register_dosen_page.dart';
@@ -159,7 +159,7 @@ class AppPages {
       page: () => const PilihDosenPage(),
     ),
 
-   // 👨‍🏫 Halaman Dosen
+  // 👨‍🏫 Halaman Dosen
 GetPage(
   name: Routes.HOME_DOSEN,
   page: () => const HomeDosenPage(),
@@ -169,8 +169,8 @@ GetPage(
   page: () => const JadwalDosenPage(),
 ),
 GetPage(
-  name: Routes.MAHASISWA_DOSEN,
-  page: () => const MahasiswaDosenPage(),
+  name: Routes.BIMBINGAN_DOSEN, // 🔄 Ganti dari MAHASISWA_DOSEN
+  page: () => const BimbinganDosenPage(), // 🔄 Ganti dari MahasiswaDosenPage
 ),
 GetPage(
   name: Routes.DOKUMEN_DOSEN,
@@ -183,9 +183,9 @@ GetPage(
 
 // 🔔 Notifikasi Dosen
 GetPage(
- name: Routes.DOSEN_NOTIFIKASI,
-page: () => const NotifikasiDosenPage(),
-
+  name: Routes.DOSEN_NOTIFIKASI,
+  page: () => const NotifikasiDosenPage(),
 ),
+
   ];
 }
