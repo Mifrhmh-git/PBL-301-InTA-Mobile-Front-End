@@ -16,7 +16,7 @@ class JadwalDosenPage extends StatefulWidget {
 
 class _JadwalDosenPageState extends State<JadwalDosenPage> {
   // gunakan controller Dosen
-  final controller = Get.find<myCtrl.MenuDosenController>();
+  late final myCtrl.MenuDosenController controller;
 
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
@@ -50,9 +50,20 @@ class _JadwalDosenPageState extends State<JadwalDosenPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    controller.setPage(myCtrl.PageTypeDosen.jadwal);
+  void initState() {
+    super.initState();
 
+    // ambil controller
+    controller = Get.find<myCtrl.MenuDosenController>();
+
+    // panggil setelah build selesai
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.setPage(myCtrl.PageTypeDosen.jadwal);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Map<DateTime, List<Map<String, String>>> events = {};
     for (var jadwal in jadwalList) {
       DateTime date = parseTanggal(jadwal["tanggal"]!);

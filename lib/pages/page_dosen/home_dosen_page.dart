@@ -11,10 +11,14 @@ import 'package:inta301/controllers/menu_dosen_controller.dart' as myCtrl;
 class HomeDosenPage extends GetView<myCtrl.MenuDosenController> {
   const HomeDosenPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    const mainBlue = Color(0xFF88BDF2);
+ @override
+Widget build(BuildContext context) {
+  const mainBlue = Color(0xFF88BDF2);
+
+  // 🔧 solusi aman: panggil setelah build selesai
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     controller.setPage(myCtrl.PageTypeDosen.home);
+  });
 
     return Scaffold(
       backgroundColor: Colors.white,

@@ -4,12 +4,18 @@ import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 import 'package:inta301/controllers/menu_dosen_controller.dart';
 
+// Import card & modal yang sudah kamu buat
+import 'package:inta301/pages/page_dosen/mahasiswa_card.dart';
+import 'package:inta301/pages/page_dosen/ajukan_bimbingan_modal.dart';
+
 class BimbinganDosenPage extends GetView<MenuDosenController> {
   const BimbinganDosenPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    controller.setPage(PageTypeDosen.bimbingan);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.setPage(PageTypeDosen.bimbingan);
+    });
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -18,7 +24,7 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
         centerTitle: true,
         elevation: 0,
         title: const Text(
-          "Daftar Mahasiswa",
+          "Bimbingan Mahasiswa",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -54,30 +60,93 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
                   ),
                 ],
               ),
-              child: const TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
+              child: TabBar(
                 indicator: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 2, color: primaryColor),
-                  ),
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                labelColor: blackColor,
-                labelStyle: TextStyle(
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.black,
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 13,
                   fontFamily: 'Poppins',
                 ),
-                tabs: [
-                  Tab(text: "Daftar Mahasiswa"),
-                  Tab(text: "Daftar Bimbingan"),
-                  Tab(text: "Daftar Ajuan"),
+                tabs: const [
+                  Tab(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Daftar",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          "Mahasiswa",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Daftar",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          "Bimbingan",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Daftar",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          "Ajuan",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
             Expanded(
               child: TabBarView(
                 children: [
-                  _buildDaftarMahasiswa(),
+                  _buildDaftarMahasiswa(context),
                   _buildDaftarBimbingan(),
                   _buildDaftarAjuan(),
                 ],
@@ -93,15 +162,33 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
   }
 
   // --- Tab 1: Daftar Mahasiswa ---
-  Widget _buildDaftarMahasiswa() {
+  Widget _buildDaftarMahasiswa(BuildContext context) {
+    final mahasiswaList = [
+      {"nama": "Putri Balqis", "nim": "4342401011", "prodi": "Teknik Informatika"},
+      {"nama": "Ahmad Fauzi", "nim": "4342401022", "prodi": "Sistem Informasi"},
+      {"nama": "Rina Sari", "nim": "4342401033", "prodi": "Teknik Komputer"},
+    ];
+
     return ListView.builder(
       padding: const EdgeInsets.all(defaultMargin),
-      itemCount: 3,
+      itemCount: mahasiswaList.length,
       itemBuilder: (context, index) {
-        return _MahasiswaCard(
-          nama: "Putri Balqis",
-          nim: "4342401011",
-          prodi: "Teknik Informatika",
+        final mhs = mahasiswaList[index];
+        return MahasiswaCard(
+          nama: mhs["nama"]!,
+          nim: mhs["nim"]!,
+          prodi: mhs["prodi"]!,
+          onAjukanBimbingan: () {
+            showAjukanBimbinganModal(
+              context: context,
+              mode: 'dosen',
+              mahasiswaNama: mhs["nama"]!,
+              onSubmit: (judul, dosen, tanggal, waktu, lokasi) {
+                // Contoh proses submit, bisa diganti dengan API / controller
+                print("Ajukan bimbingan ke ${mhs["nama"]}: $judul, $dosen, $tanggal, $waktu, $lokasi");
+              },
+            );
+          },
         );
       },
     );
@@ -118,72 +205,6 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
   Widget _buildDaftarAjuan() {
     return const Center(
       child: Text("Daftar Ajuan mahasiswa akan ditampilkan di sini."),
-    );
-  }
-}
-
-// --- Card Mahasiswa ---
-class _MahasiswaCard extends StatelessWidget {
-  final String nama;
-  final String nim;
-  final String prodi;
-
-  const _MahasiswaCard({
-    required this.nama,
-    required this.nim,
-    required this.prodi,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFB0D6FF),
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.15),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 25,
-            backgroundColor: Colors.white,
-            child: Icon(Icons.person, color: primaryColor, size: 30),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  nama,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                Text(
-                  "$nim - $prodi",
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.black87,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Icon(Icons.arrow_forward_ios, color: Colors.black54),
-        ],
-      ),
     );
   }
 }
@@ -250,7 +271,7 @@ class _BottomNavDosen extends StatelessWidget {
   }
 }
 
-// --- Bottom Nav Item (reusable) ---
+// --- Bottom Nav Item ---
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -287,4 +308,3 @@ class _BottomNavItem extends StatelessWidget {
     );
   }
 }
-
