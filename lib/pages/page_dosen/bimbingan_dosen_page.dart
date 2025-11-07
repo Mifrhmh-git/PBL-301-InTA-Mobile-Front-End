@@ -165,8 +165,8 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
   Widget _buildDaftarMahasiswa(BuildContext context) {
     final mahasiswaList = [
       {"nama": "Putri Balqis", "nim": "4342401011", "prodi": "Teknik Informatika"},
-      {"nama": "Ahmad Fauzi", "nim": "4342401022", "prodi": "Sistem Informasi"},
-      {"nama": "Rina Sari", "nim": "4342401033", "prodi": "Teknik Komputer"},
+      {"nama": "Ahmad Fauzi", "nim": "4342401022", "prodi": "Teknik Informatika"},
+      {"nama": "Rina Sari", "nim": "4342401033", "prodi": "Teknik Informatika"},
     ];
 
     return ListView.builder(
@@ -179,13 +179,14 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
           nim: mhs["nim"]!,
           prodi: mhs["prodi"]!,
           onAjukanBimbingan: () {
+            // Panggil modal ajukan bimbingan
             showAjukanBimbinganModal(
               context: context,
-              mode: 'dosen',
-              mahasiswaNama: mhs["nama"]!,
               onSubmit: (judul, dosen, tanggal, waktu, lokasi) {
-                // Contoh proses submit, bisa diganti dengan API / controller
-                print("Ajukan bimbingan ke ${mhs["nama"]}: $judul, $dosen, $tanggal, $waktu, $lokasi");
+                print(
+                  "Ajukan bimbingan ke ${mhs["nama"]}: "
+                  "$judul, $dosen, $tanggal, $waktu, $lokasi",
+                );
               },
             );
           },

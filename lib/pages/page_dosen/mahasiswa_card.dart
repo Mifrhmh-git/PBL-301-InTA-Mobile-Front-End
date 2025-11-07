@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inta301/shared/shared.dart';
-import 'package:inta301/pages/page_dosen/ajukan_bimbingan_modal.dart';
 
 class MahasiswaCard extends StatelessWidget {
   final String nama;
@@ -19,28 +18,27 @@ class MahasiswaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white, // ubah jadi putih
-        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.25), // shadow lebih jelas
-            blurRadius: 10, // lebih tegas
-            offset: const Offset(0, 6),
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 8,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Row(
         children: [
-        CircleAvatar(
-  radius: 25,
-  backgroundColor: primaryColor.withOpacity(0.1),
-  child: Icon(Icons.person, color: primaryColor, size: 30),
-),
-
-          const SizedBox(width: 10),
+          CircleAvatar(
+            radius: 26,
+            backgroundColor: primaryColor.withOpacity(0.12),
+            child: Icon(Icons.person, color: primaryColor, size: 30),
+          ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,11 +51,23 @@ class MahasiswaCard extends StatelessWidget {
                     fontFamily: 'Poppins',
                   ),
                 ),
+                const SizedBox(height: 4),
                 Text(
-                  "$nim - $prodi",
+                  nim,
                   style: const TextStyle(
                     fontSize: 13,
-                    color: Colors.black87,
+                     color: Color(0xFF616161),
+                     fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  prodi,
+                  style: const TextStyle(
+                    fontSize: 13,
+                   color: Color(0xFF616161),
+                   fontWeight: FontWeight.w600,
                     fontFamily: 'Poppins',
                   ),
                 ),
@@ -65,10 +75,29 @@ class MahasiswaCard extends StatelessWidget {
             ),
           ),
           if (onAjukanBimbingan != null)
-            IconButton(
-              icon: const Icon(Icons.add_circle_outline, color: primaryColor),
+            ElevatedButton(
               onPressed: onAjukanBimbingan,
-              tooltip: "Ajukan Bimbingan",
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                minimumSize: const Size(60, 45),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                elevation: 2,
+              ),
+              child: const Text(
+                "Ajukan\nBimbingan",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 11.5,
+                  height: 1.1,
+                  fontFamily: 'Poppins',
+                ),
+              ),
             ),
         ],
       ),
