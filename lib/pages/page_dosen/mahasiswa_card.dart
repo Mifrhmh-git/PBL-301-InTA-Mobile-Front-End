@@ -8,12 +8,12 @@ class MahasiswaCard extends StatelessWidget {
   final VoidCallback? onAjukanBimbingan;
 
   const MahasiswaCard({
-    Key? key,
+    super.key,
     required this.nama,
     required this.nim,
     required this.prodi,
     this.onAjukanBimbingan,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

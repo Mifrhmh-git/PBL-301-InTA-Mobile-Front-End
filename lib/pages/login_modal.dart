@@ -15,94 +15,136 @@ void showLoginModal(BuildContext context) {
 
   String hash(String pass) => sha256.convert(utf8.encode(pass)).toString();
 
-  Future<void> login() async {
-    // Incident Response: Lock akun jika gagal 3 kali
-    if (failedAttempts >= 3) {
-      Get.snackbar(
-        "Error",
-        "Akun terkunci sementara (Incident Response)",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return;
-    }
-
-    final prefs = await SharedPreferences.getInstance();
-    String? savedId = prefs.getString('id_learning');
-    String? savedPass = prefs.getString('password');
-
-    if (idC.text == savedId && hash(passC.text) == savedPass) {
-      Get.snackbar(
-        "Success",
-        "Login Berhasil ✅",
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-
-      prefs.setBool('isLoggedIn', true);
-      failedAttempts = 0; // Reset jika login berhasil
-      Get.offAllNamed(Routes.HOME);
-    } else {
-      failedAttempts++; // Tambah jika gagal
-      Get.snackbar(
-        "Error",
-        "ID Learning / Password salah ($failedAttempts kali)",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-  }
-
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
-    builder: (_) => DraggableScrollableSheet(
-      initialChildSize: 0.75,
-      maxChildSize: 0.9,
-      builder: (_, scroll) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 25),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Login",
-                style: blackTextStyle.copyWith(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+    builder: (_) => StatefulBuilder(
+      builder: (context, setState) {
+        String? idError;
+        String? passError;
+
+        Future<void> login() async {
+          setState(() {
+            idError = null;
+            passError = null;
+          });
+
+          // Validate empty fields
+          if (idC.text.isEmpty) {
+            setState(() {
+              idError = "ID Learning harus diisi";
+            });
+            return;
+          }
+          if (passC.text.isEmpty) {
+            setState(() {
+              passError = "Password harus diisi";
+            });
+            return;
+          }
+
+          // Incident Response: Lock akun jika gagal 3 kali
+          if (failedAttempts >= 3) {
+            Get.snackbar(
+              "Error",
+              "Akun terkunci sementara (Incident Response)",
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+            return;
+          }
+
+          final prefs = await SharedPreferences.getInstance();
+          String? savedId = prefs.getString('id_learning');
+          String? savedPass = prefs.getString('password');
+
+          if (idC.text == savedId && hash(passC.text) == savedPass) {
+            Get.snackbar(
+              "Success",
+              "Login Berhasil ✅",
+              backgroundColor: Colors.green,
+              colorText: Colors.white,
+            );
+
+            prefs.setBool('isLoggedIn', true);
+            failedAttempts = 0; // Reset jika login berhasil
+            Get.offAllNamed(Routes.HOME);
+          } else {
+            failedAttempts++; // Tambah jika gagal
+            setState(() {
+              idError = "ID Learning / Password salah ($failedAttempts kali)";
+              passError = "ID Learning / Password salah ($failedAttempts kali)";
+            });
+          }
+        }
+
+        return DraggableScrollableSheet(
+          initialChildSize: 0.75,
+          maxChildSize: 0.9,
+          builder: (_, scroll) {
+            return Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: defaultMargin,
+                vertical: 25,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
               ),
-              const SizedBox(height: 25),
-
-              buildTextField("ID Learning", Icons.badge_outlined, controller: idC),
-              const SizedBox(height: 15),
-              buildTextField("Password", Icons.lock_outline, controller: passC, isPassword: true),
-              const SizedBox(height: 25),
-
-              SizedBox(
-                height: 55,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Login",
+                    style: blackTextStyle.copyWith(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: Text("Masuk", style: whiteTextStyle.copyWith(fontSize: 18)),
-                ),
+                  const SizedBox(height: 25),
+
+                  // ✅ FIX: Gunakan named parameters with errorText
+                  buildTextField(
+                    label: "ID Learning",
+                    icon: Icons.badge_outlined,
+                    controller: idC,
+                    errorText: idError,
+                  ),
+                  const SizedBox(height: 15),
+                  buildTextField(
+                    label: "Password",
+                    icon: Icons.lock_outline,
+                    controller: passC,
+                    isPassword: true,
+                    errorText: passError,
+                  ),
+                  const SizedBox(height: 25),
+
+                  SizedBox(
+                    height: 55,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        "Masuk",
+                        style: whiteTextStyle.copyWith(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     ),
