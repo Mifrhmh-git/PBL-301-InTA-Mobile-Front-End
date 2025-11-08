@@ -9,7 +9,8 @@ import 'package:inta301/pages/page_dosen/mahasiswa_card.dart';
 import 'package:inta301/pages/page_dosen/ajukan_bimbingan_modal.dart';
 import 'package:inta301/pages/page_dosen/bimbingan_card.dart';
 import 'package:inta301/pages/page_dosen/form_ajuan_bimbingan_page.dart';
-
+import 'package:inta301/pages/page_dosen/ajuan_dospem_card.dart';
+import 'package:inta301/pages/page_dosen/form_ajuan_dospem.dart';
 
 
 class BimbinganDosenPage extends GetView<MenuDosenController> {
@@ -82,21 +83,11 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Daftar",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        Text("Daftar", style: TextStyle(fontSize: 12)),
                         SizedBox(height: 2),
-                        Text(
-                          "Mahasiswa",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text("Mahasiswa",
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -104,21 +95,11 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Daftar",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        Text("Daftar", style: TextStyle(fontSize: 12)),
                         SizedBox(height: 2),
-                        Text(
-                          "Bimbingan",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text("Bimbingan",
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -126,21 +107,11 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Daftar",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        Text("Daftar", style: TextStyle(fontSize: 12)),
                         SizedBox(height: 2),
-                        Text(
-                          "Ajuan",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text("Ajuan",
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -152,7 +123,7 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
                 children: [
                   _buildDaftarMahasiswa(context),
                   _buildDaftarBimbingan(),
-                  _buildDaftarAjuan(),
+                  _buildDaftarAjuan(), // 🔥 TAB 3 YANG BARU
                 ],
               ),
             ),
@@ -183,14 +154,11 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
           nim: mhs["nim"]!,
           prodi: mhs["prodi"]!,
           onAjukanBimbingan: () {
-            // Panggil modal ajukan bimbingan
             showAjukanBimbinganModal(
               context: context,
               onSubmit: (judul, dosen, tanggal, waktu, lokasi) {
-                print(
-                  "Ajukan bimbingan ke ${mhs["nama"]}: "
-                  "$judul, $dosen, $tanggal, $waktu, $lokasi",
-                );
+                print("Ajukan bimbingan ke ${mhs["nama"]}: "
+                    "$judul, $dosen, $tanggal, $waktu, $lokasi");
               },
             );
           },
@@ -200,36 +168,49 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
   }
 
   // --- Tab 2: Daftar Bimbingan ---
- // --- Tab 2: Daftar Bimbingan ---
-Widget _buildDaftarBimbingan() {
-  final list = [
-    {"nama": "Putri Balqis", "nim": "4342401011", "prodi": "Teknik Informatika"},
-    {"nama": "Ahmad Fauzi", "nim": "4342401022", "prodi": "Teknik Informatika"},
+  Widget _buildDaftarBimbingan() {
+    final list = [
+      {"nama": "Putri Balqis", "nim": "4342401011", "prodi": "Teknik Informatika"},
+      {"nama": "Ahmad Fauzi", "nim": "4342401022", "prodi": "Teknik Informatika"},
+    ];
+
+    return ListView(
+      padding: const EdgeInsets.all(defaultMargin),
+      children: list.map((mhs) {
+        return BimbinganCard(
+          nama: mhs["nama"]!,
+          nim: mhs["nim"]!,
+          prodi: mhs["prodi"]!,
+          onTap: () {
+            Get.to(() => const FormAjuanBimbinganPage());
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  // --- Tab 3: Daftar Ajuan ---
+ Widget _buildDaftarAjuan() {
+  final listAjuan = [
+    {"nama": "Siti Rahma", "nim": "4342401055", "prodi": "Teknik Informatika"},
+    {"nama": "Dimas Pratama", "nim": "4342401033", "prodi": "Teknik Informatika"},
   ];
 
   return ListView(
     padding: const EdgeInsets.all(defaultMargin),
-    children: list.map((mhs) {
-      return BimbinganCard(
+    children: listAjuan.map((mhs) {
+      return AjuanDospemCard(
         nama: mhs["nama"]!,
         nim: mhs["nim"]!,
         prodi: mhs["prodi"]!,
-        onTap: () {
-       Get.to(() => const FormAjuanBimbinganPage());
-        },
+       onTap: () {
+  Get.to(() => const FormAjuanDospemPage());
+},
+
       );
     }).toList(),
   );
 }
-
-
-
-  // --- Tab 3: Daftar Ajuan ---
-  Widget _buildDaftarAjuan() {
-    return const Center(
-      child: Text("Daftar Ajuan mahasiswa akan ditampilkan di sini."),
-    );
-  }
 }
 
 // --- Bottom Navigation Dosen ---
