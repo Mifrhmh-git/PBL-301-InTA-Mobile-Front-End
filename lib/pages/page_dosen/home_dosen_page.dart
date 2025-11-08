@@ -5,16 +5,20 @@ import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 
-// Import controller global
-import 'package:inta301/controllers/menu_controller.dart' as myCtrl;
+// Import controller khusus dosen
+import 'package:inta301/controllers/menu_dosen_controller.dart' as myCtrl;
 
-class HomeDosenPage extends GetView<myCtrl.MenuController> {
+class HomeDosenPage extends GetView<myCtrl.MenuDosenController> {
   const HomeDosenPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    const mainBlue = Color(0xFF88BDF2);
-    controller.setPage(myCtrl.PageType.home);
+ @override
+Widget build(BuildContext context) {
+  const mainBlue = Color(0xFF88BDF2);
+
+  // 🔧 solusi aman: panggil setelah build selesai
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    controller.setPage(myCtrl.PageTypeDosen.home);
+  });
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -51,11 +55,10 @@ class HomeDosenPage extends GetView<myCtrl.MenuController> {
             return SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(defaultMargin, defaultMargin, defaultMargin, 100),
+                  padding: EdgeInsets.fromLTRB(
+                      defaultMargin, defaultMargin, defaultMargin, 100),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -189,44 +192,50 @@ class HomeDosenPage extends GetView<myCtrl.MenuController> {
               _BottomNavItem(
                 icon: Icons.home,
                 label: "Home",
-                isActive: controller.currentPage.value == myCtrl.PageType.home,
+                isActive:
+                    controller.currentPage.value == myCtrl.PageTypeDosen.home,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.home);
+                  controller.setPage(myCtrl.PageTypeDosen.home);
                   Get.offAllNamed(Routes.HOME_DOSEN);
                 },
               ),
               _BottomNavItem(
                 icon: Icons.schedule_outlined,
                 label: "Jadwal",
-                isActive: controller.currentPage.value == myCtrl.PageType.jadwal,
+                isActive:
+                    controller.currentPage.value == myCtrl.PageTypeDosen.jadwal,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.jadwal);
+                  controller.setPage(myCtrl.PageTypeDosen.jadwal);
                   Get.offAllNamed(Routes.JADWAL_DOSEN);
                 },
               ),
               _BottomNavItem(
-                icon: Icons.people_outline,
-                label: "Mahasiswa",
-                isActive: controller.currentPage.value.toString() == 'PageType.mahasiswa',
+                icon: Icons.school_outlined,
+                label: "Bimbingan",
+                isActive: controller.currentPage.value ==
+                    myCtrl.PageTypeDosen.bimbingan,
                 onTap: () {
-                 Get.offAllNamed(Routes.MAHASISWA_DOSEN);
+                  controller.setPage(myCtrl.PageTypeDosen.bimbingan);
+                  Get.offAllNamed(Routes.BIMBINGAN_DOSEN);
                 },
               ),
               _BottomNavItem(
                 icon: Icons.description_outlined,
                 label: "Dokumen",
-                isActive: controller.currentPage.value == myCtrl.PageType.dokumen,
+                isActive:
+                    controller.currentPage.value == myCtrl.PageTypeDosen.dokumen,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.dokumen);
+                  controller.setPage(myCtrl.PageTypeDosen.dokumen);
                   Get.offAllNamed(Routes.DOKUMEN_DOSEN);
                 },
               ),
               _BottomNavItem(
                 icon: Icons.person_outline,
                 label: "Profil",
-                isActive: controller.currentPage.value == myCtrl.PageType.profile,
+                isActive:
+                    controller.currentPage.value == myCtrl.PageTypeDosen.profile,
                 onTap: () {
-                  controller.setPage(myCtrl.PageType.profile);
+                  controller.setPage(myCtrl.PageTypeDosen.profile);
                   Get.offAllNamed(Routes.PROFILE_DOSEN);
                 },
               ),
@@ -238,7 +247,7 @@ class HomeDosenPage extends GetView<myCtrl.MenuController> {
   }
 }
 
-// ================= Statistik Card =================
+// ================== COMPONENTS ==================
 class _StatCard extends StatelessWidget {
   final String title;
   final String count;
@@ -291,8 +300,8 @@ class _StatCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 14,
               height: 1.2,
-              color: dangerColor, // 🔹 warna merah tegas
-              fontWeight: FontWeight.w700, // 🔹 tulisan tegas/bold
+              color: dangerColor,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
@@ -301,7 +310,6 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-// ================= InfoCard Widget =================
 class _InfoCard extends StatelessWidget {
   final String title;
   final Color mainBlue;
@@ -362,7 +370,6 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-// ================= UpcomingCard Widget =================
 class _UpcomingCard extends StatelessWidget {
   final String title;
   final String date;
@@ -438,7 +445,6 @@ class _UpcomingCard extends StatelessWidget {
   }
 }
 
-// ================= BottomNavItem Widget =================
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

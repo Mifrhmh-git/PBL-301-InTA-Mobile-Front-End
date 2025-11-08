@@ -10,9 +10,15 @@ import 'bindings/app_binding.dart';
 // Splash screen
 import 'pages/splash_page.dart';
 
+// 🧩 Tambahkan import untuk MenuDosenController
+import 'package:inta301/controllers/menu_dosen_controller.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null);
+
+  // 🧩 Tambahkan inisialisasi controller dosen
+  Get.put(MenuDosenController());
 
   runApp(const MyApp());
 }
@@ -29,19 +35,21 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF88BDF2),
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialBinding: AppBinding(), // Global binding
 
-      // 👇 Ubah: pakai route SPLASH dari AppPages, bukan buat _Paths baru
-      initialRoute: Routes.SPLASH, 
+      // Global binding
+      initialBinding: AppBinding(),
 
-      // 👇 Gabungkan route dari AppPages + tambahkan Splash
-     getPages: [
-  GetPage(
-    name: Routes.SPLASH, // pakai Routes, bukan _Paths
-    page: () => const SplashPage(),
-  ),
-  ...AppPages.routes,
-],
+      // 👇 Gunakan route splash dari AppPages
+      initialRoute: Routes.SPLASH,
+
+      // 👇 Gabungkan route dari AppPages + Splash
+      getPages: [
+        GetPage(
+          name: Routes.SPLASH,
+          page: () => const SplashPage(),
+        ),
+        ...AppPages.routes,
+      ],
 
       // Dukungan lokal Indonesia
       localizationsDelegates: const [
