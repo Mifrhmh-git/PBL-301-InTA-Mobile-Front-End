@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 // Halaman yang sudah ada
 import 'package:inta301/pages/page_mahasiswa/home_page.dart';

@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import '../routes/app_pages.dart';
 
+int failedAttempts = 0; // Tambahkan untuk Incident Response Plan
+
 void showLoginModal(BuildContext context) {
   final idC = TextEditingController();
   final passC = TextEditingController();
@@ -14,8 +16,18 @@ void showLoginModal(BuildContext context) {
   String hash(String pass) => sha256.convert(utf8.encode(pass)).toString();
 
   Future<void> login() async {
-    final prefs = await SharedPreferences.getInstance();
+    // Incident Response: Lock akun jika gagal 3 kali
+    if (failedAttempts >= 3) {
+      Get.snackbar(
+        "Error",
+        "Akun terkunci sementara (Incident Response)",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
 
+    final prefs = await SharedPreferences.getInstance();
     String? savedId = prefs.getString('id_learning');
     String? savedPass = prefs.getString('password');
 
@@ -28,11 +40,13 @@ void showLoginModal(BuildContext context) {
       );
 
       prefs.setBool('isLoggedIn', true);
+      failedAttempts = 0; // Reset jika login berhasil
       Get.offAllNamed(Routes.HOME);
     } else {
+      failedAttempts++; // Tambah jika gagal
       Get.snackbar(
         "Error",
-        "ID Learning / Password salah",
+        "ID Learning / Password salah ($failedAttempts kali)",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -48,10 +62,7 @@ void showLoginModal(BuildContext context) {
       maxChildSize: 0.9,
       builder: (_, scroll) {
         return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: defaultMargin,
-            vertical: 25,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 25),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -71,18 +82,9 @@ void showLoginModal(BuildContext context) {
               ),
               const SizedBox(height: 25),
 
-              buildTextField(
-                "ID Learning",
-                Icons.badge_outlined,
-                controller: idC,
-              ),
+              buildTextField("ID Learning", Icons.badge_outlined, controller: idC),
               const SizedBox(height: 15),
-              buildTextField(
-                "Password",
-                Icons.lock_outline,
-                controller: passC,
-                isPassword: true,
-              ),
+              buildTextField("Password", Icons.lock_outline, controller: passC, isPassword: true),
               const SizedBox(height: 25),
 
               SizedBox(
@@ -96,10 +98,7 @@ void showLoginModal(BuildContext context) {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: Text(
-                    "Masuk",
-                    style: whiteTextStyle.copyWith(fontSize: 18),
-                  ),
+                  child: Text("Masuk", style: whiteTextStyle.copyWith(fontSize: 18)),
                 ),
               ),
             ],

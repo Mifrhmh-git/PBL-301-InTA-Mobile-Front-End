@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../shared/shared.dart';
 import 'ajukan_dosen_terkirim_page.dart';
 
 class AjukanDosenPage extends StatelessWidget {
