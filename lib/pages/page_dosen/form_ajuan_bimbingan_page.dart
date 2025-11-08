@@ -8,11 +8,12 @@ class FormAjuanBimbinganPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController judulController = TextEditingController();
-    final TextEditingController dosenController = TextEditingController();
-    final TextEditingController tanggalController = TextEditingController();
-    final TextEditingController waktuController = TextEditingController();
-    final TextEditingController lokasiController = TextEditingController();
+    // Dummy data, wajib ada isi
+    final judulBimbingan = "Analisis Sistem Informasi Akademik";
+    final dosenPembimbing = "Dr. Budi Santoso";
+    final tanggal = DateFormat('dd MMM yyyy').format(DateTime.now());
+    final waktu = "10.00 - 11.00";
+    final lokasi = "Ruang Dosen A";
 
     return Scaffold(
       appBar: AppBar(
@@ -27,6 +28,9 @@ class FormAjuanBimbinganPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(
+    color: Colors.white, // <-- panah back jadi putih
+  ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -37,256 +41,108 @@ class FormAjuanBimbinganPage extends StatelessWidget {
           ),
         ),
       ),
-
       backgroundColor: backgroundColor,
-
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(defaultMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildField(
-              "Judul Bimbingan",
-              judulController,
+        child: SingleChildScrollView(
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            _buildField(
-              "Dosen Pembimbing",
-              dosenController,
-            ),
-            _buildDateField(
-              context,
-              "Tanggal",
-              tanggalController,
-            ),
-            _buildField(
-              "Waktu",
-              waktuController,
-              hintText: "contoh: 10.00 - 11.00",
-            ),
-            _buildField(
-              "Lokasi",
-              lokasiController,
-              hintText: "contoh: Ruang Dosen A",
-            ),
-
-            const SizedBox(height: 30),
-
-            // 🔹 Tombol Setuju & Tolak
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.snackbar(
-                        "Disetujui",
-                        "Ajuan bimbingan berhasil disetujui.",
-                        backgroundColor: Colors.white, // putih
-                        colorText: Colors.black, // hitam tegas
-                        snackPosition: SnackPosition.TOP, // di atas
-                        margin: const EdgeInsets.all(10),
-                        borderRadius: 10,
-                        boxShadows: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
+            elevation: 5,
+            shadowColor: Colors.grey.withOpacity(0.3),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildReadonlyField("Judul Bimbingan", judulBimbingan),
+                  _buildReadonlyField("Dosen Pembimbing", dosenPembimbing),
+                  _buildReadonlyField("Tanggal", tanggal),
+                  _buildReadonlyField("Waktu", waktu),
+                  _buildReadonlyField("Lokasi", lokasi),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.snackbar(
+                              "Ditolak",
+                              "Ajuan bimbingan ditolak",
+                              backgroundColor: Colors.white,
+                              colorText: Colors.black,
+                              snackPosition: SnackPosition.TOP,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
                           ),
-                        ],
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 3,
-                    ),
-                    child: const Text(
-                      "Setuju",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(width: 10),
-
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.snackbar(
-                        "Ditolak",
-                        "Ajuan bimbingan berhasil ditolak.",
-                        backgroundColor: Colors.white, // putih
-                        colorText: Colors.black, // hitam tegas
-                        snackPosition: SnackPosition.TOP, // di atas
-                        margin: const EdgeInsets.all(10),
-                        borderRadius: 10,
-                        boxShadows: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
+                          child: const Text(
+                            "Tolak",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
                           ),
-                        ],
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      elevation: 3,
-                    ),
-                    child: const Text(
-                      "Tolak",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        color: Colors.white,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.snackbar(
+                              "Disetujui",
+                              "Ajuan bimbingan disetujui",
+                              backgroundColor: Colors.white,
+                              colorText: Colors.black,
+                              snackPosition: SnackPosition.TOP,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: const Text(
+                            "Setuju",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  // 🔹 Field umum
-  Widget _buildField(
-    String label,
-    TextEditingController controller, {
-    String? hintText,
-  }) {
+  Widget _buildReadonlyField(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: 13.5,
-            ),
-          ),
+          Text(label,
+              style: const TextStyle(
+                  fontFamily: 'Poppins', fontWeight: FontWeight.w600, fontSize: 14)),
           const SizedBox(height: 6),
-          TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: hintText,
-              filled: true,
-              fillColor: primaryColor.withOpacity(0.08),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 14,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: primaryColor.withOpacity(0.4),
-                  width: 1,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: primaryColor.withOpacity(0.3),
-                  width: 1,
-                ),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  color: primaryColor,
-                  width: 1.5,
-                ),
-              ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 🔹 Field tanggal
-  Widget _buildDateField(
-    BuildContext context,
-    String label,
-    TextEditingController controller,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: 13.5,
-            ),
-          ),
-          const SizedBox(height: 6),
-          TextField(
-            controller: controller,
-            readOnly: true,
-            onTap: () async {
-              DateTime? picked = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2024),
-                lastDate: DateTime(2030),
-              );
-              if (picked != null) {
-                controller.text =
-                    DateFormat('dd MMM yyyy').format(picked);
-              }
-            },
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: primaryColor.withOpacity(0.08),
-              suffixIcon:
-                  const Icon(Icons.calendar_today, color: primaryColor),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 14,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: primaryColor.withOpacity(0.3),
-                  width: 1,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: primaryColor.withOpacity(0.3),
-                  width: 1,
-                ),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  color: primaryColor,
-                  width: 1.5,
-                ),
-              ),
-            ),
+            child: Text(value.isNotEmpty ? value : "Belum diisi",
+                style: regularTextStyle),
           ),
         ],
       ),

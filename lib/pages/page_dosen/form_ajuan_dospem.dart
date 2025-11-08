@@ -16,20 +16,36 @@ class FormAjuanDospemPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detail Ajuan"),
-        backgroundColor: primaryColor,
-            centerTitle: true,
+        title: const Text(
+          "Detail Ajuan",
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Tulisan tebal
+            fontSize: 20,                // Ukuran lebih besar
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
         foregroundColor: Colors.white,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [primaryColor, dangerColor], // Gradasi header
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(defaultMargin),
         child: SingleChildScrollView(
           child: Card(
-            color: Colors.white, // putih bersih
+            color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            elevation: 8, // shadow jelas
+            elevation: 8,
             margin: const EdgeInsets.only(bottom: 20),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -48,9 +64,7 @@ class FormAjuanDospemPage extends StatelessWidget {
                     ),
                     child: Text(dosenPembimbing, style: regularTextStyle),
                   ),
-
                   const SizedBox(height: 16),
-
                   // --- ALASAN ---
                   Text("Alasan Memilih Dosen", style: boldTextStyle.copyWith(fontSize: 16)),
                   const SizedBox(height: 6),
@@ -63,9 +77,7 @@ class FormAjuanDospemPage extends StatelessWidget {
                     ),
                     child: Text(alasan, style: regularTextStyle),
                   ),
-
                   const SizedBox(height: 16),
-
                   // --- RENCANA JUDUL ---
                   Text("Rencana Judul TA", style: boldTextStyle.copyWith(fontSize: 16)),
                   const SizedBox(height: 6),
@@ -78,9 +90,7 @@ class FormAjuanDospemPage extends StatelessWidget {
                     ),
                     child: Text(judulTA, style: regularTextStyle),
                   ),
-
                   const SizedBox(height: 16),
-
                   // --- DESKRIPSI ---
                   Text("Deskripsi TA", style: boldTextStyle.copyWith(fontSize: 16)),
                   const SizedBox(height: 6),
@@ -93,15 +103,12 @@ class FormAjuanDospemPage extends StatelessWidget {
                     ),
                     child: Text(deskripsi, style: regularTextStyle),
                   ),
-
                   const SizedBox(height: 16),
-
                   // --- FILE PORTOFOLIO ---
                   Text("Portofolio Mahasiswa", style: boldTextStyle.copyWith(fontSize: 16)),
                   const SizedBox(height: 6),
                   GestureDetector(
                     onTap: () {
-                      // 🔹 Dummy download
                       Get.snackbar("Download", "File $filePortofolio berhasil diunduh");
                     },
                     child: Container(
@@ -120,9 +127,7 @@ class FormAjuanDospemPage extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 24),
-
                   // --- TOMBOL TERIMA / TOLAK ---
                   Row(
                     children: [
@@ -133,10 +138,13 @@ class FormAjuanDospemPage extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
-                            foregroundColor: Colors.white, // tulisan putih
+                            foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
+                            ),
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold, // Tulisan tombol tebal
                             ),
                           ),
                           child: const Text("Tolak"),
@@ -150,13 +158,16 @@ class FormAjuanDospemPage extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            foregroundColor: Colors.white, // tulisan putih
+                            foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold, // Tulisan tombol tebal
+                            ),
                           ),
-                          child: const Text("Setujui"),
+                          child: const Text("Setuju"),
                         ),
                       ),
                     ],

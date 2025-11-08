@@ -4,7 +4,7 @@ import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 import 'package:inta301/controllers/menu_dosen_controller.dart';
 
-// Import card & modal yang sudah kamu buat
+// Import card & modal 
 import 'package:inta301/pages/page_dosen/mahasiswa_card.dart';
 import 'package:inta301/pages/page_dosen/ajukan_bimbingan_modal.dart';
 import 'package:inta301/pages/page_dosen/bimbingan_card.dart';
