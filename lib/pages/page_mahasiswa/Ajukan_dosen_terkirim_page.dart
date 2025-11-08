@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../shared/shared.dart';
 import 'ajukan_dosen_menunggu_page.dart'; // 🔹 tambahkan import halaman selanjutnya
 
 class AjukanDosenTerkirimPage extends StatelessWidget {

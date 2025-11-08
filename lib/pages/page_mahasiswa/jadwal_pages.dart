@@ -556,7 +556,7 @@ floatingActionButton: null, // FAB tidak muncul
 }
 
 class _BottomNavBar extends StatefulWidget {
-  const _BottomNavBar({super.key});
+  const _BottomNavBar();
 
   @override
   State<_BottomNavBar> createState() => _BottomNavBarState();

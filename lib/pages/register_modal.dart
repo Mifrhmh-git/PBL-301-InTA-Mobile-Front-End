@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:inta301/shared/shared.dart';
-import 'text_field_builder.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 void showRegisterModal(BuildContext context) {
+  final namaC = TextEditingController();
+  final emailC = TextEditingController();
+  final idC = TextEditingController();
+  final prodiC = TextEditingController();
+  final passC = TextEditingController();
+  final confirmC = TextEditingController();
 
-  final TextEditingController namaC = TextEditingController();
-  final TextEditingController emailC = TextEditingController();
-  final TextEditingController idC = TextEditingController();
-  final TextEditingController prodiC = TextEditingController();
-  final TextEditingController passC = TextEditingController();
-  final TextEditingController confirmC = TextEditingController();
-
+  // Level Password 02: Validasi password kuat
   bool validatePassword(String pass) {
     return pass.length >= 8 &&
         RegExp(r'[A-Z]').hasMatch(pass) &&
@@ -23,15 +21,12 @@ void showRegisterModal(BuildContext context) {
         RegExp(r'[!@#\$&*~%]').hasMatch(pass);
   }
 
+  // Hashing untuk Data Integrity
   String hash(String pass) => sha256.convert(utf8.encode(pass)).toString();
 
   Future<void> saveAccount() async {
-    if (namaC.text.isEmpty ||
-        emailC.text.isEmpty ||
-        idC.text.isEmpty ||
-        prodiC.text.isEmpty ||
-        passC.text.isEmpty) {
-
+    if (namaC.text.isEmpty || emailC.text.isEmpty || idC.text.isEmpty ||
+        prodiC.text.isEmpty || passC.text.isEmpty) {
       Get.snackbar("Error", "Semua field harus diisi",
           backgroundColor: Colors.red, colorText: Colors.white);
       return;
@@ -63,67 +58,68 @@ void showRegisterModal(BuildContext context) {
     Navigator.pop(context);
   }
 
+  // Backup Data
+  Future<void> backupData() async {
+    final prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> data = {
+      'nama': prefs.getString('nama'),
+      'email': prefs.getString('email'),
+      'id_learning': prefs.getString('id_learning'),
+      'prodi': prefs.getString('prodi'),
+      'role': prefs.getString('role'),
+      'password': prefs.getString('password'),
+    };
+    print("Backup JSON: ${jsonEncode(data)}"); // Bukti fungsi
+  }
+
+  // Restore Data
+  Future<void> restoreData(String jsonData) async {
+    final prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> data = jsonDecode(jsonData);
+    await prefs.setString('nama', data['nama']);
+    await prefs.setString('email', data['email']);
+    await prefs.setString('id_learning', data['id_learning']);
+    await prefs.setString('prodi', data['prodi']);
+    await prefs.setString('role', data['role']);
+    await prefs.setString('password', data['password']);
+    print("Restore berhasil");
+  }
+
+  // UI Modal
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
-    builder: (context) {
-      return DraggableScrollableSheet(
-        initialChildSize: 0.85,
-        maxChildSize: 0.95,
-        builder: (_, scroll) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 25),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
+    builder: (_) => DraggableScrollableSheet(
+      initialChildSize: 0.85,
+      maxChildSize: 0.95,
+      builder: (_, scroll) {
+        return Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          ),
+          child: SingleChildScrollView(
+            controller: scroll,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Buat Akun Baru", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                SizedBox(height: 20),
+                TextField(controller: namaC, decoration: InputDecoration(labelText: "Nama Lengkap")),
+                TextField(controller: emailC, decoration: InputDecoration(labelText: "Email")),
+                TextField(controller: idC, decoration: InputDecoration(labelText: "ID Learning")),
+                TextField(controller: prodiC, decoration: InputDecoration(labelText: "Program Studi")),
+                TextField(controller: passC, decoration: InputDecoration(labelText: "Password"), obscureText: true),
+                TextField(controller: confirmC, decoration: InputDecoration(labelText: "Konfirmasi Password"), obscureText: true),
+                SizedBox(height: 20),
+                ElevatedButton(onPressed: saveAccount, child: Text("Daftar")),
+              ],
             ),
-            child: SingleChildScrollView(
-              controller: scroll,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Buat Akun Baru",
-                      style: blackTextStyle.copyWith(
-                        fontSize: 22, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 25),
-
-                  buildTextField("Nama Lengkap", Icons.person_outline, controller: namaC),
-                  const SizedBox(height: 15),
-                  buildTextField("Email", Icons.email_outlined, controller: emailC),
-                  const SizedBox(height: 15),
-                  buildTextField("ID Learning", Icons.badge_outlined, controller: idC),
-                  const SizedBox(height: 15),
-                  buildTextField("Program Studi", Icons.school_outlined, controller: prodiC),
-                  const SizedBox(height: 15),
-                  buildTextField("Password", Icons.lock_outline, controller: passC, isPassword: true),
-                  const SizedBox(height: 15),
-                  buildTextField("Konfirmasi Password", Icons.lock_outline, controller: confirmC, isPassword: true),
-                  const SizedBox(height: 25),
-
-                  SizedBox(
-                    height: 55,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: saveAccount,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text("Daftar", style: whiteTextStyle.copyWith(fontSize: 18)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-    },
+          ),
+        );
+      },
+    ),
   );
 }

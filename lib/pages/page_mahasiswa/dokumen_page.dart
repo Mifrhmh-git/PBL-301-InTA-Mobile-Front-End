@@ -197,7 +197,7 @@ class DokumenPage extends StatelessWidget {
 
   // --- Build List per Tab ---
   Widget _buildTabList(RxList<DokumenModel> list, BuildContext context) {
-    void _confirmDelete(DokumenModel dokumen) {
+    void confirmDelete(DokumenModel dokumen) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -245,7 +245,7 @@ class DokumenPage extends StatelessWidget {
                 builder: (_) => EditModal(dokumen: dokumen),
               );
             },
-            onDelete: () => _confirmDelete(dokumen),
+            onDelete: () => confirmDelete(dokumen),
             onDownload: () {},
             onViewRevisi: dokumen.status.toLowerCase() == "revisi"
                 ? () => showRevisiModal(context, dokumen)

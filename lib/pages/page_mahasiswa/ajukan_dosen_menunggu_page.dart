@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inta301/shared/shared.dart';
 
 class AjukanDosenMenungguPage extends StatelessWidget {
   const AjukanDosenMenungguPage({super.key});
