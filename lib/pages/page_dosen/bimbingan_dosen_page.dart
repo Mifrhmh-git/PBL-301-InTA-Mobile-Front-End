@@ -7,6 +7,10 @@ import 'package:inta301/controllers/menu_dosen_controller.dart';
 // Import card & modal yang sudah kamu buat
 import 'package:inta301/pages/page_dosen/mahasiswa_card.dart';
 import 'package:inta301/pages/page_dosen/ajukan_bimbingan_modal.dart';
+import 'package:inta301/pages/page_dosen/bimbingan_card.dart';
+import 'package:inta301/pages/page_dosen/form_ajuan_bimbingan_page.dart';
+
+
 
 class BimbinganDosenPage extends GetView<MenuDosenController> {
   const BimbinganDosenPage({super.key});
@@ -196,11 +200,29 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
   }
 
   // --- Tab 2: Daftar Bimbingan ---
-  Widget _buildDaftarBimbingan() {
-    return const Center(
-      child: Text("Daftar Bimbingan akan ditampilkan di sini."),
-    );
-  }
+ // --- Tab 2: Daftar Bimbingan ---
+Widget _buildDaftarBimbingan() {
+  final list = [
+    {"nama": "Putri Balqis", "nim": "4342401011", "prodi": "Teknik Informatika"},
+    {"nama": "Ahmad Fauzi", "nim": "4342401022", "prodi": "Teknik Informatika"},
+  ];
+
+  return ListView(
+    padding: const EdgeInsets.all(defaultMargin),
+    children: list.map((mhs) {
+      return BimbinganCard(
+        nama: mhs["nama"]!,
+        nim: mhs["nim"]!,
+        prodi: mhs["prodi"]!,
+        onTap: () {
+       Get.to(() => const FormAjuanBimbinganPage());
+        },
+      );
+    }).toList(),
+  );
+}
+
+
 
   // --- Tab 3: Daftar Ajuan ---
   Widget _buildDaftarAjuan() {
