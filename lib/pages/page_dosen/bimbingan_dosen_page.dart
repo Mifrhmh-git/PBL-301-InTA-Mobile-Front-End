@@ -33,7 +33,7 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 22,
             fontFamily: 'Poppins',
           ),
         ),
@@ -239,36 +239,37 @@ class _BottomNavDosen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _BottomNavItem(
-            icon: Icons.home,
-            label: "Beranda",
-            isActive: currentPage == PageTypeDosen.home,
-            onTap: () => Get.offAllNamed(Routes.HOME_DOSEN),
-          ),
-          _BottomNavItem(
-            icon: Icons.calendar_month,
-            label: "Jadwal",
-            isActive: currentPage == PageTypeDosen.jadwal,
-            onTap: () => Get.offAllNamed(Routes.JADWAL_DOSEN),
-          ),
-          _BottomNavItem(
-            icon: Icons.bar_chart_outlined,
-            label: "Bimbingan",
-            isActive: currentPage == PageTypeDosen.bimbingan,
-            onTap: () => Get.offAllNamed(Routes.BIMBINGAN_DOSEN),
-          ),
-          _BottomNavItem(
-            icon: Icons.description_outlined,
-            label: "Dokumen",
-            isActive: currentPage == PageTypeDosen.dokumen,
-            onTap: () => Get.offAllNamed(Routes.DOKUMEN_DOSEN),
-          ),
-          _BottomNavItem(
-            icon: Icons.person_outline,
-            label: "Profil",
-            isActive: currentPage == PageTypeDosen.profile,
-            onTap: () => Get.offAllNamed(Routes.PROFILE_DOSEN),
-          ),
+        _BottomNavItem(
+  icon: Icons.home,
+  label: "Beranda",
+  isActive: currentPage == PageTypeDosen.home,
+  onTap: () => Get.offAllNamed(Routes.HOME_DOSEN),
+),
+_BottomNavItem(
+  icon: Icons.schedule_outlined,
+  label: "Jadwal",
+  isActive: currentPage == PageTypeDosen.jadwal,
+  onTap: () => Get.offAllNamed(Routes.JADWAL_DOSEN),
+),
+_BottomNavItem(
+  icon: Icons.school_outlined, // ubah dari bar_chart_outlined
+  label: "Bimbingan",
+  isActive: currentPage == PageTypeDosen.bimbingan,
+  onTap: () => Get.offAllNamed(Routes.BIMBINGAN_DOSEN),
+),
+_BottomNavItem(
+  icon: Icons.description_outlined,
+  label: "Dokumen",
+  isActive: currentPage == PageTypeDosen.dokumen,
+  onTap: () => Get.offAllNamed(Routes.DOKUMEN_DOSEN),
+),
+_BottomNavItem(
+  icon: Icons.person_outline,
+  label: "Profil",
+  isActive: currentPage == PageTypeDosen.profile,
+  onTap: () => Get.offAllNamed(Routes.PROFILE_DOSEN),
+),
+
         ],
       ),
     );

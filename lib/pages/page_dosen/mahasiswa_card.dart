@@ -78,7 +78,7 @@ class MahasiswaCard extends StatelessWidget {
             ElevatedButton(
               onPressed: onAjukanBimbingan,
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+                backgroundColor: dangerColor,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 minimumSize: const Size(60, 45),

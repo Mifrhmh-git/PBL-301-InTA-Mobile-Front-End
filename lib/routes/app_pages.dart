@@ -25,10 +25,9 @@ import 'package:inta301/pages/page_dosen/dokumen_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/profile_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/register_dosen_page.dart';
 import 'package:inta301/pages/page_dosen/notifikasi_dosen_page.dart';
+import 'package:inta301/pages/page_dosen/kelola_akun_dosen_page.dart';
 
-
-
-// 🧩 Import halaman umum (welcome, login, pilih role)
+// 🧩 Import halaman umum
 import 'package:inta301/pages/login_page.dart';
 import 'package:inta301/pages/pilih_role_page.dart';
 import 'package:inta301/pages/welcome_page.dart';
@@ -133,18 +132,17 @@ class AppPages {
         final hasDosen = Get.arguments as bool? ?? true;
         if (hasDosen) {
           return const InformasiDospemPage();
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Informasi Dosen Pembimbing"),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-            body: const Center(
-              child: Text("Belum ada dosen pembimbing."),
-            ),
-          );
         }
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Informasi Dosen Pembimbing"),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: const Center(
+            child: Text("Belum ada dosen pembimbing."),
+          ),
+        );
       },
     ),
     GetPage(
@@ -159,33 +157,38 @@ class AppPages {
       page: () => const PilihDosenPage(),
     ),
 
-  // 👨‍🏫 Halaman Dosen
-GetPage(
-  name: Routes.HOME_DOSEN,
-  page: () => const HomeDosenPage(),
-),
-GetPage(
-  name: Routes.JADWAL_DOSEN,
-  page: () => const JadwalDosenPage(),
-),
-GetPage(
-  name: Routes.BIMBINGAN_DOSEN, // 🔄 Ganti dari MAHASISWA_DOSEN
-  page: () => const BimbinganDosenPage(), // 🔄 Ganti dari MahasiswaDosenPage
-),
-GetPage(
-  name: Routes.DOKUMEN_DOSEN,
-  page: () => const DokumenDosenPage(),
-),
-GetPage(
-  name: Routes.PROFILE_DOSEN,
-  page: () => const ProfileDosenPage(),
-),
+    // 👨‍🏫 Halaman Dosen
+    GetPage(
+      name: Routes.HOME_DOSEN,
+      page: () => const HomeDosenPage(),
+    ),
+    GetPage(
+      name: Routes.JADWAL_DOSEN,
+      page: () => const JadwalDosenPage(),
+    ),
+    GetPage(
+      name: Routes.BIMBINGAN_DOSEN,
+      page: () => const BimbinganDosenPage(),
+    ),
+    GetPage(
+      name: Routes.DOKUMEN_DOSEN,
+      page: () => const DokumenDosenPage(),
+    ),
+    GetPage(
+      name: Routes.PROFILE_DOSEN,
+      page: () => ProfileDosenPage(),
+    ),
 
-// 🔔 Notifikasi Dosen
-GetPage(
-  name: Routes.DOSEN_NOTIFIKASI,
-  page: () => const NotifikasiDosenPage(),
-),
+    // 🔔 Notifikasi Dosen
+    GetPage(
+      name: Routes.DOSEN_NOTIFIKASI,
+      page: () => const NotifikasiDosenPage(),
+    ),
 
+    // ⚙️ Kelola Akun Dosen
+    GetPage(
+      name: Routes.KELOLA_AKUN_DOSEN,
+      page: () => const KelolaAkunDosenPage(),
+    ),
   ];
 }

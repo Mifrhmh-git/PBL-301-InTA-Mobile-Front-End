@@ -33,6 +33,8 @@ abstract class Routes {
   static const DOKUMEN_DOSEN = _Paths.DOKUMEN_DOSEN;
   static const PROFILE_DOSEN = _Paths.PROFILE_DOSEN;
   static const DOSEN_NOTIFIKASI = _Paths.DOSEN_NOTIFIKASI;
+  static const KELOLA_AKUN_DOSEN = '/kelola-akun-dosen';
+
 }
 
 abstract class _Paths {
@@ -58,6 +60,7 @@ abstract class _Paths {
   static const INFORMASI_DOSPEM = '/informasi-dospem';
   static const LENGKAPI_DATA = '/lengkapi-data';
   static const PILIH_DOSEN = '/pilih-dosen';
+  
 
   // Halaman Dosen
   static const HOME_DOSEN = '/home-dosen';
@@ -67,4 +70,5 @@ abstract class _Paths {
   static const DOKUMEN_DOSEN = '/dokumen-dosen';
   static const PROFILE_DOSEN = '/profile-dosen';
   static const DOSEN_NOTIFIKASI = '/dosen-notifikasi'; 
+  static const KELOLA_AKUN_DOSEN = '/kelola-akun-dosen'; 
 }

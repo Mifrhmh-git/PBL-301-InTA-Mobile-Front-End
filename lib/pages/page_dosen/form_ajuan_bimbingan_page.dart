@@ -8,7 +8,7 @@ class FormAjuanBimbinganPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dummy data, wajib ada isi
+    // Dummy data
     final judulBimbingan = "Analisis Sistem Informasi Akademik";
     final dosenPembimbing = "Dr. Budi Santoso";
     final tanggal = DateFormat('dd MMM yyyy').format(DateTime.now());
@@ -23,14 +23,12 @@ class FormAjuanBimbinganPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontFamily: 'Poppins',
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(
-    color: Colors.white, // <-- panah back jadi putih
-  ),
+        foregroundColor: Colors.white,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -46,13 +44,14 @@ class FormAjuanBimbinganPage extends StatelessWidget {
         padding: const EdgeInsets.all(defaultMargin),
         child: SingleChildScrollView(
           child: Card(
+            color: Colors.white, // Putih bersih
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(16),
             ),
-            elevation: 5,
-            shadowColor: Colors.grey.withOpacity(0.3),
+            elevation: 12, // Shadow lebih jelas
+            shadowColor: Colors.black.withOpacity(0.3),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -80,11 +79,15 @@ class FormAjuanBimbinganPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
+                            textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           child: const Text(
                             "Tolak",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.white),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 16),
                           ),
                         ),
                       ),
@@ -105,11 +108,15 @@ class FormAjuanBimbinganPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
+                            textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           child: const Text(
                             "Setuju",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.white),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 16),
                           ),
                         ),
                       ),
@@ -130,19 +137,31 @@ class FormAjuanBimbinganPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label,
-              style: const TextStyle(
-                  fontFamily: 'Poppins', fontWeight: FontWeight.w600, fontSize: 14)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold, // Label lebih tegas
+              fontSize: 16,
+              color: Colors.black87,
+            ),
+          ),
           const SizedBox(height: 6),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(value.isNotEmpty ? value : "Belum diisi",
-                style: regularTextStyle),
+            child: Text(
+              value.isNotEmpty ? value : "Belum diisi",
+              style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
         ],
       ),

@@ -37,7 +37,7 @@ Widget build(BuildContext context) {
         ),
         title: const Text(
           'Beranda',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white,  fontSize: 22, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
