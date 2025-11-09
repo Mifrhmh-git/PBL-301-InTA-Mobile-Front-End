@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
+import 'package:inta301/pages/page_mahasiswa/logout_mahasiswa_modal.dart';
 
 class ProfilePage extends StatelessWidget {
-  final bool hasDosen; // parameter cek status dosen
+  final bool hasDosen;
   ProfilePage({super.key, required this.hasDosen});
 
-  // index halaman Profile = 4
   final RxInt selectedIndex = 4.obs;
+  final RxBool pushNotification = true.obs; // nilai switch
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,10 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+
       body: Column(
         children: [
-          // Header dengan gradient nyatu ke AppBar
+          // HEADER
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -55,9 +57,9 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
+                  const Text(
                     "Putri Balqis",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -78,46 +80,59 @@ class ProfilePage extends StatelessWidget {
 
           const SizedBox(height: 25),
 
-          // Daftar menu profil
+          // MENU LIST
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               children: [
-                _ProfileMenuItem(
-                  icon: Icons.manage_accounts,
-                  label: "Kelola Akun",
-                  onTap: () {
-                    Get.toNamed(Routes.KELOLA_AKUN);
-                  },
+                // === PUSH NOTIFICATION (DENGAN SWITCH) ===
+                Obx(
+                  () => _ProfileMenuItem(
+                    icon: Icons.notifications_active,
+                    label: "Push Notifications",
+                    trailing: Switch(
+                      value: pushNotification.value,
+                      onChanged: (val) => pushNotification.value = val,
+
+                      // WARNA SWITCH (sesuai gambar)
+                      thumbColor: WidgetStateProperty.all(primaryColor),
+                      trackColor: WidgetStateProperty.all(
+                        primaryColor.withOpacity(0.35),
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
                 ),
                 const SizedBox(height: 20),
 
-                // --- Bagian dinamis sesuai status dosen ---
-                if (hasDosen)
-                  _ProfileMenuItem(
-                    icon: Icons.person_search,
-                    label: "Informasi Dosen Pembimbing",
-                    onTap: () {
-                      Get.toNamed(Routes.INFORMASI_DOSPEM);
-                    },
-                  )
-                else
-                  _ProfileMenuItem(
-                    icon: Icons.search,
-                    label: "Cari Dosen Pembimbing",
-                    onTap: () {
-                      Get.toNamed(Routes.PILIH_DOSEN);
-
-                    },
-                  ),
+                // === KELOLA AKUN ===
+                _ProfileMenuItem(
+                  icon: Icons.manage_accounts,
+                  label: "Kelola Akun",
+                  onTap: () => Get.toNamed(Routes.KELOLA_AKUN),
+                ),
                 const SizedBox(height: 20),
 
+                // === DINAMIS SESUAI DOSEN ===
+                hasDosen
+                    ? _ProfileMenuItem(
+                        icon: Icons.person_search,
+                        label: "Informasi Dosen Pembimbing",
+                        onTap: () => Get.toNamed(Routes.INFORMASI_DOSPEM),
+                      )
+                    : _ProfileMenuItem(
+                        icon: Icons.search,
+                        label: "Cari Dosen Pembimbing",
+                        onTap: () => Get.toNamed(Routes.PILIH_DOSEN),
+                      ),
+
+                const SizedBox(height: 20),
+
+                // === LOGOUT ===
                 _ProfileMenuItem(
                   icon: Icons.logout,
                   label: "Keluar",
-                  onTap: () {
-                    Get.offAllNamed(Routes.WELCOME);
-                  },
+                  onTap: () => showLogoutMahasiswaModal(context),
                 ),
               ],
             ),
@@ -125,7 +140,7 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
 
-      // Bottom Navigation dengan highlight halaman aktif
+      // === BOTTOM NAV ===
       bottomNavigationBar: Obx(
         () => Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -183,10 +198,7 @@ class ProfilePage extends StatelessWidget {
                 icon: Icons.person_outline,
                 label: "Profile",
                 isActive: selectedIndex.value == 4,
-                onTap: () {
-                  selectedIndex.value = 4;
-                  // tetap di profile
-                },
+                onTap: () => selectedIndex.value = 4,
               ),
             ],
           ),
@@ -196,16 +208,20 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-// --- Widget Menu Item ---
+// ===================================================================
+//                           MENU ITEM
+// ===================================================================
 class _ProfileMenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final Widget? trailing;
 
   const _ProfileMenuItem({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.trailing,
   });
 
   @override
@@ -235,14 +251,19 @@ class _ProfileMenuItem extends StatelessWidget {
               child: Icon(icon, color: Colors.white, size: 22),
             ),
             const SizedBox(width: 15),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: blackColor,
+
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: blackColor,
+                ),
               ),
             ),
+
+            if (trailing != null) trailing!,
           ],
         ),
       ),
@@ -250,7 +271,9 @@ class _ProfileMenuItem extends StatelessWidget {
   }
 }
 
-// --- Bottom Nav Item ---
+// ===================================================================
+//                           BOTTOM NAV ITEM
+// ===================================================================
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

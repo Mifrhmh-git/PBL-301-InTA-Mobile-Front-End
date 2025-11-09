@@ -82,31 +82,32 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            // 🟥 Tombol Login
-            SizedBox(
-              height: 55,
-              width: double.infinity,
-              child: ElevatedButton(
-                // 🔹 Juga ke halaman pilih role dulu
-                onPressed: () => Get.toNamed(Routes.PILIH_ROLE),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: dangerColor,
-                  foregroundColor: Colors.white,
-                  shadowColor: primaryColor.withOpacity(0.4),
-                  elevation: 6,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                child: Text(
-                  "Login",
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
+          // 🟥 Tombol Login
+SizedBox(
+  height: 55,
+  width: double.infinity,
+  child: ElevatedButton(
+    // 🔹 Langsung ke halaman login
+    onPressed: () => Get.toNamed(Routes.LOGIN),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: dangerColor,
+      foregroundColor: Colors.white,
+      shadowColor: primaryColor.withOpacity(0.4),
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    ),
+    child: Text(
+      "Login",
+      style: whiteTextStyle.copyWith(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  ),
+),
+
 
             const SizedBox(height: 40),
 

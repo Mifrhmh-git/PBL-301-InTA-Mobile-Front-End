@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 
-
 class KelolaAkunPage extends StatefulWidget {
   const KelolaAkunPage({super.key});
 
@@ -11,8 +10,6 @@ class KelolaAkunPage extends StatefulWidget {
 }
 
 class _KelolaAkunPageState extends State<KelolaAkunPage> {
-  bool pushNotification = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,38 +121,18 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                   _buildTextField("NIM", "4342401011"),
                   _buildTextField("Bidang Keahlian", ""),
 
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Push Notifications",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      ),
-                      Switch(
-                        activeThumbColor: primaryColor,
-                        value: pushNotification,
-                        onChanged: (val) {
-                          setState(() {
-                            pushNotification = val;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-
                   const SizedBox(height: 25),
-                  // Tombol Update Profile disesuaikan dengan field
+
+                  // === TOMBOL UPDATE PROFILE ===
                   SizedBox(
                     width: double.infinity,
-                    height: 50, // sama dengan field
+                    height: 50,
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: dangerColor, // warna tombol
+                        backgroundColor: dangerColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12), // sama field
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: const Text(
@@ -163,7 +140,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16, // sama field
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -186,7 +163,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
           Text(
             label,
             style: const TextStyle(
-              fontSize: 16, // semua field 16 px
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
