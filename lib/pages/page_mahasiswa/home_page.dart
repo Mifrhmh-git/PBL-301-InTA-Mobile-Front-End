@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   final controller = Get.find<myCtrl.MenuController>();
 
   // 🔥 Status mahasiswa: 'belum', 'menunggu', atau 'sudah'
-  String status = 'menunggu';
+  String status = 'sudah';
 
   @override
   Widget build(BuildContext context) {

@@ -102,7 +102,7 @@ class AppPages {
     GetPage(
       name: _Paths.PROFILE,
       page: () {
-        final hasDosen = Get.arguments as bool? ?? true;
+        final hasDosen = Get.arguments as bool? ?? false;
         return ProfilePage(hasDosen: hasDosen);
       },
     ),
