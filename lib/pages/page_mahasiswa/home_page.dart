@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   final controller = Get.find<myCtrl.MenuController>();
 
   // 🔥 Status mahasiswa: 'belum', 'menunggu', atau 'sudah'
-  String status = 'sudah';
+  String status = 'menunggu';
 
   @override
   Widget build(BuildContext context) {
@@ -220,23 +220,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   // ================= Jika status pengajuan sedang menunggu =================
-  Widget _buildCardStatusPengajuan() {
-    return Container(
+ Widget _buildCardStatusPengajuan() {
+  return Padding(
+    padding: const EdgeInsets.only(top: 12), 
+    child: Container(
+      width: double.infinity, 
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15), 
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.45),
-            blurRadius: 10,
+            blurRadius: 12, 
             offset: const Offset(0, 5),
           ),
         ],
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "Status Pengajuan Dosen Pembimbing",
             style: TextStyle(
@@ -245,10 +248,29 @@ class _HomePageState extends State<HomePage> {
               fontSize: 16,
             ),
           ),
-          SizedBox(height: 10),
-          Text("Nama Dosen: Sukma Evadini, S.T., M.Kom"),
-          Text("Tanggal Pengajuan: 4 November 2025"),
-          Text("Jam Pengajuan: 14:30"),
+         SizedBox(height: 10),
+Text(
+  "Nama Dosen: Sukma Evadini, S.T., M.Kom",
+  style: TextStyle(
+    color: Colors.black, // ✅ hitam pekat
+    fontWeight: FontWeight.w500,
+  ),
+),
+Text(
+  "Tanggal Pengajuan: 4 November 2025",
+  style: TextStyle(
+    color: Colors.black, // ✅ hitam pekat
+    fontWeight: FontWeight.w500,
+  ),
+),
+Text(
+  "Jam Pengajuan: 14:30",
+  style: TextStyle(
+    color: Colors.black, // ✅ hitam pekat
+    fontWeight: FontWeight.w500,
+  ),
+),
+
           SizedBox(height: 8),
           Text(
             "Status: Menunggu Konfirmasi Dosen",
@@ -259,8 +281,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 
   // ================= Progress TA =================
   Widget _buildProgressTA() {
