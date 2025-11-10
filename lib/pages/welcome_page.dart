@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
           children: [
             const SizedBox(height: 30),
 
-            // 🖼️ Ilustrasi
+            // Ilustrasi
             Center(
               child: Image.asset(
                 'assets/images/login-image.png',
@@ -31,7 +31,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // 🏷️ Judul
+            // Judul
             Text(
               "Selamat Datang di InTA",
               style: blackTextStyle.copyWith(
@@ -44,7 +44,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            // 📝 Deskripsi
+            // Deskripsi
             Text(
               "Aplikasi informasi tugas akhir mahasiswa Polibatam.",
               style: blackTextStyle.copyWith(
@@ -57,12 +57,12 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 50),
 
-            // 🟦 Tombol Create Account
+            // Tombol Create Account
             SizedBox(
               height: 55,
               width: double.infinity,
               child: ElevatedButton(
-                // 🔹 Arahkan ke halaman pilih role dulu
+                //  Arahkan ke halaman pilih role dulu
                 onPressed: () => Get.toNamed(Routes.PILIH_ROLE),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
@@ -82,7 +82,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-          // 🟥 Tombol Login
+          // Tombol Login
 SizedBox(
   height: 55,
   width: double.infinity,

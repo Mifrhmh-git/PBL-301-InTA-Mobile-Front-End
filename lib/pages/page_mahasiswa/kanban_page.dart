@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// Shared & routes (global)
+// Shared & Routes
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 
@@ -10,28 +10,28 @@ import 'package:inta301/pages/page_mahasiswa/kanban_card.dart';
 import 'package:inta301/pages/page_mahasiswa/kanban_controller.dart';
 import 'package:inta301/pages/page_mahasiswa/kanban_modal.dart';
 
-// Gunakan alias supaya tidak konflik dengan MenuController Flutter
+// Alias agar tidak konflik dengan MenuController Flutter
 import 'package:inta301/controllers/menu_controller.dart' as myCtrl;
 
 class KanbanPage extends GetView<myCtrl.MenuController> {
   final bool hasDosen;
+  final KanbanController kanbanController = Get.put(KanbanController());
 
   KanbanPage({super.key, required this.hasDosen});
 
-  // Controller lokal untuk Kanban
-  final KanbanController kanbanController = Get.put(KanbanController());
-
   @override
   Widget build(BuildContext context) {
-    // Set halaman aktif saat pertama kali dibuka
     controller.setPage(myCtrl.PageType.kanban);
 
-    // ✅ Jika belum memiliki dosen pembimbing
+    // -------------------------------------------------------------------------
+    // Jika BELUM punya dosen pembimbing
+    // -------------------------------------------------------------------------
     if (!hasDosen) {
       return Scaffold(
         backgroundColor: backgroundColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          centerTitle: true,
           title: const Text(
             "Papan Kanban",
             style: TextStyle(
@@ -41,7 +41,6 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
               fontFamily: 'Poppins',
             ),
           ),
-          centerTitle: true,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -61,25 +60,29 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                 color: Color(0xFF616161),
+                color: Color(0xFF616161),
                 fontFamily: 'Poppins',
               ),
             ),
           ),
         ),
         bottomNavigationBar: Obx(
-          () => _BottomNavBar(currentPage: controller.currentPage.value),
+          () => _BottomNavBar(
+            currentPage: controller.currentPage.value,
+          ),
         ),
       );
     }
 
-    // ✅ Jika sudah punya dosen, tampilkan papan Kanban
+    // -------------------------------------------------------------------------
+    // Jika SUDAH punya dosen pembimbing → tampilkan Kanban
+    // -------------------------------------------------------------------------
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        centerTitle: true,
         elevation: 0,
+        centerTitle: true,
         automaticallyImplyLeading: false,
         title: const Text(
           "Papan Kanban",
@@ -99,13 +102,19 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
           ),
         ),
       ),
+
+      //-----------------------------------------------------------------------
+      // TABBAR
+      //-----------------------------------------------------------------------
       body: DefaultTabController(
         length: 3,
         child: Column(
           children: [
             Container(
               margin: const EdgeInsets.symmetric(
-                  horizontal: defaultMargin, vertical: 12),
+                horizontal: defaultMargin,
+                vertical: 12,
+              ),
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(15),
@@ -121,7 +130,7 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: BoxDecoration(
                   color: primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 labelColor: Colors.white,
                 unselectedLabelColor: blackColor,
@@ -133,7 +142,6 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
                 unselectedLabelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
-                  color: blackColor,
                 ),
                 tabs: const [
                   Tab(text: "To Do"),
@@ -142,6 +150,10 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
                 ],
               ),
             ),
+
+            //-------------------------------------------------------------------
+            // TAB CONTENT
+            //-------------------------------------------------------------------
             Expanded(
               child: TabBarView(
                 children: [
@@ -155,6 +167,10 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
           ],
         ),
       ),
+
+      //-----------------------------------------------------------------------
+      // FAB
+      //-----------------------------------------------------------------------
       floatingActionButton: FloatingActionButton(
         backgroundColor: dangerColor,
         onPressed: () {
@@ -162,24 +178,33 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
+
       bottomNavigationBar:
           Obx(() => _BottomNavBar(currentPage: controller.currentPage.value)),
     );
   }
 
+  // ---------------------------------------------------------------------------
+  // Build Column kanban
+  // ---------------------------------------------------------------------------
   Widget _buildKanbanColumn(RxList<KanbanTask> tasks, String column) {
     return Obx(
       () => ListView.builder(
-        padding: const EdgeInsets.fromLTRB(defaultMargin, 6, defaultMargin, 16),
+        padding: const EdgeInsets.fromLTRB(
+            defaultMargin, 6, defaultMargin, 16),
         itemCount: tasks.length,
         itemBuilder: (context, index) {
-          final task = tasks[index];
           return GestureDetector(
             onTap: () {
               showEditKanbanModal(
-                  context, kanbanController, tasks, index, column);
+                context,
+                kanbanController,
+                tasks,
+                index,
+                column,
+              );
             },
-            child: KanbanCard(task: task),
+            child: KanbanCard(task: tasks[index]),
           );
         },
       ),
@@ -187,7 +212,9 @@ class KanbanPage extends GetView<myCtrl.MenuController> {
   }
 }
 
-// --- Bottom Nav Wrapper ---
+// ============================================================================
+// Bottom Navigation
+// ============================================================================
 class _BottomNavBar extends StatelessWidget {
   final myCtrl.PageType currentPage;
 
@@ -196,6 +223,7 @@ class _BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<myCtrl.MenuController>();
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: const BoxDecoration(
@@ -263,12 +291,14 @@ class _BottomNavBar extends StatelessWidget {
   }
 }
 
-// --- Bottom Nav Item ---
+// ============================================================================
+// Bottom Navigation Item
+// ============================================================================
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;
-  final VoidCallback onTap;
   final bool isActive;
+  final VoidCallback onTap;
 
   const _BottomNavItem({
     required this.icon,
@@ -284,7 +314,11 @@ class _BottomNavItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isActive ? Colors.yellow : Colors.white, size: 26),
+          Icon(
+            icon,
+            size: 26,
+            color: isActive ? Colors.yellow : Colors.white,
+          ),
           const SizedBox(height: 4),
           Text(
             label,

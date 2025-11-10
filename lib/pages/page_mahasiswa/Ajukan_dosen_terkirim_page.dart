@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ajukan_dosen_menunggu_page.dart'; // 🔹 tambahkan import halaman selanjutnya
+import 'ajukan_dosen_menunggu_page.dart';
 
 class AjukanDosenTerkirimPage extends StatelessWidget {
   const AjukanDosenTerkirimPage({super.key});
@@ -11,7 +11,7 @@ class AjukanDosenTerkirimPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -44,27 +44,25 @@ class AjukanDosenTerkirimPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
 
-                // Tombol
+                // Tombol menuju halaman status
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AjukanDosenMenungguPage(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2F3E52), // warna abu gelap sesuai gambar
+                      backgroundColor: const Color(0xFF2F3E52),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      // ✅ ubahan hanya di sini
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const AjukanDosenMenungguPage(),
-                        ),
-                      );
-                    },
                     child: const Text(
                       "Lihat Status Pengajuan",
                       style: TextStyle(

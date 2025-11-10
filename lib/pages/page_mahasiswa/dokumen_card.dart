@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// global
+// Global
 import 'package:inta301/shared/shared.dart';
 
-// file di folder yang sama
+// File di folder yang sama
 import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
 
 class DokumenCard extends StatelessWidget {
@@ -13,7 +13,7 @@ class DokumenCard extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onAdd;
   final VoidCallback onDownload;
-  final VoidCallback? onViewRevisi; // ✅ Tambahan
+  final VoidCallback? onViewRevisi;
 
   const DokumenCard({
     super.key,
@@ -22,7 +22,7 @@ class DokumenCard extends StatelessWidget {
     required this.onEdit,
     required this.onAdd,
     required this.onDownload,
-    this.onViewRevisi, // ✅ Tambahan
+    this.onViewRevisi,
   });
 
   // Warna background status
@@ -40,7 +40,7 @@ class DokumenCard extends StatelessWidget {
     }
   }
 
-  // Warna text status
+  // Warna teks status
   Color _getStatusTextColor(String status) {
     switch (status.toLowerCase()) {
       case "menunggu":
@@ -57,6 +57,7 @@ class DokumenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Format tanggal
     String formattedDate;
     try {
       formattedDate = DateFormat("d MMMM yyyy, HH.mm", 'id_ID')
@@ -72,9 +73,10 @@ class DokumenCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 6,
-              offset: const Offset(0, 3))
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          )
         ],
       ),
       child: Padding(
@@ -82,7 +84,7 @@ class DokumenCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Judul & Status
+            // Judul & status
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -90,10 +92,11 @@ class DokumenCard extends StatelessWidget {
                   child: Text(
                     dokumen.title,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                        color: dangerColor,
-                        height: 1.3),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                      color: dangerColor,
+                      height: 1.3,
+                    ),
                   ),
                 ),
                 Container(
@@ -106,13 +109,15 @@ class DokumenCard extends StatelessWidget {
                   child: Text(
                     dokumen.status,
                     style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: _getStatusTextColor(dokumen.status)),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: _getStatusTextColor(dokumen.status),
+                    ),
                   ),
                 ),
               ],
             ),
+
             const SizedBox(height: 10),
 
             // Tanggal
@@ -120,23 +125,31 @@ class DokumenCard extends StatelessWidget {
               children: [
                 const Icon(Icons.access_time, size: 15, color: Colors.black),
                 const SizedBox(width: 6),
-                Text(formattedDate,
-                    style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        height: 1.4)),
-              ],
-            ),
-            const SizedBox(height: 10),
-
-            // Deskripsi
-            Text("Keterangan : ${dokumen.description}",
-                style: const TextStyle(
+                Text(
+                  formattedDate,
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
-                    height: 1.4)),
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // Keterangan
+            Text(
+              "Keterangan : ${dokumen.description}",
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+                height: 1.4,
+              ),
+            ),
+
             const SizedBox(height: 10),
             Container(height: 2, color: primaryColor),
             const SizedBox(height: 4),
@@ -144,24 +157,27 @@ class DokumenCard extends StatelessWidget {
             // Tombol aksi
             Row(
               children: [
-                // Tombol download selalu muncul
+                // Download — selalu tampil
                 IconButton(
-                    onPressed: onDownload,
-                    icon: const Icon(Icons.download, color: Colors.black87),
-                    tooltip: "Download"),
+                  onPressed: onDownload,
+                  icon: const Icon(Icons.download, color: Colors.black87),
+                  tooltip: "Download",
+                ),
 
-                // Tombol lain hanya muncul jika status bukan "selesai"
+                // Tampil hanya jika status bukan "selesai"
                 if (dokumen.status.toLowerCase() != "selesai") ...[
                   IconButton(
-                      onPressed: onEdit,
-                      icon: const Icon(Icons.edit, color: Colors.black87),
-                      tooltip: "Edit"),
+                    onPressed: onEdit,
+                    icon: const Icon(Icons.edit, color: Colors.black87),
+                    tooltip: "Edit",
+                  ),
                   IconButton(
-                      onPressed: onDelete,
-                      icon: const Icon(Icons.delete, color: Colors.black87),
-                      tooltip: "Hapus"),
+                    onPressed: onDelete,
+                    icon: const Icon(Icons.delete, color: Colors.black87),
+                    tooltip: "Hapus",
+                  ),
 
-                  // Tombol lihat revisi hanya muncul jika status "revisi"
+                  // Tampil hanya jika status "revisi"
                   if (dokumen.status.toLowerCase() == "revisi" &&
                       onViewRevisi != null)
                     IconButton(

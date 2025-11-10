@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:inta301/pages/page_mahasiswa/kanban_controller.dart';
 import 'package:inta301/shared/shared.dart';
 
+// Modal Task Kanban
 
 void showAddKanbanModal(
   BuildContext context,
@@ -12,6 +13,7 @@ void showAddKanbanModal(
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final dueController = TextEditingController();
+
   String selectedColumn = defaultColumn;
 
   showModalBottomSheet(
@@ -44,6 +46,7 @@ void showAddKanbanModal(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// --- Drag Indicator ---
                   Center(
                     child: Container(
                       width: 60,
@@ -55,6 +58,8 @@ void showAddKanbanModal(
                     ),
                   ),
                   const SizedBox(height: 16),
+
+                  /// --- Judul Modal ---
                   const Center(
                     child: Text(
                       "Tambah Task Kanban",
@@ -66,22 +71,22 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 20),
 
-                  // Status Field
+                   // status
+
                   const Text(
                     "Status",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   const SizedBox(height: 6),
+
                   DropdownButtonFormField<String>(
                     initialValue: selectedColumn,
                     dropdownColor: Colors.white,
                     decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
                     items: ["To Do", "In Progress", "Done"]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       if (value != null) selectedColumn = value;
@@ -89,56 +94,50 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 15),
 
-                  //  Judul / Bab
+                 // Judul / Bab
                   const Text(
                     "Judul / Bab",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   const SizedBox(height: 6),
+
                   _buildField(controller: titleController),
                   const SizedBox(height: 15),
 
-                  // Keterangan
+                 // Keterangan
                   const Text(
                     "Keterangan",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   const SizedBox(height: 6),
+
                   _buildField(controller: descriptionController, maxLines: 2),
                   const SizedBox(height: 15),
 
-                  //  Due Date
+                  // Due Date
                   const Text(
                     "Due Date",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   const SizedBox(height: 6),
+
                   _buildField(
                     controller: dueController,
                     hintText: "contoh: 22 September 2025, 23:59",
                   ),
                   const SizedBox(height: 25),
 
-                  // Tombol Tambah (full width seperti field)
+                  // Tombol Tambah
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: dangerColor,
+                        elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        elevation: 3,
                       ),
                       onPressed: () {
                         if (titleController.text.isEmpty ||
@@ -159,6 +158,7 @@ void showAddKanbanModal(
                           selectedColumn,
                           descriptionController.text,
                         );
+
                         Navigator.pop(context);
                       },
                       child: const Text(
@@ -191,9 +191,11 @@ void showEditKanbanModal(
   String column,
 ) {
   final task = tasks[index];
+
   final titleController = TextEditingController(text: task.title);
   final descriptionController = TextEditingController(text: task.description);
   final dueController = TextEditingController(text: task.dueDate);
+
   String selectedColumn = column;
 
   showModalBottomSheet(
@@ -226,6 +228,7 @@ void showEditKanbanModal(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// --- Drag Indicator ---
                   Center(
                     child: Container(
                       width: 60,
@@ -238,7 +241,7 @@ void showEditKanbanModal(
                   ),
                   const SizedBox(height: 16),
 
-                  // 🔹 Judul ditebalkan
+                  /// --- Judul Modal ---
                   const Center(
                     child: Text(
                       "Edit Task Kanban",
@@ -250,17 +253,21 @@ void showEditKanbanModal(
                   ),
                   const SizedBox(height: 20),
 
-                  const Text("Status",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  // status
+                  const Text(
+                    "Status",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  ),
                   const SizedBox(height: 6),
+
                   DropdownButtonFormField<String>(
                     initialValue: selectedColumn,
                     dropdownColor: Colors.white,
                     decoration: _fieldDecoration(),
                     style: const TextStyle(color: Colors.black),
                     items: ["To Do", "In Progress", "Done"]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       if (value != null) selectedColumn = value;
@@ -268,44 +275,54 @@ void showEditKanbanModal(
                   ),
                   const SizedBox(height: 15),
 
-                  const Text("Judul / Bab",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  // Judul / Bab  
+                  const Text(
+                    "Judul / Bab",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  ),
                   const SizedBox(height: 6),
+
                   _buildField(controller: titleController),
                   const SizedBox(height: 15),
 
-                  const Text("Keterangan",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+
+                  const Text(
+                    "Keterangan",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  ),
                   const SizedBox(height: 6),
+
                   _buildField(controller: descriptionController, maxLines: 2),
                   const SizedBox(height: 15),
 
-                  const Text("Due Date",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  // Due Date
+                  const Text(
+                    "Due Date",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  ),
                   const SizedBox(height: 6),
+
                   _buildField(
                     controller: dueController,
                     hintText: "contoh: 22 September 2025, 23:59",
                   ),
                   const SizedBox(height: 25),
 
-                  // 🔹 Tombol sejajar horizontal
+                    
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      /// Hapus
                       Expanded(
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: dangerColor,
+                              elevation: 3,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              elevation: 3,
                             ),
                             onPressed: () {
                               controller.deleteTask(tasks, index);
@@ -324,16 +341,18 @@ void showEditKanbanModal(
                         ),
                       ),
                       const SizedBox(width: 12),
+
+                      /// Simpan
                       Expanded(
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor,
+                              elevation: 3,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              elevation: 3,
                             ),
                             onPressed: () {
                               if (titleController.text.isEmpty ||
@@ -355,6 +374,7 @@ void showEditKanbanModal(
                                 dueController.text,
                                 descriptionController.text,
                               );
+
                               Navigator.pop(context);
                             },
                             child: const Text(
@@ -381,12 +401,13 @@ void showEditKanbanModal(
   );
 }
 
-//  Reusable Field Decoration
+// FIELD DECORATION
 InputDecoration _fieldDecoration() {
   return InputDecoration(
     filled: true,
     fillColor: primaryColor.withOpacity(0.2),
-    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+    contentPadding:
+        const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
       borderSide: BorderSide(
@@ -411,7 +432,7 @@ InputDecoration _fieldDecoration() {
   );
 }
 
-//  Field Builder
+// FIELD INPUT
 Widget _buildField({
   required TextEditingController controller,
   String? hintText,

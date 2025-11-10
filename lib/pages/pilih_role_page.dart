@@ -11,7 +11,7 @@ class PilihRolePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // 🔹 Background Gradient sama seperti LoginPage
+          // Background Gradient sama seperti LoginPage
           Container(
             height: 300,
             decoration: const BoxDecoration(
@@ -26,7 +26,7 @@ class PilihRolePage extends StatelessWidget {
             ),
           ),
 
-          // 🔹 Isi Halaman
+          // Isi Halaman
           SafeArea(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -62,7 +62,7 @@ class PilihRolePage extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                // 🔹 Card putih di bawah
+                // Card putih di bawah
                 Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -89,7 +89,7 @@ class PilihRolePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 40),
 
-                      // 🔹 Dua Card Role
+                      // Dua Card Role
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

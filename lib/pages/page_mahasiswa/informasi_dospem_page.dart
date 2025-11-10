@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 
-
 class InformasiDospemPage extends StatelessWidget {
   const InformasiDospemPage({super.key});
 
@@ -15,80 +14,82 @@ class InformasiDospemPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // === HEADER ===
+          // ================= HEADER =================
           Container(
             width: double.infinity,
             padding: const EdgeInsets.only(top: 50, bottom: 25),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
+                colors: [primaryColor, dangerColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  primaryColor,
-                  dangerColor,
-                ],
               ),
             ),
             child: Column(
               children: [
-                // Bar atas
-              Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 20),
-  child: Stack(
-    alignment: Alignment.center,
-    children: [
-      const Center(
-        child: Text(
-          "Informasi Dosen Pembimbing",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: GestureDetector(
-          onTap: () => Get.back(),
-          child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
-        ),
-      ),
-    ],
-  ),
-),
+                // Back + Title
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Text(
+                        "Informasi Dosen Pembimbing",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: GestureDetector(
+                          onTap: () => Get.back(),
+                          child: const Icon(Icons.arrow_back,
+                              color: Colors.white, size: 26),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
                 const SizedBox(height: 20),
 
-                // Avatar dosen
+                // Avatar
                 const CircleAvatar(
                   radius: 45,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.person, color: primaryColor, size: 60),
+                  child: Icon(Icons.person, size: 60, color: primaryColor),
                 ),
+
                 const SizedBox(height: 10),
+
+                // Nama Dosen
                 const Text(
                   "Dr. Dwi Putra Nugraha, S.Kom., M.T.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 18,
                   ),
                 ),
+
                 const Text(
                   "Dosen Informatika",
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ),
                 ),
               ],
             ),
           ),
 
-          // === DETAIL DOSEN ===
+          // ================= BODY DETAIL =================
           Expanded(
             child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,16 +103,20 @@ class InformasiDospemPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
+                  _buildInfoTile("Email", "dwi.putra@universitas.ac.id",
+                      Icons.email),
                   _buildInfoTile(
-                      "Email", "dwi.putra@universitas.ac.id", Icons.email),
-                  _buildInfoTile("No. Telepon", "+62 812-3456-7890", Icons.phone),
+                      "No. Telepon", "+62 812-3456-7890", Icons.phone),
                   _buildInfoTile(
-                      "Bidang Keahlian",
-                      "Kecerdasan Buatan, Machine Learning",
-                      Icons.science_outlined),
-                  _buildInfoTile("Kantor",
-                      "Gedung Informatika Lt. 3, Ruang 305", Icons.location_on_outlined),
-
+                    "Bidang Keahlian",
+                    "Kecerdasan Buatan, Machine Learning",
+                    Icons.science_outlined,
+                  ),
+                  _buildInfoTile(
+                    "Kantor",
+                    "Gedung Informatika Lt. 3, Ruang 305",
+                    Icons.location_on_outlined,
+                  ),
                 ],
               ),
             ),
@@ -119,17 +124,14 @@ class InformasiDospemPage extends StatelessWidget {
         ],
       ),
 
-      // === BOTTOM NAVIGATION ===
+      // ================= BOTTOM NAVIGATION =================
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
+            colors: [primaryColor, dangerColor],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              primaryColor,
-              dangerColor,
-            ],
           ),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
@@ -170,6 +172,7 @@ class InformasiDospemPage extends StatelessWidget {
     );
   }
 
+  // ================= COMPONENT TILE =================
   Widget _buildInfoTile(String title, String value, IconData icon) {
     return Container(
       margin: const EdgeInsets.only(bottom: 18),
@@ -213,7 +216,7 @@ class InformasiDospemPage extends StatelessWidget {
   }
 }
 
-/// --- Bottom Navigation Item ---
+// ================= BOTTOM NAV ITEM =================
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

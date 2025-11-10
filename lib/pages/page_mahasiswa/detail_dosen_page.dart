@@ -4,14 +4,16 @@ import 'package:get/get.dart';
 // Global
 import 'package:inta301/shared/shared.dart';
 
-// File di folder yang sama
+// Page tujuan
 import 'package:inta301/pages/page_mahasiswa/ajukan_dosen_page.dart';
- // ⬅️ import halaman tujuan
 
 class DetailDosenPage extends StatelessWidget {
   final Map<String, String> dosen;
 
-  const DetailDosenPage({super.key, required this.dosen});
+  const DetailDosenPage({
+    super.key,
+    required this.dosen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class DetailDosenPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Header gradient lurus (tanpa lengkung)
+          // Header gradient
           Container(
             width: double.infinity,
             height: 200,
@@ -51,7 +53,11 @@ class DetailDosenPage extends StatelessWidget {
           const CircleAvatar(
             radius: 60,
             backgroundColor: Colors.grey,
-            child: Icon(Icons.person, color: Colors.white, size: 60),
+            child: Icon(
+              Icons.person,
+              color: Colors.white,
+              size: 60,
+            ),
           ),
 
           const SizedBox(height: 15),
@@ -68,7 +74,7 @@ class DetailDosenPage extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // Kotak informasi lengkap
+          // Informasi lengkap
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             padding: const EdgeInsets.all(16),
@@ -90,6 +96,7 @@ class DetailDosenPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
+
                 Text(
                   "Email : ${dosen["email"] ?? "Tidak tersedia"}",
                   style: const TextStyle(
@@ -99,6 +106,7 @@ class DetailDosenPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
+
                 Text(
                   "NIK : ${dosen["nik"] ?? "Tidak tersedia"}",
                   style: const TextStyle(
@@ -108,6 +116,7 @@ class DetailDosenPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
+
                 Text(
                   "Bidang Keahlian : ${dosen["keahlian"] ?? "Tidak tersedia"}",
                   style: const TextStyle(
@@ -122,22 +131,24 @@ class DetailDosenPage extends StatelessWidget {
 
           const SizedBox(height: 30),
 
-          // Tombol ajukan → ke halaman pengajuan dosen
+          // Tombol ajukan
           ElevatedButton(
+            onPressed: () {
+              Get.to(() => const AjukanDosenPage());
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
             ),
-            onPressed: () {
-              // navigasi ke halaman pengajuan dosen
-              Get.to(() => const AjukanDosenPage());
-            },
             child: const Text(
               "Ajukan",
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
             ),
           ),
         ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart'; // dependency file_picker
+import 'package:file_picker/file_picker.dart';
 import 'ajukan_dosen_terkirim_page.dart';
 import 'package:inta301/shared/shared.dart';
 
@@ -15,12 +15,12 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
   final TextEditingController judulController = TextEditingController();
   final TextEditingController deskripsiController = TextEditingController();
 
-  PlatformFile? portofolioFile; // file yang dipilih
+  PlatformFile? portofolioFile;
 
   Future<void> _pickPortofolioFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx'], // sesuaikan
+      allowedExtensions: ['pdf', 'doc', 'docx'],
     );
 
     if (result != null && result.files.isNotEmpty) {
@@ -36,7 +36,7 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // HEADER
+          // Header
           Container(
             height: 260,
             decoration: const BoxDecoration(
@@ -58,24 +58,25 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
               children: [
                 const SizedBox(height: 45),
                 const Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        "Pengajuan Dosen",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    "Pengajuan Dosen",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
+
                 const SizedBox(height: 60),
 
-                // Kontainer putih melengkung
+                // Kontainer isi
                 Container(
                   width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 30,
+                  ),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -83,139 +84,46 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
                       topRight: Radius.circular(60),
                     ),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      const Text(
-                        "Dosen Pembimbing",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF88BDF2).withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text(
-                          "Sukma Evadini, S.T., M.Kom",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+
+                      // Dosen Pembimbing
+                      _label("Dosen Pembimbing"),
+                      _dosenBox(),
 
                       const SizedBox(height: 16),
-                      const Text(
-                        "Alasan Memilih Dosen",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
+
+                      // Alasan
+                      _label("Alasan Memilih Dosen"),
                       _buildField(controller: alasanController, maxLines: 4),
 
                       const SizedBox(height: 16),
-                      const Text(
-                        "Rencana Judul TA",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
+
+                      // Rencana Judul
+                      _label("Rencana Judul TA"),
                       _buildField(controller: judulController),
 
                       const SizedBox(height: 16),
-                      const Text(
-                        "Deskripsi TA",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
+
+                      // Deskripsi
+                      _label("Deskripsi TA"),
                       _buildField(controller: deskripsiController, maxLines: 4),
 
                       const SizedBox(height: 16),
-                      const Text(
-                        "Upload Portofolio",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
 
-                      // Kotak upload portofolio mirip input group
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                          color: const Color(0xFF88BDF2).withOpacity(0.2),
-                                border: Border.all(
-                                      color: const Color(0xFF88BDF2).withOpacity(0.3),
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  bottomLeft: Radius.circular(16),
-                                ),
-                              ),
-                              child: Text(
-                                portofolioFile?.name ??
-                                    'Belum ada file dipilih',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: _pickPortofolioFile,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryColor,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(16),
-                                    bottomRight: Radius.circular(16),
-                                  ),
-                                ),
-                              ),
-                              child: const Text(
-                                "UPLOAD",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Upload
+                      _label("Upload Portofolio"),
+                      const SizedBox(height: 8),
+                      _uploadBox(),
 
                       const SizedBox(height: 24),
-                      // Tombol kirim
+
+                      // Tombol Kirim
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF384959),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -225,12 +133,19 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
                               ),
                             );
                           },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF384959),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                           child: const Text(
                             "Kirim",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
                               fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -244,13 +159,15 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
             ),
           ),
 
-          // 🔙 Tombol back
+          // Tombol Back
           Positioned(
             top: 50,
             left: 15,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              ),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -259,11 +176,90 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
     );
   }
 
-  // ====== Reusable Field Widget ======
+  // ==================== WIDGET KECIL ====================
+
+  static Widget _label(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Widget _dosenBox() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF88BDF2).withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: const Text(
+        "Sukma Evadini, S.T., M.Kom",
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Widget _uploadBox() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: const Color(0xFF88BDF2).withOpacity(0.2),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                bottomLeft: Radius.circular(16),
+              ),
+              border: Border.all(
+                color: const Color(0xFF88BDF2).withOpacity(0.3),
+              ),
+            ),
+            child: Text(
+              portofolioFile?.name ?? 'Belum ada file dipilih',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+
+        SizedBox(
+          height: 50,
+          child: ElevatedButton(
+            onPressed: _pickPortofolioFile,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+              ),
+            ),
+            child: const Text(
+              "UPLOAD",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // FIELD INPUT
   static Widget _buildField({
     required TextEditingController controller,
-    bool isPassword = false,
     int maxLines = 1,
+    bool isPassword = false,
   }) {
     return TextField(
       controller: controller,
@@ -272,20 +268,20 @@ class _AjukanDosenPageState extends State<AjukanDosenPage> {
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color(0xFF88BDF2).withOpacity(0.2),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             color: const Color(0xFF88BDF2).withOpacity(0.3),
-            width: 1,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             color: const Color(0xFF88BDF2).withOpacity(0.3),
-            width: 1,
           ),
         ),
         focusedBorder: const OutlineInputBorder(

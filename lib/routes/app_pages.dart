@@ -102,7 +102,7 @@ class AppPages {
     GetPage(
       name: _Paths.PROFILE,
       page: () {
-        final hasDosen = Get.arguments as bool? ?? false;
+        final hasDosen = Get.arguments as bool? ?? true;
         return ProfilePage(hasDosen: hasDosen);
       },
     ),
@@ -179,13 +179,11 @@ class AppPages {
       page: () => ProfileDosenPage(),
     ),
 
-    // 🔔 Notifikasi Dosen
     GetPage(
       name: Routes.DOSEN_NOTIFIKASI,
       page: () => const NotifikasiDosenPage(),
     ),
 
-    // ⚙️ Kelola Akun Dosen
     GetPage(
       name: Routes.KELOLA_AKUN_DOSEN,
       page: () => const KelolaAkunDosenPage(),

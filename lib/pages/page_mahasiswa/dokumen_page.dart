@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+// Pages & Modal
 import 'package:inta301/pages/page_mahasiswa/modal_tambah_dokumen.dart';
 import 'package:inta301/pages/page_mahasiswa/modal_edit_dokumen.dart';
 import 'package:inta301/pages/page_mahasiswa/modal_revisi_dokumen.dart';
 import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
 import 'package:inta301/pages/page_mahasiswa/dokumen_card.dart';
+
+// Global
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 
 class DokumenPage extends StatelessWidget {
   final bool hasDosen;
+
   DokumenPage({super.key, required this.hasDosen});
 
   final DokumenController controller = Get.put(DokumenController());
-  final RxInt selectedIndex = 3.obs; // Dokumen di index 3
+  final RxInt selectedIndex = 3.obs; // Tab dokumen ada di index 3
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class DokumenPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: backgroundColor,
 
-        // === APP BAR ===
+        // ===================== APP BAR =====================
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -48,11 +53,11 @@ class DokumenPage extends StatelessWidget {
           ),
         ),
 
-        // === BODY ===
+        // ===================== BODY =====================
         body: hasDosen
             ? Column(
                 children: [
-                  // --- TabBar ---
+                  // ==== TAB BAR ====
                   Container(
                     margin: const EdgeInsets.symmetric(
                       horizontal: defaultMargin,
@@ -78,7 +83,7 @@ class DokumenPage extends StatelessWidget {
                     ),
                   ),
 
-                  // --- Daftar Dokumen per tab ---
+                  // ==== TAB CONTENT ====
                   Expanded(
                     child: TabBarView(
                       children: [
@@ -91,23 +96,22 @@ class DokumenPage extends StatelessWidget {
                 ],
               )
             : const Padding(
-  padding: EdgeInsets.only(top: 100), 
-  child: Center(
-    child: Text(
-      "Belum memiliki dosen pembimbing",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.black54,
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        fontFamily: 'Poppins',
-      ),
-    ),
-  ),
-),
+                padding: EdgeInsets.only(top: 100),
+                child: Center(
+                  child: Text(
+                    "Belum memiliki dosen pembimbing",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+              ),
 
-
-        // === TOMBOL TAMBAH ===
+        // ===================== FAB (TAMBAH) =====================
         floatingActionButton: hasDosen
             ? FloatingActionButton(
                 backgroundColor: dangerColor,
@@ -122,9 +126,10 @@ class DokumenPage extends StatelessWidget {
                 child: const Icon(Icons.add, color: Colors.white),
               )
             : null,
+
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-        // === BOTTOM NAVIGATION ===
+        // ===================== BOTTOM NAVIGATION =====================
         bottomNavigationBar: Obx(
           () => Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -146,46 +151,31 @@ class DokumenPage extends StatelessWidget {
                   icon: Icons.home,
                   label: "Beranda",
                   isActive: selectedIndex.value == 0,
-                  onTap: () {
-                    selectedIndex.value = 0;
-                    Get.offAllNamed(Routes.HOME);
-                  },
+                  onTap: () => _navigate(0, Routes.HOME),
                 ),
                 _BottomNavItem(
                   icon: Icons.calendar_month,
                   label: "Jadwal",
                   isActive: selectedIndex.value == 1,
-                  onTap: () {
-                    selectedIndex.value = 1;
-                    Get.offAllNamed(Routes.JADWAL);
-                  },
+                  onTap: () => _navigate(1, Routes.JADWAL),
                 ),
                 _BottomNavItem(
                   icon: Icons.bar_chart_outlined,
                   label: "Kanban",
                   isActive: selectedIndex.value == 2,
-                  onTap: () {
-                    selectedIndex.value = 2;
-                    Get.offAllNamed(Routes.KANBAN);
-                  },
+                  onTap: () => _navigate(2, Routes.KANBAN),
                 ),
                 _BottomNavItem(
                   icon: Icons.description_outlined,
                   label: "Dokumen",
                   isActive: selectedIndex.value == 3,
-                  onTap: () {
-                    selectedIndex.value = 3;
-                    Get.offAllNamed(Routes.DOKUMEN);
-                  },
+                  onTap: () => _navigate(3, Routes.DOKUMEN),
                 ),
                 _BottomNavItem(
                   icon: Icons.person_outline,
                   label: "Profile",
                   isActive: selectedIndex.value == 4,
-                  onTap: () {
-                    selectedIndex.value = 4;
-                    Get.offAllNamed(Routes.PROFILE);
-                  },
+                  onTap: () => _navigate(4, Routes.PROFILE),
                 ),
               ],
             ),
@@ -195,12 +185,17 @@ class DokumenPage extends StatelessWidget {
     );
   }
 
-  // --- Build List per Tab ---
+  void _navigate(int index, String route) {
+    selectedIndex.value = index;
+    Get.offAllNamed(route);
+  }
+
+  // ===================== TAB LIST BUILDER =====================
   Widget _buildTabList(RxList<DokumenModel> list, BuildContext context) {
     void confirmDelete(DokumenModel dokumen) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (_) => AlertDialog(
           title: const Text("Konfirmasi Hapus"),
           content: const Text("Apakah Anda yakin ingin menghapus dokumen ini?"),
           actions: [
@@ -212,6 +207,7 @@ class DokumenPage extends StatelessWidget {
               onPressed: () {
                 Get.find<DokumenController>().deleteDokumen(dokumen);
                 Navigator.pop(context);
+
                 Get.snackbar(
                   "Dihapus",
                   "Dokumen berhasil dihapus",
@@ -221,7 +217,10 @@ class DokumenPage extends StatelessWidget {
                   margin: const EdgeInsets.all(16),
                 );
               },
-              child: const Text("Hapus", style: TextStyle(color: Colors.red)),
+              child: const Text(
+                "Hapus",
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         ),
@@ -230,10 +229,14 @@ class DokumenPage extends StatelessWidget {
 
     return Obx(
       () => ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: defaultMargin),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: defaultMargin,
+        ),
         itemCount: list.length,
-        itemBuilder: (context, index) {
+        itemBuilder: (_, index) {
           final dokumen = list[index];
+
           return DokumenCard(
             dokumen: dokumen,
             onAdd: () {},
@@ -257,7 +260,7 @@ class DokumenPage extends StatelessWidget {
   }
 }
 
-// --- Bottom Navigation Item ---
+// ===================== BOTTOM NAV ITEM =====================
 class _BottomNavItem extends StatelessWidget {
   final IconData icon;
   final String label;

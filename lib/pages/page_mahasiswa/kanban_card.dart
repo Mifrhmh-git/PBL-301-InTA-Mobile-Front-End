@@ -14,7 +14,7 @@ class KanbanCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 14), 
+      margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -31,7 +31,7 @@ class KanbanCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔸 Judul
+            //  Judul
             Text(
               task.title,
               style: const TextStyle(
@@ -43,7 +43,7 @@ class KanbanCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // 🔸 Keterangan (jika ada)
+            //  Keterangan (opsional)
             if (task.description.isNotEmpty) ...[
               Text(
                 "Keterangan : ${task.description}",
@@ -58,10 +58,14 @@ class KanbanCard extends StatelessWidget {
               const SizedBox(height: 8),
             ],
 
-            // 🔸 Due date
+            // Due Date
             Row(
               children: [
-                const Icon(Icons.access_time, size: 15, color: Colors.black),
+                const Icon(
+                  Icons.access_time,
+                  size: 15,
+                  color: Colors.black,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   "Due: ${task.dueDate}",
