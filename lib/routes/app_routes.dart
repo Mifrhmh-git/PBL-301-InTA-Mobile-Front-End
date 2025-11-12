@@ -11,6 +11,8 @@ abstract class Routes {
   static const REGISTER_MAHASISWA = _Paths.REGISTER_MAHASISWA;
   static const REGISTER_DOSEN = _Paths.REGISTER_DOSEN;
   static const SPLASH = _Paths.SPLASH; 
+  static const LUPA_SANDI = _Paths.LUPA_SANDI; // ✅ Tambahan baru
+
 
   //  Halaman Mahasiswa
   static const HOME = _Paths.HOME;
@@ -47,6 +49,7 @@ abstract class _Paths {
   static const REGISTER_MAHASISWA = '/register-mahasiswa';
   static const REGISTER_DOSEN = '/register-dosen';
   static const SPLASH = '/splash';
+   static const LUPA_SANDI = '/lupa-sandi'; // ✅ Tambahan baru
 
   // Halaman Mahasiswa
   static const HOME = '/home';

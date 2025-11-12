@@ -190,14 +190,25 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 15),
 
+                      // 🔹 Bagian bawah: Lupa sandi + Daftar
                       Center(
                         child: Column(
                           children: [
+                            // 🔹 Tombol "Lupa kata sandi" diperbaiki
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // Arahkan ke halaman lupa sandi
+                                Get.toNamed('/lupa-sandi');
+                              },
                               child: Text(
                                 "Lupa kata sandi?",
-                                style: blackTextStyle.copyWith(fontSize: 12),
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 13,
+                                  color: primaryColor,
+                                   fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+
+                                ),
                               ),
                             ),
                             const SizedBox(height: 5),
@@ -225,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                                     TextSpan(
                                       text: "Daftar Sekarang",
                                       style: TextStyle(
-                                        color: Color(0xFF88BDF2),
+                                        color: primaryColor,
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: 'Poppins',

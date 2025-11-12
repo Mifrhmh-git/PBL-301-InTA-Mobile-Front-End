@@ -31,6 +31,7 @@ import 'package:inta301/pages/page_dosen/kelola_akun_dosen_page.dart';
 import 'package:inta301/pages/login_page.dart';
 import 'package:inta301/pages/pilih_role_page.dart';
 import 'package:inta301/pages/welcome_page.dart';
+import 'package:inta301/pages/lupa_sandi_page.dart';
 
 part 'app_routes.dart';
 
@@ -56,6 +57,15 @@ class AppPages {
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginPage(),
+    ),
+
+     // 🔑 Lupa Sandi (untuk Dosen & Mahasiswa)
+    GetPage(
+      name: _Paths.LUPA_SANDI, 
+      page: () {
+        final role = Get.arguments as String? ?? 'mahasiswa';
+        return LupaSandiPage(role: role);
+      },
     ),
 
     // 🧾 Register Mahasiswa

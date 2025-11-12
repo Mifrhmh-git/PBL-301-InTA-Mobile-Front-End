@@ -111,12 +111,16 @@ SizedBox(
 
             const SizedBox(height: 40),
 
-            // 🧾 Footer
-            Text(
-              "All rights reserved ©2025",
-              textAlign: TextAlign.center,
-              style: greyTextStyle.copyWith(fontSize: 12),
-            ),
+            /// 🧾 Footer
+Text(
+  "All rights reserved ©2025",
+  textAlign: TextAlign.center,
+  style: greyTextStyle.copyWith(
+    fontSize: 12,
+    color: const Color(0xFF616161),
+    fontWeight: FontWeight.w600,
+  ),
+),
           ],
         ),
       ),

@@ -173,7 +173,7 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
                               TextSpan(
                                 text: "Login",
                                 style: const TextStyle(
-                                  color: Color(0xFF88BDF2),
+                                  color: primaryColor,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
                                   fontFamily: 'Poppins',

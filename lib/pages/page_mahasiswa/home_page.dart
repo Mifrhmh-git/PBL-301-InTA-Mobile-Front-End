@@ -252,21 +252,21 @@ class _HomePageState extends State<HomePage> {
 Text(
   "Nama Dosen: Sukma Evadini, S.T., M.Kom",
   style: TextStyle(
-    color: Colors.black, // ✅ hitam pekat
+    color: Colors.black, 
     fontWeight: FontWeight.w500,
   ),
 ),
 Text(
   "Tanggal Pengajuan: 4 November 2025",
   style: TextStyle(
-    color: Colors.black, // ✅ hitam pekat
+    color: Colors.black, 
     fontWeight: FontWeight.w500,
   ),
 ),
 Text(
   "Jam Pengajuan: 14:30",
   style: TextStyle(
-    color: Colors.black, // ✅ hitam pekat
+    color: Colors.black, 
     fontWeight: FontWeight.w500,
   ),
 ),
