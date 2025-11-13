@@ -49,12 +49,27 @@ class _TambahDokumenModalState extends State<TambahDokumenModal> {
       );
       Get.back();
       Get.snackbar(
-        "Berhasil",
-        "Dokumen berhasil diunggah",
-        backgroundColor: Colors.green.shade600,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
+        "", // Kosongkan title karena kita pakai titleText
+        "",
+        backgroundColor: Colors.white,       // putih bersih
+        snackPosition: SnackPosition.TOP,    // muncul di atas
         margin: const EdgeInsets.all(16),
+        titleText: const Text(
+          "Berhasil",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        messageText: const Text(
+          "Dokumen berhasil diunggah",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        ),
       );
     }
   }

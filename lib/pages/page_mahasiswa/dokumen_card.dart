@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 // Global
 import 'package:inta301/shared/shared.dart';
@@ -159,7 +160,34 @@ class DokumenCard extends StatelessWidget {
               children: [
                 // Download — selalu tampil
                 IconButton(
-                  onPressed: onDownload,
+                  onPressed: () {
+                    onDownload(); // jalankan fungsi download asli
+
+                    // Snackbar berhasil unduh
+                    Get.snackbar(
+                      "",
+                      "",
+                      backgroundColor: Colors.white,
+                      snackPosition: SnackPosition.TOP,
+                      margin: const EdgeInsets.all(16),
+                      titleText: const Text(
+                        "Berhasil",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      messageText: const Text(
+                        "Dokumen berhasil diunduh",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.download, color: Colors.black87),
                   tooltip: "Download",
                 ),

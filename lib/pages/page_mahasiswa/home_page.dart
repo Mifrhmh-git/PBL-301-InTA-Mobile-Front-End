@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import 'package:inta301/routes/app_pages.dart';
 
-// Import controller global (pakai alias agar tidak bentrok)
+// Import controller global 
 import 'package:inta301/controllers/menu_controller.dart' as myCtrl;
 
 // =========================
@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = Get.find<myCtrl.MenuController>();
 
-  // 🔥 Status mahasiswa: 'belum', 'menunggu', atau 'sudah'
+  // Status mahasiswa: 'belum', 'menunggu', atau 'sudah'
   String status = 'sudah';
 
   @override
@@ -381,7 +381,7 @@ class _InfoCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.45),
-            blurRadius: 10,
+            blurRadius: 15,
             offset: const Offset(0, 5),
           ),
         ],

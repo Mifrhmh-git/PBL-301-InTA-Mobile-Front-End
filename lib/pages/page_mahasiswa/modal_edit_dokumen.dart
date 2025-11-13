@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:inta301/pages/page_mahasiswa/dokumen_controller.dart';
 import 'package:inta301/shared/shared.dart';
 
-
 class EditModal extends StatefulWidget {
   final DokumenModel dokumen;
 
@@ -60,12 +59,27 @@ class _EditModalState extends State<EditModal> {
       );
       Get.back();
       Get.snackbar(
-        "Berhasil",
-        "Dokumen berhasil diperbarui",
-        backgroundColor: Colors.green.shade600,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
+        "", // Kosongkan title karena kita pakai titleText
+        "",
+        backgroundColor: Colors.white,
+        snackPosition: SnackPosition.TOP,
         margin: const EdgeInsets.all(16),
+        titleText: const Text(
+          "Berhasil",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        messageText: const Text(
+          "Dokumen berhasil diperbarui",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        ),
       );
     }
   }
@@ -74,12 +88,27 @@ class _EditModalState extends State<EditModal> {
     controller.deleteDokumen(widget.dokumen);
     Get.back();
     Get.snackbar(
-      "Dihapus",
-      "Dokumen berhasil dihapus",
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
+      "", // Kosongkan title karena kita pakai titleText
+      "",
+      backgroundColor: Colors.white,
+      snackPosition: SnackPosition.TOP,
       margin: const EdgeInsets.all(16),
+      titleText: const Text(
+        "Dihapus",
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+      ),
+      messageText: const Text(
+        "Dokumen berhasil dihapus",
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        ),
+      ),
     );
   }
 
@@ -216,7 +245,7 @@ class _EditModalState extends State<EditModal> {
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: _confirmDelete, // panggil konfirmasi
+                            onPressed: _confirmDelete,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: dangerColor,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

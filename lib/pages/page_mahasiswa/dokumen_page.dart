@@ -196,8 +196,21 @@ class DokumenPage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: const Text("Konfirmasi Hapus"),
-          content: const Text("Apakah Anda yakin ingin menghapus dokumen ini?"),
+          backgroundColor: Colors.white,
+          title: const Text(
+            "Konfirmasi Hapus",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            "Apakah Anda yakin ingin menghapus dokumen ini?",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold, // teks tegas
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -211,10 +224,25 @@ class DokumenPage extends StatelessWidget {
                 Get.snackbar(
                   "Dihapus",
                   "Dokumen berhasil dihapus",
-                  backgroundColor: Colors.red.shade600,
-                  colorText: Colors.white,
-                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.white,       // putih bersih
+                  snackPosition: SnackPosition.TOP,    // muncul di atas
                   margin: const EdgeInsets.all(16),
+                  titleText: const Text(
+                    "Dihapus",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  messageText: const Text(
+                    "Dokumen berhasil dihapus",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
                 );
               },
               child: const Text(
