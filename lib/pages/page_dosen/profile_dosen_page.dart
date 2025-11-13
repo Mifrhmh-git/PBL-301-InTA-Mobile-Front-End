@@ -92,7 +92,7 @@ class ProfileDosenPage extends StatelessWidget {
                     label: "Push Notifications",
                     trailing: Switch(
                       value: pushNotification.value,
-                      activeColor: primaryColor,
+                      activeThumbColor: primaryColor,
                       onChanged: (val) => pushNotification.value = val,
                     ),
                     onTap: () {}, // optional jika mau tap juga
