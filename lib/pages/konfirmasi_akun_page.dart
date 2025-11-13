@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
-import '../routes/app_pages.dart';
+import 'package:inta301/pages/password_baru_page.dart';
+
 
 class KonfirmasiAkunPage extends StatelessWidget {
   const KonfirmasiAkunPage({super.key});
@@ -132,25 +133,28 @@ class KonfirmasiAkunPage extends StatelessWidget {
 
                       const SizedBox(height: 40),
 
-                      // 🔹 Tombol lanjutkan
+                      // 🔹 Tombol lanjutkan (full width, konsisten)
                       SizedBox(
                         height: 50,
-                        width: 200,
+                        width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Get.offAllNamed(Routes.LOGIN);
-                          },
+               onPressed: () {
+  Get.to(() => const PasswordBaruPage());
+},
+
+
+
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF384959),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           child: const Text(
                             "Lanjutkan",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 15,
+                              fontSize: 16,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
                             ),
@@ -160,14 +164,32 @@ class KonfirmasiAkunPage extends StatelessWidget {
 
                       const SizedBox(height: 15),
 
-                      // 🔹 Kirim kode lagi
+                      // 🔹 Kirim kode lagi (snackbar putih + teks tegas)
                       TextButton(
                         onPressed: () {
                           Get.snackbar(
-                            "Berhasil",
-                            "Kode verifikasi baru telah dikirim ke email kamu.",
-                            backgroundColor: Colors.green.shade100,
-                            colorText: Colors.black,
+                            "",
+                            "",
+                            backgroundColor: Colors.white,
+                            snackPosition: SnackPosition.TOP,
+                            margin: const EdgeInsets.all(12),
+                            borderRadius: 12,
+                            titleText: const Text(
+                              "Berhasil",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                            messageText: const Text(
+                              "Kode verifikasi baru telah dikirim ke email kamu.",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
                           );
                         },
                         child: const Text(
