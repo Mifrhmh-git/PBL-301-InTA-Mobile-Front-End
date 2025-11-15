@@ -5,7 +5,7 @@ class AjuanDospemCard extends StatelessWidget {
   final String nama;
   final String nim;
   final String prodi;
-  final VoidCallback? onTap; // kalau mau klik card
+  final VoidCallback? onTap; 
 
   const AjuanDospemCard({
     super.key,

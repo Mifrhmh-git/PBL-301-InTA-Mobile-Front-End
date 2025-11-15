@@ -73,12 +73,12 @@ class _JadwalPageState extends State<JadwalPage> {
                     ),
                     const SizedBox(height: 16),
                     const Center(
-                      child: Text(
+                      child: const Text(
                         "Ajukan Jadwal Bimbingan",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           fontFamily: 'Poppins',
                         ),
                       ),
@@ -308,7 +308,7 @@ floatingActionButton: null, // FAB tidak muncul
       {
         "judul": "Diskusi Awal Proposal",
         "status": "Menunggu",
-        "dosen": "Dr. Fitriani, M.Kom",
+        "dosen": "Sukma Evadini, S.T., M.Kom",
         "tanggal": "Senin, 21 Oktober 2025",
         "waktu": "09:00",
         "lokasi": "Ruang B-203",
@@ -316,7 +316,7 @@ floatingActionButton: null, // FAB tidak muncul
       {
         "judul": "Revisi Bab II",
         "status": "Diterima",
-        "dosen": "Dr. Adi Nugroho",
+        "dosen": "Sukma Evadini, S.T., M.Kom",
         "tanggal": "Selasa, 22 Oktober 2025",
         "waktu": "10:30",
         "lokasi": "Lab Komputer 2",
@@ -324,7 +324,7 @@ floatingActionButton: null, // FAB tidak muncul
       {
         "judul": "Bimbingan Bab III",
         "status": "Ditolak",
-        "dosen": "Dr. Siti Marlina",
+        "dosen": "Sukma Evadini, S.T., M.Kom",
         "tanggal": "Rabu, 23 Oktober 2025",
         "waktu": "13:00",
         "lokasi": "Ruang Dosen 1",
@@ -332,7 +332,7 @@ floatingActionButton: null, // FAB tidak muncul
       {
         "judul": "Ajuan Jadwal Dosen",
         "status": "Ajuan Dosen",
-        "dosen": "Dr. Bambang Setiawan",
+        "dosen": "Sukma Evadini, S.T., M.Kom",
         "tanggal": "Kamis, 24 Oktober 2025",
         "waktu": "15:00",
         "lokasi": "Zoom Meeting",

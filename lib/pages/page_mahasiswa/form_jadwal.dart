@@ -48,7 +48,7 @@ class _FormJadwalBimbinganPageState extends State<FormJadwalBimbinganPage> {
   void initState() {
     super.initState();
     _judulController.text = "Diskusi Revisi BAB II";
-    _dosenController.text = "Dr. Fitriani, M.Kom";
+    _dosenController.text = "Sukma Evadini, S.T., M.Kom";
     _tanggalController.text = "Senin, 21 Oktober 2025";
     _waktuController.text = "09:00";
     _lokasiController.text = "Ruang B-203";

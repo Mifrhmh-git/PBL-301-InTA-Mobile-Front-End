@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/pages/page_mahasiswa/kanban_controller.dart';
 import 'package:inta301/shared/shared.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+
 
 // Modal Task Kanban
 
@@ -65,7 +67,7 @@ void showAddKanbanModal(
                       "Tambah Task Kanban",
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        fontSize: 18,
+                        fontSize: 17,
                       ),
                     ),
                   ),
@@ -79,20 +81,56 @@ void showAddKanbanModal(
                   ),
                   const SizedBox(height: 6),
 
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedColumn,
-                    dropdownColor: Colors.white,
-                    decoration: _fieldDecoration(),
-                    style: const TextStyle(color: Colors.black),
-                    items: ["To Do", "In Progress", "Done"]
-                        .map((e) =>
-                            DropdownMenuItem(value: e, child: Text(e)))
-                        .toList(),
-                    onChanged: (value) {
-                      if (value != null) selectedColumn = value;
-                    },
-                  ),
-                  const SizedBox(height: 15),
+ StatefulBuilder(
+  builder: (context, localSetState) {
+    return DropdownButtonFormField2<String>(
+      value: selectedColumn, // <<< WAJIB, INI YANG BIKIN ERROR KAMU HILANG
+
+      decoration: _fieldDecoration().copyWith(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 14,
+        ),
+      ),
+
+      isExpanded: true,
+
+      buttonStyleData: const ButtonStyleData(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+      ),
+
+      menuItemStyleData: const MenuItemStyleData(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+      ),
+
+      dropdownStyleData: DropdownStyleData(
+        maxHeight: 200,
+        decoration: BoxDecoration(
+          color: Color(0xFFDDEEFF),
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+
+      items: ["To Do", "In Progress", "Done"]
+          .map((item) => DropdownMenuItem(
+                value: item,
+                child: Text(item),
+              ))
+          .toList(),
+
+      onChanged: (value) {
+        localSetState(() {
+          selectedColumn = value!;
+        });
+      },
+    );
+  },
+),
+
+const SizedBox(height: 15),
+
+
+
 
                  // Judul / Bab
                   const Text(
@@ -247,7 +285,7 @@ void showEditKanbanModal(
                       "Edit Task Kanban",
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        fontSize: 18,
+                        fontSize: 17,
                       ),
                     ),
                   ),
@@ -260,19 +298,46 @@ void showEditKanbanModal(
                   ),
                   const SizedBox(height: 6),
 
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedColumn,
-                    dropdownColor: Colors.white,
-                    decoration: _fieldDecoration(),
-                    style: const TextStyle(color: Colors.black),
-                    items: ["To Do", "In Progress", "Done"]
-                        .map((e) =>
-                            DropdownMenuItem(value: e, child: Text(e)))
-                        .toList(),
-                    onChanged: (value) {
-                      if (value != null) selectedColumn = value;
-                    },
-                  ),
+        StatefulBuilder(
+  builder: (context, localSetState) {
+    return DropdownButtonFormField2<String>(
+      decoration: _fieldDecoration().copyWith(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 14,
+        ),
+      ),
+
+      isExpanded: true,
+
+      buttonStyleData: const ButtonStyleData(
+        padding: EdgeInsets.zero,
+      ),
+
+      dropdownStyleData: DropdownStyleData(
+        maxHeight: 200,
+        decoration: BoxDecoration(
+          color: Color(0xFFDDEEFF),
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+
+      value: selectedColumn,
+      items: ["To Do", "In Progress", "Done"]
+          .map((item) => DropdownMenuItem(
+                value: item,
+                child: Text(item),
+              ))
+          .toList(),
+
+      onChanged: (value) {
+        localSetState(() {
+          selectedColumn = value!;
+        });
+      },
+    );
+  },
+),
                   const SizedBox(height: 15),
 
                   // Judul / Bab  

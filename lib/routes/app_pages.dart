@@ -38,7 +38,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.WELCOME;
+  static const initial = Routes.WELCOME;
 
   static final routes = [
     // 🏠 Halaman Awal
@@ -112,7 +112,7 @@ class AppPages {
     GetPage(
       name: _Paths.PROFILE,
       page: () {
-        final hasDosen = Get.arguments as bool? ?? false;
+        final hasDosen = Get.arguments as bool? ?? true;
         return ProfilePage(hasDosen: hasDosen);
       },
     ),

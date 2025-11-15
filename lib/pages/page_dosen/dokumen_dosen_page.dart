@@ -49,7 +49,7 @@ class _DokumenDosenPageState extends State<DokumenDosenPage> {
         ),
         title: const Text(
           'Dokumen Tugas Akhir',
-          style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),

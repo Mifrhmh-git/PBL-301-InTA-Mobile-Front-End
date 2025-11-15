@@ -48,7 +48,7 @@ class KanbanCard extends StatelessWidget {
               Text(
                 "Keterangan : ${task.description}",
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                   height: 1.4,
@@ -70,7 +70,7 @@ class KanbanCard extends StatelessWidget {
                 Text(
                   "Due: ${task.dueDate}",
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                     fontFamily: 'Poppins',

@@ -11,7 +11,7 @@ abstract class Routes {
   static const REGISTER_MAHASISWA = _Paths.REGISTER_MAHASISWA;
   static const REGISTER_DOSEN = _Paths.REGISTER_DOSEN;
   static const SPLASH = _Paths.SPLASH; 
-  static const LUPA_SANDI = _Paths.LUPA_SANDI; // ✅ Tambahan baru
+  static const LUPA_SANDI = _Paths.LUPA_SANDI;
 
 
   //  Halaman Mahasiswa
@@ -35,7 +35,7 @@ abstract class Routes {
   static const DOKUMEN_DOSEN = _Paths.DOKUMEN_DOSEN;
   static const PROFILE_DOSEN = _Paths.PROFILE_DOSEN;
   static const DOSEN_NOTIFIKASI = _Paths.DOSEN_NOTIFIKASI;
-  static const KELOLA_AKUN_DOSEN = '/kelola-akun-dosen';
+  static const KELOLA_AKUN_DOSEN = _Paths.kelolaAkunDosen;
 
 }
 
@@ -49,7 +49,7 @@ abstract class _Paths {
   static const REGISTER_MAHASISWA = '/register-mahasiswa';
   static const REGISTER_DOSEN = '/register-dosen';
   static const SPLASH = '/splash';
-   static const LUPA_SANDI = '/lupa-sandi'; // ✅ Tambahan baru
+   static const LUPA_SANDI = '/lupa-sandi'; 
 
   // Halaman Mahasiswa
   static const HOME = '/home';
@@ -73,5 +73,5 @@ abstract class _Paths {
   static const DOKUMEN_DOSEN = '/dokumen-dosen';
   static const PROFILE_DOSEN = '/profile-dosen';
   static const DOSEN_NOTIFIKASI = '/dosen-notifikasi'; 
-  static const KELOLA_AKUN_DOSEN = '/kelola-akun-dosen'; 
+  static const kelolaAkunDosen = '/kelola-akun-dosen'; 
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:inta301/shared/shared.dart';
 
 class UbahStatusMenungguModal extends StatefulWidget {
@@ -14,11 +15,14 @@ class UbahStatusMenungguModal extends StatefulWidget {
   });
 
   @override
-  State<UbahStatusMenungguModal> createState() => _UbahStatusMenungguModalState();
+  State<UbahStatusMenungguModal> createState() =>
+      _UbahStatusMenungguModalState();
 }
 
 class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
   String? selectedStatus;
+
+  final List<String> statusList = ["Menunggu", "Revisi", "Disetujui"];
 
   @override
   void initState() {
@@ -89,42 +93,40 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
                 ),
                 const SizedBox(height: 8),
 
-                Container(
-                  height: 50,
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  decoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: primaryColor.withOpacity(0.3)),
+                DropdownButton2<String>(
+                  isExpanded: true,
+                  value: selectedStatus,
+                  items: statusList
+                      .map((status) => DropdownMenuItem<String>(
+                            value: status,
+                            child: Text(status),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedStatus = value!;
+                    });
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    height: 50,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    decoration: BoxDecoration(
+                      color: primaryColor.withAlpha(26),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: primaryColor.withAlpha(76)),
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            alignment: Alignment.centerLeft,
-                            value: selectedStatus,
-                            borderRadius: BorderRadius.circular(16),
-                            items: const [
-                              DropdownMenuItem(
-                                value: "Menunggu",
-                                child: Text("Menunggu"),
-                              ),
-                              DropdownMenuItem(
-                                value: "Revisi",
-                                child: Text("Revisi"),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                selectedStatus = value!;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Color(0xFFDDEEFF),
+                      border: Border.all(color: primaryColor.withAlpha(76)),
+                    ),
+                    offset: const Offset(0, 0),
+                  ),
+                  iconStyleData: const IconStyleData(
+                    icon: Icon(Icons.keyboard_arrow_down),
                   ),
                 ),
 

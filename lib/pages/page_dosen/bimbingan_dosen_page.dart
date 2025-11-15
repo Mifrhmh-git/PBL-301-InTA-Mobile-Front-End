@@ -33,7 +33,7 @@ class BimbinganDosenPage extends GetView<MenuDosenController> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontSize: 20,
             fontFamily: 'Poppins',
           ),
         ),

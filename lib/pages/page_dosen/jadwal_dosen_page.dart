@@ -90,7 +90,7 @@ class _JadwalDosenPageState extends State<JadwalDosenPage> {
         title: const Text(
           'Jadwal Bimbingan',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 20,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

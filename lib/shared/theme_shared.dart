@@ -8,10 +8,10 @@ const Color blackColor = Color(0xFF000000);
 const Color whiteColor = Colors.white;
 const Color backgroundColor = Color(0xFFF6F8FB);
 
-// 📏 Margin default
+// Margin default
 const double defaultMargin = 24;
 
-// 🧩 TextStyle dasar
+// TextStyle dasar
 TextStyle blackTextStyle = GoogleFonts.poppins(
   color: blackColor,
 );
@@ -25,7 +25,7 @@ TextStyle primaryTextStyle = GoogleFonts.poppins(
   color: primaryColor,
 );
 
-// 🧩 Tambahan TextStyle penting (BIAR TIDAK ERROR)
+
 TextStyle regularTextStyle = GoogleFonts.poppins(
   color: blackColor,
   fontWeight: FontWeight.w400,

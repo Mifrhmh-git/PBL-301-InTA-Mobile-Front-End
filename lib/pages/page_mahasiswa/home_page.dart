@@ -8,9 +8,8 @@ import 'package:inta301/routes/app_pages.dart';
 // Import controller global 
 import 'package:inta301/controllers/menu_controller.dart' as myCtrl;
 
-// =========================
 // HomePage menggunakan GetView agar controller otomatis tersedia
-// =========================
+
 class HomePage extends StatefulWidget {
   final bool hasDosen; // parameter untuk cek status dosen
 
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         ),
         title: const Text(
           'Beranda',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
@@ -103,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                 "Pengumuman",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -296,7 +295,7 @@ Text(
           "Progress TA",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 16,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -341,7 +340,7 @@ Text(
           "Upcoming",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 16,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),

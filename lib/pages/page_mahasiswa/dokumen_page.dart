@@ -18,7 +18,7 @@ class DokumenPage extends StatelessWidget {
   DokumenPage({super.key, required this.hasDosen});
 
   final DokumenController controller = Get.put(DokumenController());
-  final RxInt selectedIndex = 3.obs; // Tab dokumen ada di index 3
+  final RxInt selectedIndex = 3.obs; 
 
   @override
   Widget build(BuildContext context) {
@@ -224,8 +224,8 @@ class DokumenPage extends StatelessWidget {
                 Get.snackbar(
                   "Dihapus",
                   "Dokumen berhasil dihapus",
-                  backgroundColor: Colors.white,       // putih bersih
-                  snackPosition: SnackPosition.TOP,    // muncul di atas
+                  backgroundColor: Colors.white,      
+                  snackPosition: SnackPosition.TOP,    
                   margin: const EdgeInsets.all(16),
                   titleText: const Text(
                     "Dihapus",
