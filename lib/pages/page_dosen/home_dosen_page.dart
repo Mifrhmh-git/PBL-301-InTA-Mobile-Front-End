@@ -11,14 +11,14 @@ import 'package:inta301/controllers/menu_dosen_controller.dart' as myCtrl;
 class HomeDosenPage extends GetView<myCtrl.MenuDosenController> {
   const HomeDosenPage({super.key});
 
- @override
-Widget build(BuildContext context) {
-  const mainBlue = Color(0xFF88BDF2);
+  @override
+  Widget build(BuildContext context) {
+    const mainBlue = Color(0xFF88BDF2);
 
-  // 🔧 solusi aman: panggil setelah build selesai
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    controller.setPage(myCtrl.PageTypeDosen.home);
-  });
+    // 🔧 solusi aman: panggil setelah build selesai
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.setPage(myCtrl.PageTypeDosen.home);
+    });
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,7 +37,8 @@ Widget build(BuildContext context) {
         ),
         title: const Text(
           'Beranda',
-          style: TextStyle(color: Colors.white,  fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
@@ -124,17 +125,21 @@ Widget build(BuildContext context) {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      SizedBox(
-                        height: 160,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            _InfoCard(title: "Buku Panduan", mainBlue: mainBlue),
-                            const SizedBox(width: 12),
-                            _InfoCard(title: "Jadwal Sidang", mainBlue: mainBlue),
-                          ],
-                        ),
+
+                      // Ubah dari ListView horizontal ke Row + Expanded
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: _InfoCard(title: "Buku Panduan", color: mainBlue),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _InfoCard(title: "Jadwal Sidang", color: mainBlue),
+                          ),
+                        ],
                       ),
+
                       const SizedBox(height: 25),
 
                       // ================= Upcoming Bimbingan =================
@@ -312,15 +317,15 @@ class _StatCard extends StatelessWidget {
 
 class _InfoCard extends StatelessWidget {
   final String title;
-  final Color mainBlue;
+  final Color color;
 
-  const _InfoCard({required this.title, required this.mainBlue});
+  const _InfoCard({required this.title, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
-      margin: const EdgeInsets.only(right: 8),
+      height: 145, // samakan dengan _StatCard
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -333,42 +338,46 @@ class _InfoCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: dangerColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 15,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: mainBlue,
-              minimumSize: const Size(100, 40),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              elevation: 3,
-            ),
-            child: const Text(
-              "Lihat",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
+     child: Column(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Text(
+      title,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        color: dangerColor,
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
       ),
+    ),
+
+    const SizedBox(height: 35), // ⬅️ DIBESARKAN AGAR TOMBOL TURUN
+
+    ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        minimumSize: const Size(100, 35),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: const Text(
+        "Lihat",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+        ),
+      ),
+    ),
+  ],
+),
+
     );
   }
 }
+
 
 class _UpcomingCard extends StatelessWidget {
   final String title;
