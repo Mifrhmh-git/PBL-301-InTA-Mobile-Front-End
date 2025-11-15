@@ -40,10 +40,11 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.35,
-      minChildSize: 0.25,
-      maxChildSize: 0.6,
+      initialChildSize: 0.50, // awal muncul 70%
+      minChildSize: 0.50,     // boleh diperkecil sampai 50%
+      maxChildSize: 0.90,     // bisa ditarik sampai 90%
       expand: false,
+
       builder: (context, scrollController) {
         return Container(
           padding: EdgeInsets.only(
@@ -82,6 +83,7 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -95,6 +97,7 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
 
                 DropdownButton2<String>(
                   isExpanded: true,
+                  underline: SizedBox(),
                   value: selectedStatus,
                   items: statusList
                       .map((status) => DropdownMenuItem<String>(
@@ -111,7 +114,7 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
                     height: 50,
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     decoration: BoxDecoration(
-                      color: primaryColor.withAlpha(26),
+                      color: const Color(0xFFDDEEFF),  
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: primaryColor.withAlpha(76)),
                     ),
@@ -120,7 +123,7 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
                     maxHeight: 150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: Color(0xFFDDEEFF),
+                      color: const Color(0xFFDDEEFF),
                       border: Border.all(color: primaryColor.withAlpha(76)),
                     ),
                     offset: const Offset(0, 0),
@@ -130,7 +133,7 @@ class _UbahStatusMenungguModalState extends State<UbahStatusMenungguModal> {
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 30),
 
                 // Tombol Simpan
                 SizedBox(

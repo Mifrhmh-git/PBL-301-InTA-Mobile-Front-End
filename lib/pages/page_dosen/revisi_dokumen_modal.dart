@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:inta301/shared/shared.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class RevisiDokumenModal extends StatefulWidget {
   final String judulDokumen;
@@ -20,6 +21,7 @@ class _RevisiDokumenModalState extends State<RevisiDokumenModal> {
   final TextEditingController catatanController = TextEditingController();
   String? uploadedFileName;
 
+  // Default status
   String selectedStatus = "Revisi";
 
   Future<void> pickFile() async {
@@ -63,6 +65,7 @@ class _RevisiDokumenModalState extends State<RevisiDokumenModal> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // ===== Drag Handle =====
                 Center(
                   child: Container(
                     width: 40,
@@ -75,6 +78,7 @@ class _RevisiDokumenModalState extends State<RevisiDokumenModal> {
                   ),
                 ),
 
+                // ===== Title =====
                 Center(
                   child: Text(
                     "Revisi: ${widget.judulDokumen}",
@@ -88,43 +92,46 @@ class _RevisiDokumenModalState extends State<RevisiDokumenModal> {
                 const SizedBox(height: 20),
 
                 // =================== DROPDOWN STATUS ==================
-               const Text("Ubah Status",
-    style: TextStyle(fontWeight: FontWeight.w600)),
-SizedBox(height: 8),
+                const Text("Ubah Status",
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
 
-Container(
-  height: 50,
-  padding: const EdgeInsets.symmetric(horizontal: 14),
-  decoration: BoxDecoration(
-    color: primaryColor.withOpacity(0.1),
-    borderRadius: BorderRadius.circular(16),
-    border: Border.all(color: primaryColor.withOpacity(0.3)),
-  ),
-
-  // 👉 Tambahkan ini agar dropdown mengikuti tinggi Container
-  child: Row(
-    children: [
-      Expanded(
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            isExpanded: true,       // ⬅️ WAJIB
-            alignment: Alignment.centerLeft,  // ⬅️ Biar sejajar
-            value: selectedStatus,
-            borderRadius: BorderRadius.circular(16),
-            items: const [
-              DropdownMenuItem(value: "Revisi", child: Text("Revisi")),
-              DropdownMenuItem(value: "Disetujui", child: Text("Disetujui")),
-            ],
-            onChanged: (value) {
-              setState(() => selectedStatus = value!);
-            },
-          ),
-        ),
-      ),
-    ],
-  ),
-),
-
+                DropdownButton2<String>(
+                  isExpanded: true,
+                  underline: const SizedBox(), // Hilangkan garis bawah
+                  value: selectedStatus,
+                  items: const [
+                    DropdownMenuItem(
+                        value: "Menunggu", child: Text("Menunggu")),
+                    DropdownMenuItem(value: "Revisi", child: Text("Revisi")),
+                    DropdownMenuItem(
+                        value: "Disetujui", child: Text("Disetujui")),
+                  ],
+                  onChanged: (value) {
+                    setState(() => selectedStatus = value!);
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    height: 50,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFDDEEFF),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: primaryColor.withOpacity(0.3)),
+                    ),
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 150,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFDDEEFF),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: primaryColor.withOpacity(0.3)),
+                    ),
+                  ),
+                  iconStyleData: const IconStyleData(
+                    icon:
+                        Icon(Icons.keyboard_arrow_down, color: primaryColor),
+                  ),
+                ),
 
                 const SizedBox(height: 20),
 
@@ -135,10 +142,9 @@ Container(
 
                 Container(
                   decoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.1),
+                    color: const Color(0xFFDDEEFF),
                     borderRadius: BorderRadius.circular(16),
-                    border:
-                        Border.all(color: primaryColor.withOpacity(0.3)),
+                    border: Border.all(color: primaryColor.withOpacity(0.3)),
                   ),
                   child: TextField(
                     controller: catatanController,
@@ -164,15 +170,17 @@ Container(
                     Expanded(
                       child: Container(
                         height: 50,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 12),
                         alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(
-                          color: primaryColor.withOpacity(0.1),
-                          border: Border.all(
-                              color: primaryColor.withOpacity(0.3)),
+                          color: const Color(0xFFDDEEFF),
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(16),
                             bottomLeft: Radius.circular(16),
+                          ),
+                          border: Border.all(
+                            color: primaryColor.withOpacity(0.3),
                           ),
                         ),
                         child: Text(
