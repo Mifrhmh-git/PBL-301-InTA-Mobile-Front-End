@@ -167,7 +167,7 @@ SizedBox(height: 15),
 
                       // Label ID dinamis sesuai role
                       _buildLabel(
-                        selectedUser == "Mahasiswa" ? "ID Learning" : "NIK",
+                        selectedUser == "Mahasiswa" ? "NIM" : "NIK",
                       ),
                       _buildField(controller: idController),
                       const SizedBox(height: 15),
