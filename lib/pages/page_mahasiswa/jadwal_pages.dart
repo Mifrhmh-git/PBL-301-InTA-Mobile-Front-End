@@ -73,9 +73,9 @@ class _JadwalPageState extends State<JadwalPage> {
                     ),
                     const SizedBox(height: 16),
                     const Center(
-                      child: const Text(
+                      child: Text(
                         "Ajukan Jadwal Bimbingan",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 20,

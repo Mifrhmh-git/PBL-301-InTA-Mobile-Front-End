@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         ),
         title: const Text(
           'Beranda',
-          style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
