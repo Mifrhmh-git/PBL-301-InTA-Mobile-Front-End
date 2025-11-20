@@ -33,6 +33,8 @@ class AuthController extends GetxController {
 
     if (response['success'] == true) {
       Get.snackbar("Berhasil", "Login berhasil");
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString("token", response['token']);
 
       // Arahkan berdasarkan role
       if (role == "mahasiswa") {
@@ -53,7 +55,7 @@ class AuthController extends GetxController {
       // Tampilkan pesan error dari API Laravel
       Get.snackbar(
         "Login Gagal",
-        formattedMessage ?? "Terjadi kesalahan",
+        formattedMessage,
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
       );
@@ -105,7 +107,6 @@ class AuthController extends GetxController {
     required String password,
     required String passwordConfirmation,
   }) async {
-
     isLoading.value = true;
 
     final response = await AuthService.register(

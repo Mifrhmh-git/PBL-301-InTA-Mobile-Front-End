@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
+import '../../controllers/edit_profile_controller.dart';
+
 
 class KelolaAkunPage extends StatefulWidget {
   const KelolaAkunPage({super.key});
@@ -10,13 +12,29 @@ class KelolaAkunPage extends StatefulWidget {
 }
 
 class _KelolaAkunPageState extends State<KelolaAkunPage> {
+  final controller = Get.put(KelolaAkunController());
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Dummy data (nanti ambil dari SharedPref atau API)
+    controller.loadUserData({
+      "foto": null,
+      "nama": "Putri Balqis",
+      "email": "example@example.com",
+      "nim": "4342401011",
+      "portofolio": "UI/UX Designer & Flutter Developer"
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // === HEADER ===
+          // HEADER ========================================
           Container(
             width: double.infinity,
             padding: const EdgeInsets.only(top: 50, bottom: 25),
@@ -24,10 +42,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  primaryColor,
-                  dangerColor,
-                ],
+                colors: [primaryColor, dangerColor],
               ),
             ),
             child: Column(
@@ -55,41 +70,58 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                     ],
                   ),
                 ),
+
                 const SizedBox(height: 20),
 
-                // Avatar
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    const CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.person, color: primaryColor, size: 60),
-                    ),
-                    Positioned(
-                      bottom: 4,
-                      right: 4,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: primaryColor,
-                        ),
-                        child: const Icon(Icons.camera_alt,
-                            size: 16, color: Colors.white),
+                // FOTO PROFIL
+                Obx(() {
+                  return Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      CircleAvatar(
+                        radius: 45,
+                        backgroundColor: Colors.white,
+                        // backgroundImage:
+                        //     controller.imageUrl.value != null &&
+                        //             controller.imageUrl.value!.isNotEmpty
+                        //         ? NetworkImage(controller.imageUrl.value!)
+                        //         : null,
+                        // child: controller.imageUrl.value == null
+                        //     ? const Icon(Icons.person,
+                        //         color: primaryColor, size: 60)
+                        //     : null,
                       ),
-                    ),
-                  ],
-                ),
+                      Positioned(
+                        bottom: 4,
+                        right: 4,
+                        child: GestureDetector(
+                          onTap: () {
+                            // controller.pickImage();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: primaryColor,
+                            ),
+                            child: const Icon(Icons.camera_alt,
+                                size: 16, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+
                 const SizedBox(height: 10),
-                const Text(
-                  "Putri Balqis",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
+                Obx(() => Text(
+                      controller.namaController.text,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    )),
                 const Text(
                   "Mahasiswa",
                   style: TextStyle(color: Colors.white70, fontSize: 14),
@@ -98,7 +130,7 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
             ),
           ),
 
-          // === FORM ===
+          // FORM ===========================================
           Expanded(
             child: SingleChildScrollView(
               padding:
@@ -116,62 +148,66 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  _buildTextField("Nama Lengkap", "Putri Balqis"),
-                  _buildTextField("Email", "example@example.com"),
-                  _buildTextField("NIM", "4342401011"),
-                  _buildTextField("Bidang Keahlian", ""),
+                  _buildTextField(
+                      "Nama Lengkap", controller.namaController),
+                  _buildTextField("Email", controller.emailController),
+                  _buildTextField("NIM", controller.nimController),
+                  _buildTextField("Portofolio", controller.portofolioController),
 
                   const SizedBox(height: 25),
 
-                  // === TOMBOL UPDATE PROFILE ===
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: dangerColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                  // TOMBOL UPDATE ===============================
+                  Obx(() => SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () => controller.updateProfile(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: dangerColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: controller.isLoading.value
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
+                              : const Text(
+                                  "Update Profile",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
                         ),
-                      ),
-                      child: const Text(
-                        "Update Profile",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
+                      ))
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  Widget _buildTextField(String label, String hint) {
+  Widget _buildTextField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
+          Text(label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              )),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller,
             decoration: InputDecoration(
-              hintText: hint,
               filled: true,
               fillColor: primaryColor.withOpacity(0.2),
               contentPadding:
@@ -183,7 +219,8 @@ class _KelolaAkunPageState extends State<KelolaAkunPage> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: primaryColor, width: 1.5),
+                borderSide:
+                    const BorderSide(color: primaryColor, width: 1.5),
               ),
             ),
           ),

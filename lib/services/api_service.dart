@@ -98,7 +98,7 @@ class AuthService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'username': username, 
+          'username': username,
           'nama_lengkap': nama,
           'email': email,
           'prodi_id': programStudi,
@@ -125,6 +125,31 @@ class AuthService {
       };
     } catch (e) {
       return {'success': false, 'message': "Terjadi kesalahan koneksi: $e"};
+    }
+  }
+
+  static Future<Map<String, dynamic>> updateProfil({
+    required String nama,
+    required String email,
+    required String nim,
+    required String bidang,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString("token") ?? "";
+
+      final response = await http.post(
+        Uri.parse("$baseUrl/update-profile"),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: {"nama": nama, "email": email, "nim": nim, "bidang": bidang},
+      );
+
+      return json.decode(response.body);
+    } catch (e) {
+      return {"success": false, "message": "Terjadi kesalahan: $e"};
     }
   }
 }

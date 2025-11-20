@@ -93,39 +93,57 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-
-                      _buildLabel("Jenis Pengguna"),
-                      const SizedBox(height: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF88BDF2).withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(16), 
-                          border: Border.all(
-                            color: const Color(0xFF88BDF2).withOpacity(0.3),
-                            width: 1,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                              color: const Color(0xFF88BDF2).withOpacity(0.3),
+                              width: 1,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                              color: const Color(0xFF88BDF2).withOpacity(0.3),
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            borderSide: BorderSide(
+                              color: Color(0xFF88BDF2),
+                              width: 1.5,
+                            ),
                           ),
                         ),
-                        child: DropdownButton<String>(
-                          value: selectedUser,
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(16), 
-                          items: const [
-                            DropdownMenuItem(
-                                value: "Mahasiswa", child: Text("Mahasiswa")),
-                            DropdownMenuItem(
-                                value: "Dosen", child: Text("Dosen")),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              selectedUser = value!;
-                              // ✅ Update role di controller juga
-                              controller.selectedRole.value = value.toLowerCase();
-                            });
-                          },
+
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.zero,
                         ),
+
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 200,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFDDEEFF),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+
+                        items: const [
+                          DropdownMenuItem(value: "Mahasiswa", child: Text("Mahasiswa")),
+                          DropdownMenuItem(value: "Dosen", child: Text("Dosen")),
+                        ],
+
+                        onChanged: (value) {
+                          setState(() => selectedUser = value!);
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      _buildLabel(
+                        selectedUser == "Mahasiswa" ? "NIM" : "NIK",
                       ),
                       const SizedBox(height: 15),
 

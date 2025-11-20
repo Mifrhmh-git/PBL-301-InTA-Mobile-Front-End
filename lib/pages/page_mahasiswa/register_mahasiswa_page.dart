@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:inta301/controllers/auth_controller.dart';
 import 'package:inta301/shared/shared.dart';
 import '../../routes/app_pages.dart';
-import 'package:crypto/crypto.dart';
 
 class RegisterMahasiswaPage extends StatefulWidget {
   const RegisterMahasiswaPage({super.key});

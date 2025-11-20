@@ -33,7 +33,7 @@ void showLoginModal(BuildContext context) {
           // Validate empty fields
           if (idC.text.isEmpty) {
             setState(() {
-              idError = "ID Learning harus diisi";
+              idError = "NIM harus diisi";
             });
             return;
           }
@@ -56,7 +56,7 @@ void showLoginModal(BuildContext context) {
           }
 
           final prefs = await SharedPreferences.getInstance();
-          String? savedId = prefs.getString('id_learning');
+          String? savedId = prefs.getString('nim');
           String? savedPass = prefs.getString('password');
 
           if (idC.text == savedId && hash(passC.text) == savedPass) {
@@ -73,8 +73,8 @@ void showLoginModal(BuildContext context) {
           } else {
             failedAttempts++; // Tambah jika gagal
             setState(() {
-              idError = "ID Learning / Password salah ($failedAttempts kali)";
-              passError = "ID Learning / Password salah ($failedAttempts kali)";
+              idError = "NIM / Password salah ($failedAttempts kali)";
+              passError = "NIM / Password salah ($failedAttempts kali)";
             });
           }
         }
@@ -108,7 +108,7 @@ void showLoginModal(BuildContext context) {
                   const SizedBox(height: 25),
 
                   buildTextField(
-                    label: "ID Learning",
+                    label: "NIM",
                     icon: Icons.badge_outlined,
                     controller: idC,
                     errorText: idError,
