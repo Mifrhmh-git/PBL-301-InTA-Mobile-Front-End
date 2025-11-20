@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inta301/shared/shared.dart';
 import '../routes/app_pages.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-
+import '../controllers/auth_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,22 +12,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // ✅ Inisialisasi controller
+  final AuthController controller = Get.put(AuthController());
+  
   String selectedUser = "Mahasiswa";
-  final idController = TextEditingController();
-  final passwordController = TextEditingController();
   bool obscurePassword = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Cek apakah ada argument role dari halaman sebelumnya (misalnya dari register)
-    final args = Get.arguments as Map<String, dynamic>? ?? {};
-    final role = args["role"] as String?;
-    if (role != null && (role == "Mahasiswa" || role == "Dosen")) {
-      selectedUser = role;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // 🔹 Background Gradient
+          // Background Gradient
           Container(
             height: 300,
             decoration: const BoxDecoration(
@@ -44,8 +32,8 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF88BDF2),
-                  Color(0xFF384959),
+                  Color(0xFF88BDF2), 
+                  Color(0xFF384959), 
                 ],
               ),
             ),
@@ -61,9 +49,9 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Header
                 Column(
-                  children: const [
-                    Text(
-                      "Halo, Selamat Datang di InTA",
+                  children: [
+                    const Text(
+                      "Halo, Selamat Datang Di InTA",
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
@@ -72,8 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 5),
-                    Text(
+                    const SizedBox(height: 5),
+                    const Text(
                       "Silakan masuk untuk melanjutkan",
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -88,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 35),
 
-                // Card putih berisi form login
+                // Card putih berisi form
                 Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -105,76 +93,49 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-// Jenis Pengguna
-_buildLabel("Jenis Pengguna"),
-const SizedBox(height: 6),
 
-DropdownButtonFormField2<String>(
-  value: selectedUser,
-  isExpanded: true,
-
-  decoration: InputDecoration(
-    filled: true,
-    fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
-    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: const Color(0xFF88BDF2).withOpacity(0.3),
-        width: 1,
-      ),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: const Color(0xFF88BDF2).withOpacity(0.3),
-        width: 1,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(16)),
-      borderSide: BorderSide(
-        color: Color(0xFF88BDF2),
-        width: 1.5,
-      ),
-    ),
-  ),
-
-  buttonStyleData: const ButtonStyleData(
-    padding: EdgeInsets.zero,
-  ),
-
-  dropdownStyleData: DropdownStyleData(
-    maxHeight: 200,
-    decoration: BoxDecoration(
-      color: Color(0xFFDDEEFF),
-      borderRadius: BorderRadius.circular(16),
-    ),
-  ),
-
-  items: const [
-    DropdownMenuItem(value: "Mahasiswa", child: Text("Mahasiswa")),
-    DropdownMenuItem(value: "Dosen", child: Text("Dosen")),
-  ],
-
-  onChanged: (value) {
-    setState(() => selectedUser = value!);
-  },
-),
-SizedBox(height: 15),
-
-
-
-                      // Label ID dinamis sesuai role
-                      _buildLabel(
-                        selectedUser == "Mahasiswa" ? "ID Learning" : "NIK",
+                      _buildLabel("Jenis Pengguna"),
+                      const SizedBox(height: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF88BDF2).withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(16), 
+                          border: Border.all(
+                            color: const Color(0xFF88BDF2).withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: DropdownButton<String>(
+                          value: selectedUser,
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(16), 
+                          items: const [
+                            DropdownMenuItem(
+                                value: "Mahasiswa", child: Text("Mahasiswa")),
+                            DropdownMenuItem(
+                                value: "Dosen", child: Text("Dosen")),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              selectedUser = value!;
+                              // ✅ Update role di controller juga
+                              controller.selectedRole.value = value.toLowerCase();
+                            });
+                          },
+                        ),
                       ),
-                      _buildField(controller: idController),
+                      const SizedBox(height: 15),
+
+                      _buildLabel("ID Learning"),
+                      _buildField(controller: controller.usernameController),
                       const SizedBox(height: 15),
 
                       _buildLabel("Password"),
                       _buildField(
-                        controller: passwordController,
+                        controller: controller.passwordController,
                         isPassword: true,
                         obscureText: obscurePassword,
                         toggleVisibility: () {
@@ -185,91 +146,69 @@ SizedBox(height: 15),
                       ),
                       const SizedBox(height: 30),
 
-                      // Tombol Login
-                      SizedBox(
+                      Obx(() => SizedBox(
                         height: 50,
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (selectedUser == "Mahasiswa") {
-                              // Langsung ke Home tanpa cek form data diri
-                              Get.offAllNamed(Routes.HOME, arguments: false); // hasDosen default false
-                            } else {
-                              Get.offAllNamed(Routes.HOME_DOSEN);
-                            }
-                          },
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () {
+                                  controller.login();
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF384959),
+                            disabledBackgroundColor: Colors.grey, // ✅ Warna saat disabled
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16), 
                             ),
                           ),
-                          child: Text(
-                            "Login",
-                            style: whiteTextStyle.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: controller.isLoading.value
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : Text(
+                                  "Login",
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                         ),
-                      ),
+                      )),
 
                       const SizedBox(height: 15),
 
-                      // 🔹 Bagian bawah: Lupa sandi + Daftar
                       Center(
                         child: Column(
                           children: [
-                            // 🔹 Tombol "Lupa kata sandi" diperbaiki
                             TextButton(
-                              onPressed: () {
-                                // Arahkan ke halaman lupa sandi
-                                Get.toNamed('/lupa-sandi');
-                              },
+                              onPressed: () {},
                               child: Text(
                                 "Lupa kata sandi?",
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 13,
-                                  color: primaryColor,
-                                   fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-
-                                ),
+                                style: blackTextStyle.copyWith(fontSize: 12),
                               ),
                             ),
                             const SizedBox(height: 5),
-
-                            // Teks "Daftar Sekarang"
-                            GestureDetector(
-                              onTap: () {
-                                if (selectedUser == "Mahasiswa") {
-                                  Get.toNamed(
-                                    Routes.REGISTER_MAHASISWA,
-                                    arguments: {"role": "Mahasiswa"},
-                                  );
-                                } else {
-                                  Get.toNamed(
-                                    Routes.REGISTER_DOSEN,
-                                    arguments: {"role": "Dosen"},
-                                  );
-                                }
-                              },
-                              child: RichText(
-                                text: TextSpan(
-                                  text: "Belum punya akun? ",
-                                  style: blackTextStyle.copyWith(fontSize: 13),
-                                  children: const [
-                                    TextSpan(
-                                      text: "Daftar Sekarang",
-                                      style: TextStyle(
-                                        color: primaryColor,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'Poppins',
-                                      ),
+                            RichText(
+                              text: TextSpan(
+                                text: "Belum punya akun? ",
+                                style: blackTextStyle.copyWith(fontSize: 13),
+                                children: [
+                                  TextSpan(
+                                    text: "Daftar Sekarang",
+                                    style: TextStyle(
+                                      color: const Color(0xFF88BDF2),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Poppins',
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -284,6 +223,13 @@ SizedBox(height: 15),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // ✅ Cleanup controller saat page di dispose
+    // Get.delete<AuthController>(); // Opsional, tergantung kebutuhan
+    super.dispose();
   }
 }
 
@@ -311,24 +257,25 @@ Widget _buildField({
     decoration: InputDecoration(
       filled: true,
       fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
-      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: BorderSide(
           color: const Color(0xFF88BDF2).withOpacity(0.3),
           width: 1,
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16), 
         borderSide: BorderSide(
           color: const Color(0xFF88BDF2).withOpacity(0.3),
           width: 1,
         ),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-        borderSide: BorderSide(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16), 
+        borderSide: const BorderSide(
           color: Color(0xFF88BDF2),
           width: 1.5,
         ),

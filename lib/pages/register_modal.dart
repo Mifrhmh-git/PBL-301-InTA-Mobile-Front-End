@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inta301/controllers/auth_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
@@ -22,38 +23,59 @@ void showRegisterModal(BuildContext context) {
   }
 
   // Hashing untuk Data Integrity
-  String hash(String pass) => sha256.convert(utf8.encode(pass)).toString();
+  // String hash(String pass) => sha256.convert(utf8.encode(pass)).toString();
 
   Future<void> saveAccount() async {
-    if (namaC.text.isEmpty || emailC.text.isEmpty || idC.text.isEmpty ||
-        prodiC.text.isEmpty || passC.text.isEmpty) {
-      Get.snackbar("Error", "Semua field harus diisi",
-          backgroundColor: Colors.red, colorText: Colors.white);
+    if (namaC.text.isEmpty ||
+        emailC.text.isEmpty ||
+        idC.text.isEmpty ||
+        prodiC.text.isEmpty ||
+        passC.text.isEmpty) {
+      Get.snackbar(
+        "Error",
+        "Semua field harus diisi",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
     if (passC.text != confirmC.text) {
-      Get.snackbar("Error", "Konfirmasi password tidak cocok",
-          backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar(
+        "Error",
+        "Konfirmasi password tidak cocok",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
     if (!validatePassword(passC.text)) {
-      Get.snackbar("Error", "Password harus 8+ char, uppercase, angka & simbol",
-          backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar(
+        "Error",
+        "Password harus 8+ char, uppercase, angka & simbol",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('nama', namaC.text);
-    await prefs.setString('email', emailC.text);
-    await prefs.setString('id_learning', idC.text);
-    await prefs.setString('prodi', prodiC.text);
-    await prefs.setString('role', 'Mahasiswa');
-    await prefs.setString('password', hash(passC.text));
+    final authC = Get.find<AuthController>();
 
-    Get.snackbar("Sukses", "Akun berhasil dibuat ✅",
-        backgroundColor: Colors.green, colorText: Colors.white);
+    await authC.register(
+      nama: namaC.text,
+      email: emailC.text,
+      username: idC.text,
+      prodi: prodiC.text,
+      password: passC.text,
+      passwordConfirmation: confirmC.text,
+    );
+    Get.snackbar(
+      "Sukses",
+      "Akun berhasil dibuat",
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
 
     Navigator.pop(context);
   }
@@ -105,14 +127,37 @@ void showRegisterModal(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Buat Akun Baru", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                Text(
+                  "Buat Akun Baru",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
                 SizedBox(height: 20),
-                TextField(controller: namaC, decoration: InputDecoration(labelText: "Nama Lengkap")),
-                TextField(controller: emailC, decoration: InputDecoration(labelText: "Email")),
-                TextField(controller: idC, decoration: InputDecoration(labelText: "ID Learning")),
-                TextField(controller: prodiC, decoration: InputDecoration(labelText: "Program Studi")),
-                TextField(controller: passC, decoration: InputDecoration(labelText: "Password"), obscureText: true),
-                TextField(controller: confirmC, decoration: InputDecoration(labelText: "Konfirmasi Password"), obscureText: true),
+                TextField(
+                  controller: namaC,
+                  decoration: InputDecoration(labelText: "Nama Lengkap"),
+                ),
+                TextField(
+                  controller: emailC,
+                  decoration: InputDecoration(labelText: "Email"),
+                ),
+                TextField(
+                  controller: idC,
+                  decoration: InputDecoration(labelText: "ID Learning"),
+                ),
+                TextField(
+                  controller: prodiC,
+                  decoration: InputDecoration(labelText: "Program Studi"),
+                ),
+                TextField(
+                  controller: passC,
+                  decoration: InputDecoration(labelText: "Password"),
+                  obscureText: true,
+                ),
+                TextField(
+                  controller: confirmC,
+                  decoration: InputDecoration(labelText: "Konfirmasi Password"),
+                  obscureText: true,
+                ),
                 SizedBox(height: 20),
                 ElevatedButton(onPressed: saveAccount, child: Text("Daftar")),
               ],

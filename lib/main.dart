@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inta301/controllers/auth_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -16,6 +17,8 @@ import 'package:inta301/controllers/menu_dosen_controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null);
+
+  Get.put(AuthController(), permanent: true);
 
   // 🧩 Tambahkan inisialisasi controller dosen
   Get.put(MenuDosenController());

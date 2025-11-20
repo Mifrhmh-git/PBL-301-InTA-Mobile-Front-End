@@ -56,7 +56,7 @@ class AppPages {
     // 🔐 Login
     GetPage(
       name: _Paths.LOGIN,
-      page: () => const LoginPage(),
+      page: () => LoginPage(),
     ),
 
      // 🔑 Lupa Sandi (untuk Dosen & Mahasiswa)

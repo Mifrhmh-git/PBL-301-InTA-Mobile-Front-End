@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
+import 'package:inta301/controllers/auth_controller.dart';
 import 'package:inta301/shared/shared.dart';
 import '../../routes/app_pages.dart';
+import 'package:crypto/crypto.dart';
 
 class RegisterMahasiswaPage extends StatefulWidget {
   const RegisterMahasiswaPage({super.key});
@@ -35,10 +37,7 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF88BDF2),
-                  Color(0xFF384959),
-                ],
+                colors: [Color(0xFF88BDF2), Color(0xFF384959)],
               ),
             ),
           ),
@@ -138,11 +137,56 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
                         height: 50,
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            print("Nama: ${nameController.text}");
+                            print("Email: ${emailController.text}");
+                            print("ID: ${idController.text}");
+                            print("Prodi: ${prodiController.text}");
+                            print("Password: ${passwordController.text}");
                             // Kirim role Mahasiswa ke LoginPage
+                            if (nameController.text.isEmpty ||
+                                emailController.text.isEmpty ||
+                                idController.text.isEmpty ||
+                                prodiController.text.isEmpty ||
+                                passwordController.text.isEmpty ||
+                                confirmController.text.isEmpty) {
+                              Get.snackbar(
+                                "Error",
+                                "Semua field harus diisi",
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                              return;
+                            }
+
+                            if (passwordController.text != confirmController.text) {
+                              Get.snackbar(
+                                "Error",
+                                "Konfirmasi password tidak cocok",
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                              return;
+                            }
+
+                            final authC = Get.find<AuthController>();
+                            await authC.register(
+                              nama: nameController.text,
+                              email: emailController.text,
+                              username: idController.text,
+                              prodi: prodiController.text,
+                              password: passwordController.text,
+                              passwordConfirmation: confirmController.text,
+                            );
+                            Get.snackbar(
+                              "Sukses",
+                              "Akun berhasil dibuat",
+                              backgroundColor: Colors.green,
+                              colorText: Colors.white,
+                            );
                             Get.offAllNamed(
                               Routes.LOGIN,
-                              arguments: {'role': 'Mahasiswa'},
+                              arguments: {'role': 'mahasiswa'},
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -179,8 +223,7 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
                                   fontFamily: 'Poppins',
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () =>
-                                      Get.toNamed(Routes.LOGIN),
+                                  ..onTap = () => Get.toNamed(Routes.LOGIN),
                               ),
                             ],
                           ),
@@ -215,8 +258,10 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
@@ -233,10 +278,7 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(16)),
-          borderSide: BorderSide(
-            color: Color(0xFF88BDF2),
-            width: 1.5,
-          ),
+          borderSide: BorderSide(color: Color(0xFF88BDF2), width: 1.5),
         ),
       ),
     );
@@ -253,8 +295,10 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color(0xFF88BDF2).withOpacity(0.3),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
@@ -271,10 +315,7 @@ class _RegisterMahasiswaPageState extends State<RegisterMahasiswaPage> {
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(16)),
-          borderSide: BorderSide(
-            color: Color(0xFF88BDF2),
-            width: 1.5,
-          ),
+          borderSide: BorderSide(color: Color(0xFF88BDF2), width: 1.5),
         ),
         suffixIcon: IconButton(
           icon: Icon(

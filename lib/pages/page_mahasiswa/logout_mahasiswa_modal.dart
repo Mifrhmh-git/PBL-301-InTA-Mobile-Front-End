@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inta301/controllers/auth_controller.dart';
 import 'package:inta301/shared/shared.dart';
 
 void showLogoutMahasiswaModal(BuildContext context) {
@@ -9,9 +10,7 @@ void showLogoutMahasiswaModal(BuildContext context) {
     barrierColor: Colors.black.withOpacity(0.4),
     builder: (context) {
       return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -35,10 +34,7 @@ void showLogoutMahasiswaModal(BuildContext context) {
               const Text(
                 "Apakah Anda yakin ingin keluar?",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
 
               const SizedBox(height: 24),
@@ -49,7 +45,8 @@ void showLogoutMahasiswaModal(BuildContext context) {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.offAllNamed('/welcome'); // arah ke welcome
+                    final authC = Get.find<AuthController>();
+                    authC.logout();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: dangerColor,
